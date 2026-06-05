@@ -1,0 +1,93 @@
+{% extends 'layouts/dashboard.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+{% block dashboard_title %}Mission Control{% endblock %}
+{% block dashboard_subtitle %}Welcome back, {{ user.username }}{% endblock %}
+
+{% block dashboard_content %}
+
+<!-- Stats Row -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+
+  <!-- XP -->
+  <div class="glass border border-white/10 rounded-xl p-5 group hover:border-cyber-cyan/20 transition-all duration-200">
+    <div class="flex items-start justify-between mb-3">
+      <span class="text-xs text-cyber-muted uppercase tracking-wider">XP Points</span>
+      <div class="w-8 h-8 rounded-lg bg-cyber-cyan/10 flex items-center justify-center text-cyber-cyan text-sm">⚡</div>
+    </div>
+    <p class="text-3xl font-black text-cyber-cyan font-mono">{{ profile.xp_points }}</p>
+    <p class="text-xs text-cyber-muted mt-1">Total earned</p>
+  </div>
+
+  <!-- Streak -->
+  <div class="glass border border-white/10 rounded-xl p-5 group hover:border-cyber-green/20 transition-all duration-200">
+    <div class="flex items-start justify-between mb-3">
+      <span class="text-xs text-cyber-muted uppercase tracking-wider">Streak</span>
+      <div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-lg">🔥</div>
+    </div>
+    <p class="text-3xl font-black text-cyber-green font-mono">{{ profile.streak }}<span class="text-lg">d</span></p>
+    <p class="text-xs text-cyber-muted mt-1">Consecutive days</p>
+  </div>
+
+  <!-- Modules completed -->
+  <div class="glass border border-white/10 rounded-xl p-5 group hover:border-cyber-purple/20 transition-all duration-200">
+    <div class="flex items-start justify-between mb-3">
+      <span class="text-xs text-cyber-muted uppercase tracking-wider">Modules</span>
+      <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-cyber-purple text-sm">📚</div>
+    </div>
+    <p class="text-3xl font-black text-cyber-purple font-mono">{{ progress.completed_modules.count }}</p>
+    <p class="text-xs text-cyber-muted mt-1">Completed</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="glass border border-white/10 rounded-xl p-5 group hover:border-yellow-500/20 transition-all duration-200">
+    <div class="flex items-start justify-between mb-3">
+      <span class="text-xs text-cyber-muted uppercase tracking-wider">Progress</span>
+      <div class="w-8 h-8 rounded-lg bg-yellow-500/10 flex items-center justify-center text-yellow-400 text-sm">🎯</div>
+    </div>
+    <p class="text-3xl font-black text-yellow-400 font-mono">{{ progress.progress_percentage|floatformat:0 }}<span class="text-lg">%</span></p>
+    <p class="text-xs text-cyber-muted mt-1">Overall completion</p>
+    <div class="mt-2 h-1 bg-white/5 rounded-full overflow-hidden">
+      <div class="h-full bg-gradient-to-r from-yellow-400 to-cyber-green rounded-full transition-all duration-700"
+           style="width: {{ progress.progress_percentage }}%"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Recent Courses -->
+<div class="mb-8">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-sm font-bold text-cyber-text uppercase tracking-wider">Available Courses</h2>
+    <a href="{% url 'courses:list' %}" class="text-xs text-cyber-cyan hover:underline">View all →</a>
+  </div>
+
+  {% if recent_courses %}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    {% for course in recent_courses %}
+    <a href="{% url 'courses:detail' course.slug %}"
+       class="glass border border-white/10 rounded-xl p-5 hover:border-cyber-cyan/20 hover:shadow-cyber
+              transition-all duration-200 group block">
+      <div class="w-10 h-10 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/20 flex items-center justify-center mb-3 group-hover:bg-cyber-cyan/20 transition-colors">
+        <svg class="w-5 h-5 text-cyber-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+      </div>
+      <h3 class="text-sm font-semibold text-cyber-text group-hover:text-cyber-cyan transition-colors line-clamp-2 mb-2">{{ course.title }}</h3>
+      <div class="flex items-center justify-between">
+        <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyber-card border border-cyber-border text-cyber-muted font-mono uppercase">{{ course.get_difficulty_display }}</span>
+        <span class="text-[10px] text-cyber-muted">{{ course.estimated_duration }}m</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="glass border border-dashed border-cyber-border rounded-xl p-10 text-center">
+    <p class="text-cyber-muted text-sm">No courses published yet.</p>
+    <a href="/admin/courses/course/add/" class="text-cyber-cyan text-xs hover:underline mt-2 inline-block">Add a course →</a>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

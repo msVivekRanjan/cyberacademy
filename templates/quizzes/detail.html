@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ quiz.title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 py-12 animate-fade-in">
+  <div class="glass border border-white/10 rounded-2xl p-8">
+    <div class="text-xs text-cyber-cyan font-mono mb-2 uppercase">Quiz</div>
+    <h1 class="text-2xl font-black text-cyber-text mb-4">{{ quiz.title }}</h1>
+    <p class="text-cyber-muted text-sm">Passing score: <span class="text-cyber-cyan font-mono font-bold">{{ quiz.passing_score }}%</span></p>
+    <div class="mt-8 p-5 rounded-xl border border-dashed border-cyber-border text-center">
+      <p class="text-cyber-muted text-sm">Quiz questions will appear here.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

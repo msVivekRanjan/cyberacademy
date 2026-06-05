@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="flex min-h-[calc(100vh-4rem)]">
+
+  <!-- Sidebar -->
+  {% include 'layouts/sidebar.html' %}
+
+  <!-- Main content area -->
+  <div class="flex-1 lg:ml-64 min-w-0">
+
+    <!-- Dashboard top bar -->
+    <header class="sticky top-16 z-20 glass border-b border-white/[0.06] px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <!-- Mobile sidebar toggle -->
+          <button class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg glass border border-white/10 text-cyber-muted"
+                  onclick="toggleSidebar()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+          <div>
+            <h1 class="text-base font-bold text-cyber-text">{% block dashboard_title %}Dashboard{% endblock %}</h1>
+            <p class="text-xs text-cyber-muted mt-0.5">{% block dashboard_subtitle %}{% endblock %}</p>
+          </div>
+        </div>
+
+        <!-- Right side -->
+        <div class="flex items-center gap-3">
+          {% if profile %}
+          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 glass rounded-lg border border-white/10 text-xs">
+            <span class="text-yellow-400">🔥</span>
+            <span class="text-cyber-muted">Streak</span>
+            <span class="text-cyber-text font-mono font-bold">{{ profile.streak }}d</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="p-6 animate-fade-in">
+      {% block dashboard_content %}{% endblock %}
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleSidebar() {
+    const sidebar  = document.getElementById('sidebar');
+    const overlay  = document.getElementById('sidebar-overlay');
+    const isOpen   = !sidebar.classList.contains('-translate-x-full');
+    if (isOpen) {
+      sidebar.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+    } else {
+      sidebar.classList.remove('-translate-x-full');
+      overlay.classList.remove('hidden');
+    }
+  }
+</script>
+{% endblock %}

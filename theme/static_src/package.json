@@ -1,0 +1,12 @@
+{
+  "name": "cyberacademy-theme",
+  "version": "1.0.0",
+  "description": "CyberAcademy Tailwind CSS Theme",
+  "scripts": {
+    "build": "tailwindcss -i ./src/styles.css -o ../static/css/dist/styles.css --minify",
+    "watch": "tailwindcss -i ./src/styles.css -o ../static/css/dist/styles.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

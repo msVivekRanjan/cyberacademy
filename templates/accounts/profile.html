@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 animate-fade-in">
+
+  <!-- Header -->
+  <div class="glass border border-white/10 rounded-2xl p-8 mb-6">
+    <div class="flex items-start gap-6">
+      <!-- Avatar -->
+      <div class="w-20 h-20 rounded-2xl bg-cyber-cyan/20 border border-cyber-cyan/40 flex items-center justify-center text-3xl font-black text-cyber-cyan flex-shrink-0">
+        {{ user.username|first|upper }}
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-3 flex-wrap">
+          <h1 class="text-2xl font-bold text-cyber-text">{{ user.username }}</h1>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-bold bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/20">
+            {{ profile.get_level_display|upper }}
+          </span>
+        </div>
+        <p class="text-cyber-muted text-sm mt-1">{{ user.email }}</p>
+        {% if profile.bio %}
+        <p class="text-cyber-text/80 text-sm mt-3 leading-relaxed">{{ profile.bio }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats grid -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+    <div class="glass border border-white/10 rounded-xl p-5 text-center">
+      <p class="text-3xl font-black text-cyber-cyan font-mono">{{ profile.xp_points }}</p>
+      <p class="text-xs text-cyber-muted mt-1 uppercase tracking-wider">XP Points</p>
+    </div>
+    <div class="glass border border-white/10 rounded-xl p-5 text-center">
+      <p class="text-3xl font-black text-cyber-green font-mono">{{ profile.streak }}<span class="text-lg">d</span></p>
+      <p class="text-xs text-cyber-muted mt-1 uppercase tracking-wider">Current Streak</p>
+    </div>
+    <div class="glass border border-white/10 rounded-xl p-5 text-center col-span-2 sm:col-span-1">
+      <p class="text-3xl font-black text-cyber-purple font-mono">{{ profile.get_level_display }}</p>
+      <p class="text-xs text-cyber-muted mt-1 uppercase tracking-wider">Level</p>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

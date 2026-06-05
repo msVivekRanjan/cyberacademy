@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" id="html-root">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="{% block meta_description %}CyberAcademy — Master cybersecurity with hands-on labs, structured courses, and real-world challenges.{% endblock %}" />
+  <title>{% block title %}CyberAcademy{% endblock %} | CyberAcademy</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS (CDN for development) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              black: '#0a0a0f',
+              navy: '#0d1117',
+              dark: '#0f172a',
+              card: '#111827',
+              border: '#1e293b',
+              cyan: '#00f5ff',
+              'cyan-dim': '#00c4cc',
+              green: '#00ff88',
+              purple: '#7c3aed',
+              red: '#ff2d55',
+              text: '#e2e8f0',
+              muted: '#64748b',
+            },
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+          },
+          boxShadow: {
+            cyber: '0 0 20px rgba(0,245,255,0.15)',
+            'cyber-lg': '0 0 40px rgba(0,245,255,0.25)',
+          },
+          animation: {
+            'glow': 'glow 2s ease-in-out infinite alternate',
+            'fade-in': 'fadeIn 0.4s ease-out',
+            'slide-in': 'slideIn 0.3s ease-out',
+          },
+          keyframes: {
+            glow: {
+              '0%': { boxShadow: '0 0 5px rgba(0,245,255,0.2)' },
+              '100%': { boxShadow: '0 0 20px rgba(0,245,255,0.6), 0 0 40px rgba(0,245,255,0.2)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(8px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            slideIn: {
+              '0%': { transform: 'translateX(-10px)', opacity: '0' },
+              '100%': { transform: 'translateX(0)', opacity: '1' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  {% load static %}
+
+  <!-- Global styles -->
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0a0f;
+      background-image:
+        linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      min-height: 100vh;
+      color: #e2e8f0;
+    }
+
+    .light body {
+      background-color: #f8fafc;
+      background-image:
+        linear-gradient(rgba(0, 100, 200, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 100, 200, 0.03) 1px, transparent 1px);
+      color: #0f172a;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0a0a0f;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00f5ff33;
+    }
+
+    /* Glass card */
+    .glass {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Neon glow text */
+    .neon-text {
+      color: #00f5ff;
+      text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+    }
+
+    /* Cyber button */
+    .btn-cyber {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      background: rgba(0, 245, 255, 0.08);
+      color: #00f5ff;
+      border: 1px solid rgba(0, 245, 255, 0.25);
+      transition: all 0.2s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-cyber:hover {
+      background: rgba(0, 245, 255, 0.15);
+      border-color: rgba(0, 245, 255, 0.5);
+      box-shadow: 0 0 20px rgba(0, 245, 255, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .btn-cyber:active {
+      transform: scale(0.97);
+    }
+
+    .btn-cyber-solid {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      background: #00f5ff;
+      color: #0a0a0f;
+      border: 1px solid #00f5ff;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-cyber-solid:hover {
+      background: #00c4cc;
+      box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* Input */
+    .input-cyber {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      background: rgba(17, 24, 39, 0.6);
+      border: 1px solid #1e293b;
+      color: #e2e8f0;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-cyber:focus {
+      border-color: rgba(0, 245, 255, 0.5);
+      box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.1);
+    }
+
+    .input-cyber::placeholder {
+      color: #64748b;
+    }
+
+    /* Sidebar nav */
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #64748b;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .nav-link:hover {
+      color: #00f5ff;
+      background: rgba(0, 245, 255, 0.05);
+    }
+
+    .nav-link.active {
+      color: #00f5ff;
+      background: rgba(0, 245, 255, 0.08);
+      border-left: 2px solid #00f5ff;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 5px rgba(0, 245, 255, 0.2);
+      }
+
+      to {
+        box-shadow: 0 0 20px rgba(0, 245, 255, 0.6), 0 0 40px rgba(0, 245, 255, 0.2);
+      }
+    }
+
+    @keyframes pulse-border {
+
+      0%,
+      100% {
+        border-color: rgba(0, 245, 255, 0.2);
+      }
+
+      50% {
+        border-color: rgba(0, 245, 255, 0.6);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.4s ease-out both;
+    }
+
+    .animate-glow {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    .animate-pulse-border {
+      animation: pulse-border 2s ease-in-out infinite;
+    }
+  </style>
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="min-h-screen">
+
+  <!-- Toast Messages -->
+  {% if messages %}
+  <div id="toast-container" class="fixed top-4 right-4 z-[9999] flex flex-col gap-2"
+    style="animation: fadeIn 0.3s ease-out;">
+    {% for message in messages %}
+    <div class="glass flex items-center gap-3 px-4 py-3 rounded-lg text-sm animate-fade-in
+                {% if message.tags == 'error' %}border-red-500/40 text-red-400
+                {% elif message.tags == 'success' %}border-green-500/40 text-green-400
+                {% else %}border-cyber-cyan/30 text-cyber-cyan{% endif %}">
+      <span>{{ message }}</span>
+      <button onclick="this.parentElement.remove()"
+        class="ml-2 opacity-60 hover:opacity-100 transition-opacity text-lg leading-none">&times;</button>
+    </div>
+    {% endfor %}
+  </div>
+  <script>setTimeout(() => { const t = document.getElementById('toast-container'); if (t) t.style.display = 'none'; }, 4000);</script>
+  {% endif %}
+
+  <!-- Navbar -->
+  {% include 'components/navbar.html' %}
+
+  <!-- Main content -->
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  {% block footer %}
+  {% include 'components/footer.html' %}
+  {% endblock %}
+
+  <!-- Theme toggle script -->
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    })();
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.contains('dark');
+      if (isDark) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      const btn = document.getElementById('theme-toggle-btn');
+      if (btn) btn.textContent = isDark ? '🌙' : '☀️';
+    }
+  </script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+
+</html>

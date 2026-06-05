@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 animate-fade-in">
+  <a href="{% url 'courses:list' %}" class="inline-flex items-center gap-2 text-xs text-cyber-muted hover:text-cyber-cyan transition-colors mb-6">
+    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+    All Courses
+  </a>
+
+  <div class="glass border border-white/10 rounded-2xl p-8 mb-6">
+    <span class="text-[11px] font-mono font-bold px-2 py-1 rounded bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/20 uppercase mb-4 inline-block">
+      {{ course.get_difficulty_display }}
+    </span>
+    <h1 class="text-3xl font-black text-cyber-text mb-3">{{ course.title }}</h1>
+    <p class="text-cyber-muted leading-relaxed mb-5">{{ course.short_description }}</p>
+    <div class="flex items-center gap-4 text-xs text-cyber-muted">
+      <span>⏱ {{ course.estimated_duration }} minutes</span>
+      <span>📅 {{ course.created_at|date:"M Y" }}</span>
+    </div>
+  </div>
+
+  {% if modules %}
+  <h2 class="text-sm font-bold text-cyber-text uppercase tracking-wider mb-4">Modules</h2>
+  <div class="space-y-2">
+    {% for module in modules %}
+    <a href="{% url 'modules:detail' module.slug %}"
+       class="glass border border-white/10 rounded-xl px-5 py-4 flex items-center gap-4
+              hover:border-cyber-cyan/20 hover:shadow-cyber transition-all duration-200 group block">
+      <span class="text-xs font-mono text-cyber-muted w-6">{{ module.order }}</span>
+      <div class="flex-1 min-w-0">
+        <h3 class="text-sm font-semibold text-cyber-text group-hover:text-cyber-cyan transition-colors truncate">{{ module.title }}</h3>
+      </div>
+      <svg class="w-4 h-4 text-cyber-muted group-hover:text-cyber-cyan group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

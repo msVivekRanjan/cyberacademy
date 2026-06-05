@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}CMS{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 py-12 animate-fade-in">
+  <div class="mb-8">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border border-cyber-cyan/20 text-xs text-cyber-cyan font-mono mb-4">
+      STAFF ACCESS ONLY
+    </div>
+    <h1 class="text-3xl font-black text-cyber-text">Content Management</h1>
+    <p class="text-cyber-muted mt-2 text-sm">Manage courses, modules, and platform content.</p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <a href="/admin/courses/course/" class="glass border border-white/10 rounded-xl p-6 hover:border-cyber-cyan/20 hover:shadow-cyber transition-all duration-200 group">
+      <div class="w-10 h-10 bg-cyber-cyan/10 rounded-lg flex items-center justify-center mb-3 text-cyber-cyan">📚</div>
+      <h2 class="text-sm font-bold text-cyber-text group-hover:text-cyber-cyan transition-colors">Courses</h2>
+      <p class="text-xs text-cyber-muted mt-1">Manage course catalog</p>
+    </a>
+    <a href="/admin/modules/module/" class="glass border border-white/10 rounded-xl p-6 hover:border-cyber-cyan/20 hover:shadow-cyber transition-all duration-200 group">
+      <div class="w-10 h-10 bg-cyber-cyan/10 rounded-lg flex items-center justify-center mb-3 text-cyber-cyan">📄</div>
+      <h2 class="text-sm font-bold text-cyber-text group-hover:text-cyber-cyan transition-colors">Modules</h2>
+      <p class="text-xs text-cyber-muted mt-1">Edit module content</p>
+    </a>
+    <a href="/admin/quizzes/quiz/" class="glass border border-white/10 rounded-xl p-6 hover:border-cyber-cyan/20 hover:shadow-cyber transition-all duration-200 group">
+      <div class="w-10 h-10 bg-cyber-cyan/10 rounded-lg flex items-center justify-center mb-3 text-cyber-cyan">🎯</div>
+      <h2 class="text-sm font-bold text-cyber-text group-hover:text-cyber-cyan transition-colors">Quizzes</h2>
+      <p class="text-xs text-cyber-muted mt-1">Manage assessments</p>
+    </a>
+  </div>
+</div>
+{% endblock %}

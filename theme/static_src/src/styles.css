@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg:        #0a0a0f;
+    --color-surface:   #111827;
+    --color-border:    #1e293b;
+    --color-accent:    #00f5ff;
+    --color-text:      #e2e8f0;
+    --color-muted:     #64748b;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cyber-black text-cyber-text font-sans antialiased;
+    background-image: linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+@layer components {
+  /* Glass card */
+  .glass-card {
+    @apply bg-white/5 border border-white/10 backdrop-blur-md rounded-xl;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  /* Neon button */
+  .btn-cyber {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm
+           bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30
+           hover:bg-cyber-cyan/20 hover:border-cyber-cyan/60 hover:shadow-cyber
+           transition-all duration-200 active:scale-95;
+  }
+
+  .btn-cyber-solid {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm
+           bg-cyber-cyan text-cyber-black border border-cyber-cyan
+           hover:bg-cyber-cyan-dim hover:shadow-cyber-lg
+           transition-all duration-200 active:scale-95;
+  }
+
+  /* Input field */
+  .input-cyber {
+    @apply w-full px-4 py-3 rounded-lg
+           bg-cyber-card/60 border border-cyber-border text-cyber-text placeholder-cyber-muted
+           focus:outline-none focus:border-cyber-cyan/60 focus:ring-1 focus:ring-cyber-cyan/30
+           transition-all duration-200;
+  }
+
+  /* Sidebar nav link */
+  .nav-link {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-cyber-muted
+           hover:text-cyber-cyan hover:bg-cyber-cyan/5
+           transition-all duration-150;
+  }
+
+  .nav-link.active {
+    @apply text-cyber-cyan bg-cyber-cyan/10 border-l-2 border-cyber-cyan;
+  }
+
+  /* Badge */
+  .badge-level {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-bold
+           bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/20;
+  }
+
+  /* Section heading */
+  .section-title {
+    @apply text-lg font-bold text-cyber-text tracking-wide;
+  }
+
+  /* Divider */
+  .cyber-divider {
+    @apply border-t border-cyber-border/60 my-4;
+  }
+}
