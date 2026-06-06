@@ -46,6 +46,7 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   cursor: default;
+  zoom: 150%;
 }
 
 /* GRID BACKGROUND */
@@ -176,7 +177,9 @@ body::after {
   position: sticky;
   top: 0;
   z-index: 100;
+
 }
+
 
 .topbar-logo {
   font-family: var(--font-display);
@@ -273,15 +276,35 @@ body::after {
 }
 
 /* ===== SIDEBAR ===== */
+
+
 #sidebar {
   background: rgba(5,11,18,0.9);
   border-right: 1px solid var(--border);
   padding: 20px 0;
   overflow-y: auto;
   backdrop-filter: blur(10px);
-  position: sticky;
   top: 56px;
   height: calc(100vh - 56px);
+  transition:transform 0.3s ease;
+}
+
+#sidebar.hidden {
+transform: translateX(-100%);
+}
+
+#menu-toggle{
+  background:none;
+  border:none;
+  color:var(--cyan);
+  font-size:24px;
+  cursor:pointer;
+  margin-right:18px;
+  transition:0.2s;
+}
+
+#menu-toggle:hover{
+  opacity:0.7;
 }
 
 #sidebar::-webkit-scrollbar { width: 3px; }
@@ -1252,6 +1275,7 @@ body::after {
 
   <!-- TOPBAR -->
   <header id="topbar">
+    <button id="menu-toggle" onclick="toggleSidebar()">☰</button>
     <div class="topbar-logo">CYBEROPS</div>
     <div class="topbar-sep"></div>
     <div class="topbar-status">
@@ -1273,9 +1297,13 @@ body::after {
       <div class="operator-rank" id="rank-display">TRAINEE</div>
     </div>
   </header>
+  
+
+   <!-- <div class="layout-wrapper"> -->
 
   <!-- SIDEBAR -->
-  <nav id="sidebar">
+
+  <div id="sidebar">
     <div class="sidebar-section-label">// INTELLIGENCE TRACK</div>
 
     <div class="module-nav-item active" onclick="switchModule(1)" id="nav-1">
@@ -1349,7 +1377,7 @@ body::after {
       <div class="stat-row"><span class="stat-label">SIMS RUN</span><span class="stat-val" id="s-sims">0</span></div>
       <div class="stat-row"><span class="stat-label">THREAT SCORE</span><span class="stat-val" style="color:var(--green)">LOW</span></div>
     </div>
-  </nav>
+  </div>
 
   <!-- MAIN CONTENT -->
   <main id="main-content">
@@ -1503,7 +1531,7 @@ body::after {
           <div class="checkpoint-title">CHECKPOINT 01 — TRACE AWARENESS</div>
           <div class="checkpoint-sub">Complete the trace simulator + metadata exercise to unlock Module 02 intelligence tools</div>
         </div>
-        <button class="cyber-btn" onclick="completeCheckpoint(1)">COMPLETE CHECKPOINT</button>
+        <button class="cyber-btn" onclick="switchModule(2); completeCheckpoint(1);">Next Module</button>
       </div>
     </div>
 
@@ -1638,7 +1666,7 @@ body::after {
           <div class="checkpoint-title" style="color:var(--amber)">CHECKPOINT 02 — ATTRIBUTION MASTERY</div>
           <div class="checkpoint-sub">Complete investigation board + stylometry to unlock Threat Modeling (requires 500 XP)</div>
         </div>
-        <button class="cyber-btn amber" onclick="completeCheckpoint(2)">COMPLETE CHECKPOINT</button>
+        <button class="cyber-btn amber" onclick="switchModule(3); completeCheckpoint(2);">Next Module</button>
       </div>
     </div>
 
@@ -1793,7 +1821,7 @@ body::after {
           <div class="checkpoint-title" style="color:var(--amber)">CHECKPOINT 03 — THREAT ARCHITECT</div>
           <div class="checkpoint-sub">Build a complete attack chain and configure all defense layers to advance</div>
         </div>
-        <button class="cyber-btn amber" onclick="completeCheckpoint(3)">COMPLETE CHECKPOINT</button>
+        <button class="cyber-btn amber" onclick="switchModule(4); completeCheckpoint(3);">Next Module</button>
       </div>
     </div>
 
@@ -1900,7 +1928,7 @@ body::after {
           <div class="checkpoint-title" style="color:var(--purple)">CHECKPOINT 04 — INTELLIGENCE ANALYST</div>
           <div class="checkpoint-sub">Complete signal identification and intelligence cycle to achieve analyst rank</div>
         </div>
-        <button class="cyber-btn" style="border-color:rgba(170,68,255,0.5);color:var(--purple)" onclick="completeCheckpoint(4)">COMPLETE CHECKPOINT</button>
+        <button class="cyber-btn" style="border-color:rgba(170,68,255,0.5);color:var(--purple)" onclick="switchModule(5); completeCheckpoint(4);">Next Module</button>
       </div>
     </div>
 
@@ -1967,7 +1995,7 @@ body::after {
           <div class="checkpoint-title" style="color:var(--green)">CHECKPOINT 05 — COMPARTMENT ARCHITECT</div>
           <div class="checkpoint-sub">Demonstrate understanding of the mosaic effect and identity compartmentalization</div>
         </div>
-        <button class="cyber-btn success" onclick="completeCheckpoint(5)">COMPLETE CHECKPOINT</button>
+        <button class="cyber-btn success" onclick="switchModule(6); completeCheckpoint(5);">Next Module</button>
       </div>
     </div>
 
@@ -2094,7 +2122,7 @@ body::after {
           <div class="checkpoint-title" style="color:var(--red)">CHECKPOINT 06 — SOC ANALYST</div>
           <div class="checkpoint-sub">Identify 3+ anomalies in the detection simulator to earn analyst certification</div>
         </div>
-        <button class="cyber-btn danger" onclick="completeCheckpoint(6)">COMPLETE CHECKPOINT</button>
+        <button class="cyber-btn danger" onclick="completeCheckpoint(6)">Next Module</button>
       </div>
     </div>
 
@@ -2213,8 +2241,9 @@ body::after {
         <button class="cyber-btn" style="border-image:linear-gradient(90deg,var(--cyan),var(--purple)) 1" onclick="completeCheckpoint(7)">CERTIFY</button>
       </div>
     </div>
-
+  
   </main>
+  <!-- </div> -->
 </div>
 
 <script>
@@ -2299,6 +2328,10 @@ function switchModule(n) {
   currentModule = n;
   document.getElementById('active-module-label').textContent = 'MODULE 0' + n;
   window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("hidden");
 }
 
 // =============================================
