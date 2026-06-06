@@ -1,0 +1,3360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYBEROPS ACADEMY — Operator Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-void: #020408;
+  --bg-deep: #050b12;
+  --bg-panel: #080f1a;
+  --bg-card: #0a1520;
+  --bg-hover: #0f1e2e;
+  --cyan: #00e5ff;
+  --cyan-dim: #00a8c0;
+  --cyan-glow: rgba(0,229,255,0.15);
+  --green: #00ff88;
+  --green-dim: #00cc66;
+  --amber: #ffaa00;
+  --amber-dim: #cc8800;
+  --red: #ff3366;
+  --red-dim: #cc2244;
+  --purple: #aa44ff;
+  --purple-dim: #8833cc;
+  --text-primary: #e8f4f8;
+  --text-secondary: #7baac0;
+  --text-dim: #3a5a70;
+  --border: rgba(0,229,255,0.12);
+  --border-active: rgba(0,229,255,0.4);
+  --grid-line: rgba(0,229,255,0.04);
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-ui: 'Rajdhani', sans-serif;
+  --font-display: 'Orbitron', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* GRID BACKGROUND */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* SCANLINE OVERLAY */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== BOOT SCREEN ===== */
+#boot-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-void);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 32px;
+  transition: opacity 0.8s ease;
+}
+
+#boot-screen.hidden { opacity: 0; pointer-events: none; }
+
+.boot-logo {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: 8px;
+  color: var(--cyan);
+  text-shadow: 0 0 40px var(--cyan), 0 0 80px rgba(0,229,255,0.3);
+  animation: flicker 2s infinite;
+}
+
+@keyframes flicker {
+  0%,95%,100% { opacity: 1; }
+  96% { opacity: 0.7; }
+  97% { opacity: 1; }
+  98% { opacity: 0.5; }
+  99% { opacity: 1; }
+}
+
+.boot-subtitle {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.boot-bar-wrap {
+  width: 400px;
+  height: 2px;
+  background: rgba(0,229,255,0.1);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.boot-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan-dim), var(--cyan));
+  box-shadow: 0 0 12px var(--cyan);
+  animation: bootLoad 2.5s ease forwards;
+}
+
+@keyframes bootLoad {
+  0% { width: 0; }
+  30% { width: 35%; }
+  50% { width: 52%; }
+  70% { width: 71%; }
+  90% { width: 88%; }
+  100% { width: 100%; }
+}
+
+.boot-log {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  text-align: center;
+  line-height: 1.8;
+}
+
+.boot-log span { color: var(--green); }
+
+/* ===== MAIN LAYOUT ===== */
+#app {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: 56px 1fr;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== TOPBAR ===== */
+#topbar {
+  grid-column: 1 / -1;
+  background: rgba(5,11,18,0.95);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 24px;
+  backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-logo {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: 3px;
+  text-shadow: 0 0 20px var(--cyan);
+  white-space: nowrap;
+}
+
+.topbar-sep { width: 1px; height: 24px; background: var(--border); }
+
+.topbar-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}
+
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%,100% { box-shadow: 0 0 8px var(--green); }
+  50% { box-shadow: 0 0 16px var(--green), 0 0 32px rgba(0,255,136,0.2); }
+}
+
+.topbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.xp-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0,229,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 14px;
+}
+
+.xp-label {
+  font-family: var(--font-display);
+  font-size: 9px;
+  color: var(--amber);
+  letter-spacing: 2px;
+}
+
+.xp-value {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--amber);
+  text-shadow: 0 0 12px var(--amber);
+}
+
+.xp-bar-wrap {
+  width: 80px;
+  height: 3px;
+  background: rgba(255,170,0,0.1);
+  border-radius: 2px;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--amber-dim), var(--amber));
+  border-radius: 2px;
+  box-shadow: 0 0 6px var(--amber);
+  width: 45%;
+  transition: width 0.5s ease;
+}
+
+.operator-rank {
+  font-family: var(--font-display);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--purple);
+  text-shadow: 0 0 10px var(--purple);
+  padding: 4px 10px;
+  border: 1px solid rgba(170,68,255,0.3);
+  border-radius: 3px;
+  background: rgba(170,68,255,0.05);
+}
+
+/* ===== SIDEBAR ===== */
+#sidebar {
+  background: rgba(5,11,18,0.9);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+}
+
+#sidebar::-webkit-scrollbar { width: 3px; }
+#sidebar::-webkit-scrollbar-track { background: transparent; }
+#sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.sidebar-section-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+  padding: 12px 20px 6px;
+  text-transform: uppercase;
+}
+
+.module-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  border-left: 2px solid transparent;
+}
+
+.module-nav-item:hover {
+  background: rgba(0,229,255,0.04);
+  border-left-color: rgba(0,229,255,0.3);
+}
+
+.module-nav-item.active {
+  background: rgba(0,229,255,0.06);
+  border-left-color: var(--cyan);
+}
+
+.module-nav-item.locked {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.module-num {
+  font-family: var(--font-display);
+  font-size: 10px;
+  color: var(--text-dim);
+  min-width: 20px;
+}
+
+.module-nav-item.active .module-num { color: var(--cyan); }
+
+.module-nav-info { flex: 1; min-width: 0; }
+
+.module-nav-title {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.5px;
+}
+
+.module-nav-item.active .module-nav-title { color: var(--text-primary); }
+
+.module-nav-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-top: 2px;
+  letter-spacing: 1px;
+}
+
+.module-status {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.module-nav-item.completed .module-status { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.module-nav-item.active .module-status { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); animation: pulse-dot 2s infinite; }
+.module-nav-item.locked .module-status { background: var(--text-dim); }
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 12px 20px;
+}
+
+.sidebar-stats {
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.stat-label { color: var(--text-dim); letter-spacing: 1px; }
+.stat-val { color: var(--cyan); }
+
+/* ===== MAIN CONTENT ===== */
+#main-content {
+  overflow-y: auto;
+  position: relative;
+}
+
+#main-content::-webkit-scrollbar { width: 4px; }
+#main-content::-webkit-scrollbar-track { background: transparent; }
+#main-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ===== MODULE PANELS ===== */
+.module-panel {
+  display: none;
+  padding: 32px;
+  animation: panelIn 0.4s ease;
+}
+
+.module-panel.active { display: block; }
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ===== MODULE HEADER ===== */
+.module-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.module-tag {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--bg-void);
+  background: var(--cyan);
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.module-header-text { flex: 1; }
+
+.module-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 2px;
+  line-height: 1.2;
+  text-shadow: 0 0 30px rgba(232,244,248,0.1);
+}
+
+.module-title span { color: var(--cyan); text-shadow: 0 0 20px var(--cyan); }
+
+.module-tagline {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  letter-spacing: 1px;
+  line-height: 1.6;
+}
+
+.module-xp-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,170,0,0.05);
+  border: 1px solid rgba(255,170,0,0.2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  min-width: 80px;
+}
+
+.badge-xp { font-family: var(--font-display); font-size: 22px; color: var(--amber); font-weight: 700; }
+.badge-label { font-family: var(--font-mono); font-size: 9px; color: var(--amber-dim); letter-spacing: 2px; }
+
+/* ===== WIDGET GRID ===== */
+.widget-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.grid-2 { grid-template-columns: 1fr 1fr; }
+.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.grid-1-2 { grid-template-columns: 1fr 2fr; }
+.grid-2-1 { grid-template-columns: 2fr 1fr; }
+
+/* ===== WIDGET BASE ===== */
+.widget {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.3s;
+}
+
+.widget:hover { border-color: rgba(0,229,255,0.25); }
+
+.widget::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan-dim), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.widget:hover::before { opacity: 1; }
+
+.widget-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,0,0,0.2);
+}
+
+.widget-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.icon-cyan { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.2); }
+.icon-green { background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.2); }
+.icon-amber { background: rgba(255,170,0,0.1); border: 1px solid rgba(255,170,0,0.2); }
+.icon-red { background: rgba(255,51,102,0.1); border: 1px solid rgba(255,51,102,0.2); }
+.icon-purple { background: rgba(170,68,255,0.1); border: 1px solid rgba(170,68,255,0.2); }
+
+.widget-title {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+
+.widget-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.badge-interactive { background: rgba(0,229,255,0.1); color: var(--cyan); border: 1px solid rgba(0,229,255,0.2); }
+.badge-live { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
+.badge-sim { background: rgba(255,170,0,0.1); color: var(--amber); border: 1px solid rgba(255,170,0,0.2); }
+
+.widget-body { padding: 18px; }
+
+/* ===== SPAN UTILITIES ===== */
+.span-2 { grid-column: span 2; }
+.span-3 { grid-column: span 3; }
+.span-full { grid-column: 1 / -1; }
+
+/* ===== INTERACTIVE ELEMENTS ===== */
+
+/* TRACE SIMULATOR */
+.trace-canvas {
+  background: #020a06;
+  border-radius: 6px;
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+  cursor: crosshair;
+  border: 1px solid rgba(0,255,136,0.1);
+}
+
+.trace-node {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 12px var(--green);
+  transform: translate(-50%, -50%);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.trace-node.hot { background: var(--red); box-shadow: 0 0 16px var(--red); }
+.trace-node.warm { background: var(--amber); box-shadow: 0 0 12px var(--amber); }
+
+.trace-line {
+  position: absolute;
+  height: 1px;
+  background: rgba(0,255,136,0.3);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.trace-controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+/* HEATMAP */
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 3px;
+}
+
+.heatmap-cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.heatmap-cell:hover { transform: scale(1.3); z-index: 1; }
+.heat-0 { background: rgba(0,229,255,0.05); }
+.heat-1 { background: rgba(0,229,255,0.15); }
+.heat-2 { background: rgba(255,170,0,0.3); }
+.heat-3 { background: rgba(255,170,0,0.6); }
+.heat-4 { background: rgba(255,51,102,0.5); }
+.heat-5 { background: rgba(255,51,102,0.9); box-shadow: 0 0 8px rgba(255,51,102,0.4); }
+
+/* DRAG DROP */
+.drag-zone {
+  background: rgba(0,229,255,0.03);
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  min-height: 80px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;
+  align-content: flex-start;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.drag-zone.dragover {
+  border-color: var(--cyan);
+  background: rgba(0,229,255,0.06);
+}
+
+.drag-tag {
+  background: rgba(0,229,255,0.1);
+  border: 1px solid rgba(0,229,255,0.2);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--cyan);
+  cursor: grab;
+  user-select: none;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.drag-tag:hover { background: rgba(0,229,255,0.2); transform: translateY(-2px); }
+.drag-tag.dragging { opacity: 0.5; cursor: grabbing; }
+.drag-tag.danger { background: rgba(255,51,102,0.1); border-color: rgba(255,51,102,0.3); color: var(--red); }
+.drag-tag.safe { background: rgba(0,255,136,0.1); border-color: rgba(0,255,136,0.3); color: var(--green); }
+
+/* CYBER BTN */
+.cyber-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: transparent;
+  border: 1px solid var(--border-active);
+  border-radius: 4px;
+  color: var(--cyan);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--cyan);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.cyber-btn:hover::before { opacity: 0.08; }
+.cyber-btn:hover { border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,229,255,0.15), inset 0 0 20px rgba(0,229,255,0.05); }
+.cyber-btn:active { transform: scale(0.97); }
+
+.cyber-btn.sm { padding: 5px 12px; font-size: 10px; }
+.cyber-btn.danger { border-color: rgba(255,51,102,0.4); color: var(--red); }
+.cyber-btn.danger:hover { border-color: var(--red); box-shadow: 0 0 20px rgba(255,51,102,0.15); }
+.cyber-btn.success { border-color: rgba(0,255,136,0.4); color: var(--green); }
+.cyber-btn.amber { border-color: rgba(255,170,0,0.4); color: var(--amber); }
+
+/* METRIC CARDS */
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.metric-card:hover { border-color: rgba(0,229,255,0.3); }
+
+.metric-val {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.cyan-val { color: var(--cyan); text-shadow: 0 0 20px var(--cyan); }
+.green-val { color: var(--green); text-shadow: 0 0 20px var(--green); }
+.amber-val { color: var(--amber); text-shadow: 0 0 20px var(--amber); }
+.red-val { color: var(--red); text-shadow: 0 0 20px var(--red); }
+.purple-val { color: var(--purple); text-shadow: 0 0 20px var(--purple); }
+
+/* TERMINAL */
+.terminal {
+  background: #010805;
+  border-radius: 6px;
+  padding: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.8;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid rgba(0,255,136,0.08);
+}
+
+.terminal::-webkit-scrollbar { width: 3px; }
+.terminal::-webkit-scrollbar-thumb { background: rgba(0,255,136,0.2); }
+
+.t-line { margin: 0; }
+.t-prompt { color: var(--green); }
+.t-output { color: rgba(200,230,210,0.7); }
+.t-warn { color: var(--amber); }
+.t-err { color: var(--red); }
+.t-info { color: var(--cyan-dim); }
+.t-cursor { display: inline-block; background: var(--green); width: 8px; height: 12px; vertical-align: middle; animation: blink 1s infinite; }
+
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* PROGRESS BARS */
+.progress-wrap {
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.progress-track {
+  height: 4px;
+  background: rgba(0,229,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+.fill-cyan { background: linear-gradient(90deg, var(--cyan-dim), var(--cyan)); box-shadow: 0 0 8px var(--cyan); }
+.fill-green { background: linear-gradient(90deg, var(--green-dim), var(--green)); box-shadow: 0 0 8px var(--green); }
+.fill-amber { background: linear-gradient(90deg, var(--amber-dim), var(--amber)); box-shadow: 0 0 8px var(--amber); }
+.fill-red { background: linear-gradient(90deg, var(--red-dim), var(--red)); box-shadow: 0 0 8px var(--red); }
+
+/* FINGERPRINT VIZ */
+.fingerprint-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2px;
+}
+
+.fp-cell {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+/* NETWORK GRAPH */
+.network-svg { width: 100%; height: 220px; }
+
+/* RISK MATRIX */
+.risk-matrix {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  aspect-ratio: 1;
+}
+
+.risk-cell {
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.risk-cell:hover { transform: scale(1.1); z-index: 1; }
+.risk-low { background: rgba(0,255,136,0.12); color: var(--green); }
+.risk-med { background: rgba(255,170,0,0.12); color: var(--amber); }
+.risk-high { background: rgba(255,51,102,0.12); color: var(--red); }
+.risk-crit { background: rgba(255,51,102,0.25); color: var(--red); box-shadow: inset 0 0 10px rgba(255,51,102,0.1); }
+.risk-active { border: 1px solid currentColor; }
+
+/* ATTACK CHAIN */
+.attack-chain {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  padding: 8px 0;
+}
+
+.chain-node {
+  flex-shrink: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  min-width: 90px;
+}
+
+.chain-node:hover { border-color: var(--cyan); background: rgba(0,229,255,0.05); }
+.chain-node.active { border-color: var(--cyan); background: rgba(0,229,255,0.08); box-shadow: 0 0 16px rgba(0,229,255,0.1); }
+.chain-node.compromised { border-color: var(--red); background: rgba(255,51,102,0.06); }
+
+.chain-label { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); letter-spacing: 1px; }
+.chain-title { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--text-primary); margin-top: 3px; }
+
+.chain-arrow {
+  width: 30px;
+  flex-shrink: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), var(--border-active));
+  position: relative;
+}
+
+.chain-arrow::after {
+  content: '▶';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 8px;
+  color: var(--text-dim);
+}
+
+/* OODA LOOP */
+.ooda-container {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* INTEL GRAPH */
+.intel-board {
+  position: relative;
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  height: 240px;
+  overflow: hidden;
+}
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  padding-left: 24px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 16px;
+  padding-left: 16px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 5px;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+
+.timeline-item.active::before { background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+.timeline-item.danger::before { background: var(--red); border-color: var(--red); box-shadow: 0 0 8px var(--red); }
+
+.timeline-time { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); letter-spacing: 1px; }
+.timeline-text { font-family: var(--font-ui); font-size: 12px; color: var(--text-secondary); margin-top: 2px; font-weight: 500; }
+
+/* SOC TELEMETRY */
+.telemetry-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,229,255,0.04);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-radius: 4px;
+  padding-left: 8px;
+}
+
+.telemetry-row:hover { background: rgba(0,229,255,0.04); }
+
+.telemetry-time { color: var(--text-dim); min-width: 55px; }
+.telemetry-sev {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.sev-crit { background: var(--red); box-shadow: 0 0 6px var(--red); }
+.sev-high { background: var(--amber); box-shadow: 0 0 4px var(--amber); }
+.sev-med { background: var(--cyan); box-shadow: 0 0 4px var(--cyan); }
+.sev-low { background: var(--text-dim); }
+
+.telemetry-event { color: var(--text-secondary); flex: 1; }
+.telemetry-src { color: var(--text-dim); min-width: 90px; text-align: right; }
+
+/* BADGE ACHIEVEMENTS */
+.achievement-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.achievement-badge:hover { border-color: rgba(255,170,0,0.4); box-shadow: 0 0 20px rgba(255,170,0,0.08); }
+.achievement-badge.unlocked { border-color: rgba(255,170,0,0.25); }
+
+.badge-icon { font-size: 24px; filter: grayscale(0.6); transition: filter 0.3s; }
+.achievement-badge.unlocked .badge-icon { filter: none; }
+.badge-name { font-family: var(--font-display); font-size: 9px; letter-spacing: 1px; color: var(--text-dim); text-align: center; }
+.achievement-badge.unlocked .badge-name { color: var(--amber); }
+
+/* TOGGLE MODE */
+.mode-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.mode-btn {
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+
+.mode-btn.active { background: rgba(0,229,255,0.1); color: var(--cyan); }
+.mode-btn:hover:not(.active) { color: var(--text-secondary); background: rgba(255,255,255,0.03); }
+
+/* CHART BARS */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 80px;
+}
+
+.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.bar {
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+  transition: height 0.8s ease, box-shadow 0.3s;
+  cursor: pointer;
+  min-height: 4px;
+}
+.bar:hover { filter: brightness(1.3); }
+.bar-label { font-family: var(--font-mono); font-size: 8px; color: var(--text-dim); letter-spacing: 0.5px; }
+
+/* SLIDER */
+.cyber-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 3px;
+  background: rgba(0,229,255,0.15);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.cyber-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan);
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.cyber-slider::-webkit-slider-thumb:hover { box-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0,229,255,0.3); }
+
+/* INFO BOXES */
+.info-box {
+  background: rgba(0,229,255,0.03);
+  border: 1px solid rgba(0,229,255,0.08);
+  border-left: 3px solid var(--cyan);
+  border-radius: 0 6px 6px 0;
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.info-box.warn {
+  border-left-color: var(--amber);
+  background: rgba(255,170,0,0.03);
+  border-color: rgba(255,170,0,0.08);
+  color: var(--text-secondary);
+}
+
+.info-box.danger {
+  border-left-color: var(--red);
+  background: rgba(255,51,102,0.03);
+  border-color: rgba(255,51,102,0.08);
+}
+
+/* CHECKPOINT */
+.checkpoint-banner {
+  background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(0,229,255,0.02));
+  border: 1px solid rgba(0,229,255,0.2);
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.checkpoint-icon { font-size: 28px; }
+.checkpoint-text { flex: 1; }
+.checkpoint-title { font-family: var(--font-display); font-size: 13px; letter-spacing: 2px; color: var(--cyan); margin-bottom: 4px; }
+.checkpoint-sub { font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); }
+
+/* RADIAL GAUGE */
+.gauge-wrap { display: flex; align-items: center; justify-content: center; position: relative; }
+.gauge-svg { width: 100px; height: 100px; }
+.gauge-label {
+  position: absolute;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* NOTIFICATION */
+.notification {
+  position: fixed;
+  top: 72px;
+  right: 24px;
+  background: rgba(8,15,26,0.95);
+  border: 1px solid var(--cyan);
+  border-radius: 6px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 500;
+  transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 30px rgba(0,229,255,0.15);
+  max-width: 300px;
+}
+
+.notification.show { transform: translateX(0); }
+
+.notif-icon { font-size: 20px; }
+.notif-title { font-family: var(--font-display); font-size: 11px; letter-spacing: 1px; color: var(--cyan); }
+.notif-body { font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); margin-top: 2px; }
+
+/* TAGS */
+.tag {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.tag-cyan { background: rgba(0,229,255,0.1); color: var(--cyan); border: 1px solid rgba(0,229,255,0.2); }
+.tag-red { background: rgba(255,51,102,0.1); color: var(--red); border: 1px solid rgba(255,51,102,0.2); }
+.tag-green { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
+.tag-amber { background: rgba(255,170,0,0.1); color: var(--amber); border: 1px solid rgba(255,170,0,0.2); }
+
+/* XP TOAST */
+.xp-pop {
+  position: fixed;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--amber);
+  text-shadow: 0 0 20px var(--amber);
+  animation: xpFloat 1.5s ease forwards;
+  z-index: 9999;
+}
+
+@keyframes xpFloat {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-60px); }
+}
+
+/* CORRELATION MAP */
+.correlation-node {
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.correlation-node:hover { transform: scale(1.1); }
+
+/* VERDICT */
+.verdict {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  display: none;
+}
+
+.verdict.show { display: block; }
+.verdict.pass { background: rgba(0,255,136,0.08); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
+.verdict.fail { background: rgba(255,51,102,0.08); color: var(--red); border: 1px solid rgba(255,51,102,0.2); }
+
+/* RESPONSIVE SCROLLABLE */
+@media (max-width: 1100px) {
+  .grid-2, .grid-3, .grid-1-2, .grid-2-1 { grid-template-columns: 1fr; }
+  .span-2, .span-3 { grid-column: span 1; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NOTIFICATION -->
+<div class="notification" id="notification">
+  <div class="notif-icon" id="notif-icon">🎯</div>
+  <div>
+    <div class="notif-title" id="notif-title">CHECKPOINT UNLOCKED</div>
+    <div class="notif-body" id="notif-body">Trace Simulation complete</div>
+  </div>
+</div>
+
+<!-- BOOT SCREEN -->
+<div id="boot-screen">
+  <div class="boot-logo">CYBEROPS</div>
+  <div class="boot-subtitle">Intelligence Learning Platform v4.2.1</div>
+  <div class="boot-bar-wrap"><div class="boot-bar"></div></div>
+  <div class="boot-log" id="boot-log">
+    <p><span>[SYS]</span> Initializing operator environment...</p>
+    <p id="b2"></p>
+    <p id="b3"></p>
+    <p id="b4"></p>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+
+  <!-- TOPBAR -->
+  <header id="topbar">
+    <div class="topbar-logo">CYBEROPS</div>
+    <div class="topbar-sep"></div>
+    <div class="topbar-status">
+      <div class="status-dot"></div>
+      <span>OPERATOR SESSION ACTIVE</span>
+    </div>
+    <div class="topbar-sep"></div>
+    <div class="topbar-status">
+      <span id="active-module-label" style="color:var(--cyan)">MODULE 01</span>
+    </div>
+    <div class="topbar-right">
+      <div class="xp-display">
+        <div>
+          <div class="xp-label">OPERATOR XP</div>
+          <div class="xp-value" id="xp-display">1,250</div>
+        </div>
+        <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xp-bar" style="width:35%"></div></div>
+      </div>
+      <div class="operator-rank" id="rank-display">TRAINEE</div>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <div class="sidebar-section-label">// INTELLIGENCE TRACK</div>
+
+    <div class="module-nav-item active" onclick="switchModule(1)" id="nav-1">
+      <div class="module-num">01</div>
+      <div class="module-nav-info">
+        <div class="module-nav-title">Tradecraft & OPSEC</div>
+        <div class="module-nav-sub">FOUNDATIONS</div>
+      </div>
+      <div class="module-status"></div>
+    </div>
+
+    <div class="module-nav-item" onclick="switchModule(2)" id="nav-2">
+      <div class="module-num">02</div>
+      <div class="module-nav-info">
+        <div class="module-nav-title">Digital Footprints</div>
+        <div class="module-nav-sub">ATTRIBUTION</div>
+      </div>
+      <div class="module-status"></div>
+    </div>
+
+    <div class="module-nav-item" onclick="switchModule(3)" id="nav-3">
+      <div class="module-num">03</div>
+      <div class="module-nav-info">
+        <div class="module-nav-title">Threat Modeling</div>
+        <div class="module-nav-sub">LOCKED — 500 XP</div>
+      </div>
+      <div class="module-status"></div>
+    </div>
+
+    <div class="module-nav-item" onclick="switchModule(4)" id="nav-4">
+      <div class="module-num">04</div>
+      <div class="module-nav-info">
+        <div class="module-nav-title">OSINT & Intelligence</div>
+        <div class="module-nav-sub">LOCKED — 1000 XP</div>
+      </div>
+      <div class="module-status"></div>
+    </div>
+
+    <div class="module-nav-item" onclick="switchModule(5)" id="nav-5">
+      <div class="module-num">05</div>
+      <div class="module-nav-info">
+        <div class="module-nav-title">Identity & Compartments</div>
+        <div class="module-nav-sub">LOCKED — 1500 XP</div>
+      </div>
+      <div class="module-status"></div>
+    </div>
+
+    <div class="module-nav-item" onclick="switchModule(6)"id="nav-6">
+      <div class="module-num">06</div>
+      <div class="module-nav-info">
+        <div class="module-nav-title">Surveillance & Detection</div>
+        <div class="module-nav-sub">LOCKED — 2000 XP</div>
+      </div>
+      <div class="module-status"></div>
+    </div>
+
+    <div class="module-nav-item" onclick="switchModule(7)" id="nav-7">
+      <div class="module-num">07</div>
+      <div class="module-nav-info">
+        <div class="module-nav-title">Operator Mindset</div>
+        <div class="module-nav-sub">LOCKED — 2500 XP</div>
+      </div>
+      <div class="module-status"></div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">// OPERATOR STATS</div>
+    <div class="sidebar-stats">
+      <div class="stat-row"><span class="stat-label">MODULES ACTIVE</span><span class="stat-val" id="s-modules">2/7</span></div>
+      <div class="stat-row"><span class="stat-label">CHECKPOINTS</span><span class="stat-val" id="s-checks">0/14</span></div>
+      <div class="stat-row"><span class="stat-label">SIMS RUN</span><span class="stat-val" id="s-sims">0</span></div>
+      <div class="stat-row"><span class="stat-label">THREAT SCORE</span><span class="stat-val" style="color:var(--green)">LOW</span></div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content">
+
+    <!-- =========================================
+         MODULE 1: TRADECRAFT & OPSEC
+    ========================================= -->
+    <div class="module-panel active" id="module-1">
+      <div class="module-header">
+        <div>
+          <div class="module-tag">MODULE 01</div>
+        </div>
+        <div class="module-header-text">
+          <div class="module-title">Tradecraft & <span>OPSEC</span> Foundations</div>
+          <div class="module-tagline">// Understand how digital actions generate traces — and how those traces become attribution vectors. Every action leaves a signature.</div>
+        </div>
+        <div class="module-xp-badge"><div class="badge-xp">+500</div><div class="badge-label">XP REWARD</div></div>
+      </div>
+
+      <!-- Row 1: Metrics + Trace Sim -->
+      <div class="widget-grid grid-3" style="margin-bottom:20px">
+        <div class="metric-card"><div class="metric-val cyan-val" id="trace-count">0</div><div class="metric-label">TRACES GENERATED</div></div>
+        <div class="metric-card"><div class="metric-val red-val" id="exposure-score">0%</div><div class="metric-label">EXPOSURE SCORE</div></div>
+        <div class="metric-card"><div class="metric-val green-val" id="opsec-rating">A+</div><div class="metric-label">OPSEC RATING</div></div>
+      </div>
+
+      <!-- Row 2: Trace Simulator + Heatmap -->
+      <div class="widget-grid grid-1-2" style="margin-bottom:20px">
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-cyan">🔍</div>
+            <div class="widget-title">Trace Generation Simulator</div>
+            <div class="widget-badge badge-interactive">LIVE</div>
+          </div>
+          <div class="widget-body">
+            <div class="info-box" style="margin-top:0">Each click on the network canvas generates a trace node. Interconnected nodes increase your exposure score. Can you route through the network without creating traceable patterns?</div>
+            <div class="trace-canvas" id="trace-canvas" onclick="addTraceNode(event)">
+              <svg id="trace-svg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></svg>
+            </div>
+            <div class="trace-controls">
+              <button class="cyber-btn sm" onclick="clearTraces()">CLEAR CANVAS</button>
+              <button class="cyber-btn sm success" onclick="analyzeTraces()">ANALYZE TRACES</button>
+              <button class="cyber-btn sm danger" onclick="burnTrace()">🔥 BURN</button>
+            </div>
+            <div class="verdict" id="trace-verdict"></div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-red">🌡️</div>
+            <div class="widget-title">Information Leak Heatmap</div>
+            <div class="widget-badge badge-live">REAL-TIME</div>
+          </div>
+          <div class="widget-body">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);margin-bottom:10px;letter-spacing:1px">HOVER CELLS TO INSPECT LEAK VECTORS — Red = critical exposure</div>
+            <div class="heatmap-grid" id="heatmap"></div>
+            <div style="display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap">
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim)">EXPOSURE:</div>
+              <div class="tag tag-green">SAFE</div>
+              <div class="tag tag-amber">MODERATE</div>
+              <div class="tag tag-red">CRITICAL</div>
+            </div>
+            <div id="heatmap-tooltip" style="font-family:var(--font-mono);font-size:10px;color:var(--cyan);margin-top:8px;min-height:16px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: OPSEC Drag Drop + Terminal + Failure Scenarios -->
+      <div class="widget-grid grid-3" style="margin-bottom:20px">
+        <div class="widget span-2">
+          <div class="widget-header">
+            <div class="widget-icon icon-amber">🏷️</div>
+            <div class="widget-title">Metadata Classification Exercise</div>
+            <div class="widget-badge badge-interactive">DRAG & DROP</div>
+          </div>
+          <div class="widget-body">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Drag each metadata element into the correct classification zone.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div>
+                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">⚠️ UNCLASSIFIED POOL</div>
+                <div class="drag-zone" id="metadata-pool" ondragover="allowDrop(event)" ondrop="dropMetadata(event,'pool')">
+                  <div class="drag-tag" draggable="true" ondragstart="dragMeta(event)" data-type="danger">GPS_COORDINATES</div>
+                  <div class="drag-tag" draggable="true" ondragstart="dragMeta(event)" data-type="danger">DEVICE_SERIAL</div>
+                  <div class="drag-tag" draggable="true" ondragstart="dragMeta(event)" data-type="safe">FILE_HASH</div>
+                  <div class="drag-tag" draggable="true" ondragstart="dragMeta(event)" data-type="danger">AUTHOR_NAME</div>
+                  <div class="drag-tag" draggable="true" ondragstart="dragMeta(event)" data-type="safe">CREATION_DATE</div>
+                  <div class="drag-tag" draggable="true" ondragstart="dragMeta(event)" data-type="danger">IP_ADDRESS</div>
+                  <div class="drag-tag" draggable="true" ondragstart="dragMeta(event)" data-type="safe">MIME_TYPE</div>
+                  <div class="drag-tag" draggable="true" ondragstart="dragMeta(event)" data-type="danger">SOFTWARE_VERSION</div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div>
+                    <div style="font-family:var(--font-mono);font-size:9px;color:var(--red);letter-spacing:2px;margin-bottom:6px">🚨 HIGH RISK — STRIP BEFORE SHARING</div>
+                    <div class="drag-zone" id="danger-zone" ondragover="allowDrop(event)" ondrop="dropMetadata(event,'danger')" style="border-color:rgba(255,51,102,0.3);min-height:60px"></div>
+                  </div>
+                  <div>
+                    <div style="font-family:var(--font-mono);font-size:9px;color:var(--green);letter-spacing:2px;margin-bottom:6px">✅ LOW RISK — ACCEPTABLE</div>
+                    <div class="drag-zone" id="safe-zone" ondragover="allowDrop(event)" ondrop="dropMetadata(event,'safe')" style="border-color:rgba(0,255,136,0.3);min-height:60px"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+              <button class="cyber-btn sm" onclick="checkMetadata()">CHECK CLASSIFICATION</button>
+              <div class="verdict" id="meta-verdict" style="display:inline-block;margin:0"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-red">💀</div>
+            <div class="widget-title">OPSEC Failure Scenarios</div>
+            <div class="widget-badge badge-sim">SIM</div>
+          </div>
+          <div class="widget-body">
+            <div class="timeline">
+              <div class="timeline-item danger" onclick="showScenario(1)">
+                <div class="timeline-time">SCENARIO 01</div>
+                <div class="timeline-text">Metadata in photo reveals location</div>
+              </div>
+              <div class="timeline-item danger" onclick="showScenario(2)">
+                <div class="timeline-time">SCENARIO 02</div>
+                <div class="timeline-text">Reused username across platforms</div>
+              </div>
+              <div class="timeline-item" onclick="showScenario(3)">
+                <div class="timeline-time">SCENARIO 03</div>
+                <div class="timeline-text">Browser fingerprint uniqueness</div>
+              </div>
+              <div class="timeline-item" onclick="showScenario(4)">
+                <div class="timeline-time">SCENARIO 04</div>
+                <div class="timeline-text">Timing correlation attack</div>
+              </div>
+              <div class="timeline-item" onclick="showScenario(5)">
+                <div class="timeline-time">SCENARIO 05</div>
+                <div class="timeline-text">Social graph inference</div>
+              </div>
+            </div>
+            <div id="scenario-detail" class="info-box warn" style="margin-top:12px;font-size:10px;display:none"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkpoint -->
+      <div class="checkpoint-banner">
+        <div class="checkpoint-icon">🎯</div>
+        <div class="checkpoint-text">
+          <div class="checkpoint-title">CHECKPOINT 01 — TRACE AWARENESS</div>
+          <div class="checkpoint-sub">Complete the trace simulator + metadata exercise to unlock Module 02 intelligence tools</div>
+        </div>
+        <button class="cyber-btn" onclick="completeCheckpoint(1)">COMPLETE CHECKPOINT</button>
+      </div>
+    </div>
+
+    <!-- =========================================
+         MODULE 2: DIGITAL FOOTPRINTS
+    ========================================= -->
+    <div class="module-panel" id="module-2">
+      <div class="module-header">
+        <div><div class="module-tag">MODULE 02</div></div>
+        <div class="module-header-text">
+          <div class="module-title">Digital Footprints & <span>Attribution</span></div>
+          <div class="module-tagline">// Every digital actor leaves artifacts. Learn to read, connect, and attribute the invisible threads of identity across networks.</div>
+        </div>
+        <div class="module-xp-badge"><div class="badge-xp">+600</div><div class="badge-label">XP REWARD</div></div>
+      </div>
+
+      <!-- Browser Fingerprint Visualizer -->
+      <div class="widget-grid grid-1-2" style="margin-bottom:20px">
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-cyan">🖐️</div>
+            <div class="widget-title">Browser Fingerprint Analyzer</div>
+            <div class="widget-badge badge-interactive">INTERACTIVE</div>
+          </div>
+          <div class="widget-body">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Your fingerprint is composed of 8 entropy dimensions. Higher uniqueness = easier attribution.</div>
+            <div class="fingerprint-grid" id="fp-grid"></div>
+            <div style="margin-top:16px">
+              <div class="progress-wrap">
+                <div class="progress-label"><span>CANVAS FINGERPRINT</span><span style="color:var(--red)">98.7%</span></div>
+                <div class="progress-track"><div class="progress-fill fill-red" style="width:98.7%"></div></div>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>WEBGL RENDERER</span><span style="color:var(--amber)">87.2%</span></div>
+                <div class="progress-track"><div class="progress-fill fill-amber" style="width:87.2%"></div></div>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>AUDIO CONTEXT</span><span style="color:var(--amber)">74.1%</span></div>
+                <div class="progress-track"><div class="progress-fill fill-amber" style="width:74.1%"></div></div>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>INSTALLED FONTS</span><span style="color:var(--cyan)">61.3%</span></div>
+                <div class="progress-track"><div class="progress-fill fill-cyan" style="width:61.3%"></div></div>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-label"><span>TIMEZONE+LOCALE</span><span style="color:var(--green)">44.8%</span></div>
+                <div class="progress-track"><div class="progress-fill fill-green" style="width:44.8%"></div></div>
+              </div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px">
+              <button class="cyber-btn sm" onclick="randomizeFP()">RANDOMIZE</button>
+              <button class="cyber-btn sm danger" onclick="lockFP()">FREEZE FP</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-amber">🕵️</div>
+            <div class="widget-title">Attribution Investigation Board</div>
+            <div class="widget-badge badge-interactive">INTELLIGENCE</div>
+          </div>
+          <div class="widget-body">
+            <div class="intel-board" id="intel-board">
+              <svg id="intel-svg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></svg>
+              <!-- Nodes will be rendered by JS -->
+            </div>
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+              <button class="cyber-btn sm" onclick="addIntelNode()">+ ADD CLUE</button>
+              <button class="cyber-btn sm amber" onclick="connectNodes()">CORRELATE</button>
+              <button class="cyber-btn sm danger" onclick="clearIntel()">CLEAR BOARD</button>
+            </div>
+            <div id="intel-score" style="font-family:var(--font-display);font-size:11px;color:var(--cyan);margin-top:8px;letter-spacing:2px">CONFIDENCE: 0%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Metadata X-ray + Stylometry -->
+      <div class="widget-grid grid-2" style="margin-bottom:20px">
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-green">🔬</div>
+            <div class="widget-title">Metadata X-Ray Viewer</div>
+            <div class="widget-badge badge-interactive">ANALYSIS</div>
+          </div>
+          <div class="widget-body">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Select a file type to extract hidden metadata fields. Each field is an attribution vector.</div>
+            <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap" id="file-type-btns">
+              <button class="cyber-btn sm" onclick="showXray('photo')">📷 JPEG</button>
+              <button class="cyber-btn sm" onclick="showXray('doc')">📄 DOCX</button>
+              <button class="cyber-btn sm" onclick="showXray('pdf')">📑 PDF</button>
+              <button class="cyber-btn sm" onclick="showXray('audio')">🎵 MP3</button>
+            </div>
+            <div id="xray-result" class="terminal" style="height:140px"></div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-purple">✍️</div>
+            <div class="widget-title">Stylometry Analysis Engine</div>
+            <div class="widget-badge badge-sim">AI-POWERED</div>
+          </div>
+          <div class="widget-body">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Writing patterns reveal identity. Adjust linguistic markers to see attribution probability shift.</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div>
+                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;letter-spacing:1px">VOCABULARY COMPLEXITY</div>
+                <input type="range" class="cyber-slider" id="vocab-slider" min="0" max="100" value="72" oninput="updateStylemetry()">
+              </div>
+              <div>
+                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;letter-spacing:1px">SENTENCE VARIANCE</div>
+                <input type="range" class="cyber-slider" id="sent-slider" min="0" max="100" value="44" oninput="updateStylemetry()">
+              </div>
+              <div>
+                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;letter-spacing:1px">PUNCTUATION SIGNATURE</div>
+                <input type="range" class="cyber-slider" id="punct-slider" min="0" max="100" value="88" oninput="updateStylemetry()">
+              </div>
+            </div>
+            <div style="margin-top:16px;background:rgba(0,0,0,0.3);border-radius:6px;padding:12px">
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:6px">ATTRIBUTION CONFIDENCE</div>
+              <div style="font-family:var(--font-display);font-size:32px;font-weight:700;color:var(--red);text-shadow: 0 0 20px var(--red)" id="stylometry-conf">87%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkpoint -->
+      <div class="checkpoint-banner" style="border-color:rgba(255,170,0,0.3);background:linear-gradient(135deg,rgba(255,170,0,0.06),rgba(255,170,0,0.02))">
+        <div class="checkpoint-icon">🏆</div>
+        <div class="checkpoint-text">
+          <div class="checkpoint-title" style="color:var(--amber)">CHECKPOINT 02 — ATTRIBUTION MASTERY</div>
+          <div class="checkpoint-sub">Complete investigation board + stylometry to unlock Threat Modeling (requires 500 XP)</div>
+        </div>
+        <button class="cyber-btn amber" onclick="completeCheckpoint(2)">COMPLETE CHECKPOINT</button>
+      </div>
+    </div>
+
+    <!-- =========================================
+         MODULE 3: THREAT MODELING
+    ========================================= -->
+    <div class="module-panel" id="module-3">
+      <div class="module-header">
+        <div><div class="module-tag" style="background:var(--amber);color:var(--bg-void)">MODULE 03</div></div>
+        <div class="module-header-text">
+          <div class="module-title">Threat <span style="color:var(--amber);text-shadow:0 0 20px var(--amber)">Modeling</span></div>
+          <div class="module-tagline">// Map attacker capabilities, defender assets, and investigator perspectives. Build complete threat models from the ground up.</div>
+        </div>
+        <div class="module-xp-badge" style="border-color:rgba(255,170,0,0.3)"><div class="badge-xp" style="color:var(--amber)">+800</div><div class="badge-label">XP REWARD</div></div>
+      </div>
+
+      <div class="widget-grid grid-3" style="margin-bottom:20px">
+        <div class="metric-card"><div class="metric-val amber-val" id="threat-score">--</div><div class="metric-label">RISK SCORE</div></div>
+        <div class="metric-card"><div class="metric-val cyan-val" id="attack-vectors">0</div><div class="metric-label">ATTACK VECTORS</div></div>
+        <div class="metric-card"><div class="metric-val green-val">3</div><div class="metric-label">DEFENSE LAYERS</div></div>
+      </div>
+
+      <!-- Mode Toggle + Attack Chain -->
+      <div class="widget" style="margin-bottom:20px">
+        <div class="widget-header">
+          <div class="widget-icon icon-amber">⚔️</div>
+          <div class="widget-title">Threat Modeling Canvas</div>
+          <div class="mode-toggle">
+            <button class="mode-btn active" onclick="setMode('attacker',this)">ATTACKER</button>
+            <button class="mode-btn" onclick="setMode('defender',this)">DEFENDER</button>
+            <button class="mode-btn" onclick="setMode('investigator',this)">INVESTIGATOR</button>
+          </div>
+        </div>
+        <div class="widget-body">
+          <div id="mode-context" class="info-box warn" style="margin-top:0;margin-bottom:16px">
+            <b style="color:var(--amber)">ATTACKER MODE:</b> You are modeling threats from an adversarial perspective. Identify attack surfaces, entry points, and lateral movement paths.
+          </div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:10px">ATTACK CHAIN BUILDER — CLICK TO ACTIVATE NODES</div>
+          <div class="attack-chain" id="attack-chain">
+            <div class="chain-node active" onclick="activateChain(0,this)" data-step="0">
+              <div class="chain-label">STEP 01</div>
+              <div class="chain-title">Reconnaissance</div>
+            </div>
+            <div class="chain-arrow"></div>
+            <div class="chain-node" onclick="activateChain(1,this)" data-step="1">
+              <div class="chain-label">STEP 02</div>
+              <div class="chain-title">Weaponize</div>
+            </div>
+            <div class="chain-arrow"></div>
+            <div class="chain-node" onclick="activateChain(2,this)" data-step="2">
+              <div class="chain-label">STEP 03</div>
+              <div class="chain-title">Delivery</div>
+            </div>
+            <div class="chain-arrow"></div>
+            <div class="chain-node" onclick="activateChain(3,this)" data-step="3">
+              <div class="chain-label">STEP 04</div>
+              <div class="chain-title">Exploitation</div>
+            </div>
+            <div class="chain-arrow"></div>
+            <div class="chain-node" onclick="activateChain(4,this)" data-step="4">
+              <div class="chain-label">STEP 05</div>
+              <div class="chain-title">C2 Establish</div>
+            </div>
+            <div class="chain-arrow"></div>
+            <div class="chain-node" onclick="activateChain(5,this)" data-step="5">
+              <div class="chain-label">STEP 06</div>
+              <div class="chain-title">Exfiltration</div>
+            </div>
+          </div>
+          <div id="chain-detail" class="info-box" style="margin-bottom:0"></div>
+        </div>
+      </div>
+
+      <!-- Risk Matrix + Defense Simulator -->
+      <div class="widget-grid grid-1-2" style="margin-bottom:20px">
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-red">📊</div>
+            <div class="widget-title">Dynamic Risk Matrix</div>
+            <div class="widget-badge badge-interactive">5×5 GRID</div>
+          </div>
+          <div class="widget-body">
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start">
+              <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);display:flex;flex-direction:column;justify-content:space-around;height:200px;padding-right:4px;letter-spacing:1px">
+                <span>CRIT</span><span>HIGH</span><span>MED</span><span>LOW</span><span>MIN</span>
+              </div>
+              <div>
+                <div class="risk-matrix" id="risk-matrix"></div>
+                <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:8px;color:var(--text-dim);margin-top:4px;letter-spacing:1px">
+                  <span>RARE</span><span>UNLIKE</span><span>POSS</span><span>LIKELY</span><span>CERTAIN</span>
+                </div>
+              </div>
+            </div>
+            <div id="risk-detail" style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-top:10px;min-height:20px;letter-spacing:0.5px"></div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-green">🛡️</div>
+            <div class="widget-title">Defense-in-Depth Simulator</div>
+            <div class="widget-badge badge-sim">SIMULATION</div>
+          </div>
+          <div class="widget-body">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Toggle defense layers to see how each one reduces attack surface penetration probability.</div>
+            <div id="defense-layers">
+              <div class="progress-wrap" style="margin-bottom:12px" id="dl-0">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                  <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)">🔐 Network Perimeter</div>
+                  <input type="checkbox" id="def-0" checked onchange="updateDefense()" style="cursor:pointer">
+                </div>
+                <div class="progress-track"><div class="progress-fill fill-green" id="def-bar-0" style="width:85%"></div></div>
+              </div>
+              <div class="progress-wrap" style="margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                  <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)">🔍 IDS/IPS System</div>
+                  <input type="checkbox" id="def-1" checked onchange="updateDefense()" style="cursor:pointer">
+                </div>
+                <div class="progress-track"><div class="progress-fill fill-cyan" id="def-bar-1" style="width:72%"></div></div>
+              </div>
+              <div class="progress-wrap" style="margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                  <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)">🧩 Endpoint EDR</div>
+                  <input type="checkbox" id="def-2" checked onchange="updateDefense()" style="cursor:pointer">
+                </div>
+                <div class="progress-track"><div class="progress-fill fill-amber" id="def-bar-2" style="width:68%"></div></div>
+              </div>
+              <div class="progress-wrap">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                  <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)">🔑 IAM Controls</div>
+                  <input type="checkbox" id="def-3" checked onchange="updateDefense()" style="cursor:pointer">
+                </div>
+                <div class="progress-track"><div class="progress-fill fill-green" id="def-bar-3" style="width:91%"></div></div>
+              </div>
+            </div>
+            <div style="margin-top:14px;background:rgba(0,0,0,0.3);border-radius:6px;padding:10px;display:flex;align-items:center;gap:12px">
+              <div>
+                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px">PENETRATION PROB.</div>
+                <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--green)" id="pen-prob">4.2%</div>
+              </div>
+              <div class="progress-track" style="flex:1;height:6px">
+                <div class="progress-fill fill-green" id="pen-bar" style="width:4.2%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkpoint-banner" style="border-color:rgba(255,170,0,0.3);background:linear-gradient(135deg,rgba(255,170,0,0.06),rgba(255,170,0,0.02))">
+        <div class="checkpoint-icon">⚔️</div>
+        <div class="checkpoint-text">
+          <div class="checkpoint-title" style="color:var(--amber)">CHECKPOINT 03 — THREAT ARCHITECT</div>
+          <div class="checkpoint-sub">Build a complete attack chain and configure all defense layers to advance</div>
+        </div>
+        <button class="cyber-btn amber" onclick="completeCheckpoint(3)">COMPLETE CHECKPOINT</button>
+      </div>
+    </div>
+
+    <!-- =========================================
+         MODULE 4: OSINT
+    ========================================= -->
+    <div class="module-panel" id="module-4">
+      <div class="module-header">
+        <div><div class="module-tag" style="background:var(--purple)">MODULE 04</div></div>
+        <div class="module-header-text">
+          <div class="module-title">OSINT & <span style="color:var(--purple);text-shadow:0 0 20px var(--purple)">Intelligence Gathering</span></div>
+          <div class="module-tagline">// Intelligence is not data collection. It is signal extraction from noise. Learn the full intelligence cycle.</div>
+        </div>
+        <div class="module-xp-badge" style="border-color:rgba(170,68,255,0.3)"><div class="badge-xp" style="color:var(--purple)">+900</div><div class="badge-label">XP REWARD</div></div>
+      </div>
+
+      <!-- Intelligence Cycle -->
+      <div class="widget-grid grid-2" style="margin-bottom:20px">
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-purple">🔄</div>
+            <div class="widget-title">Intelligence Cycle Visual Workflow</div>
+            <div class="widget-badge badge-interactive">INTERACTIVE</div>
+          </div>
+          <div class="widget-body">
+            <div style="position:relative;width:100%;height:220px;display:flex;align-items:center;justify-content:center">
+              <svg id="intel-cycle-svg" width="280" height="220" viewBox="0 0 280 220">
+                <defs>
+                  <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+                    <polygon points="0 0, 6 2, 0 4" fill="rgba(0,229,255,0.6)" />
+                  </marker>
+                </defs>
+                <!-- Cycle arrows -->
+                <path d="M 140 20 A 100 100 0 0 1 240 120" stroke="rgba(0,229,255,0.3)" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+                <path d="M 240 120 A 100 100 0 0 1 140 200" stroke="rgba(0,229,255,0.3)" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+                <path d="M 140 200 A 100 100 0 0 1 40 120" stroke="rgba(0,229,255,0.3)" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+                <path d="M 40 120 A 100 100 0 0 1 140 20" stroke="rgba(0,229,255,0.3)" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+                <!-- Center -->
+                <circle cx="140" cy="110" r="28" fill="rgba(0,229,255,0.05)" stroke="rgba(0,229,255,0.2)" stroke-width="1"/>
+                <text x="140" y="108" text-anchor="middle" font-family="Orbitron,monospace" font-size="8" fill="rgba(0,229,255,0.8)">INTEL</text>
+                <text x="140" y="120" text-anchor="middle" font-family="Orbitron,monospace" font-size="8" fill="rgba(0,229,255,0.8)">CYCLE</text>
+                <!-- Phase nodes -->
+                <circle id="ic-0" cx="140" cy="18" r="18" fill="rgba(0,229,255,0.08)" stroke="rgba(0,229,255,0.3)" stroke-width="1.5" cursor="pointer" onclick="activateIntelCycle(0)"/>
+                <text x="140" y="15" text-anchor="middle" font-family="Share Tech Mono" font-size="7.5" fill="rgba(0,229,255,0.8)">DIRECT-</text>
+                <text x="140" y="25" text-anchor="middle" font-family="Share Tech Mono" font-size="7.5" fill="rgba(0,229,255,0.8)">ION</text>
+
+                <circle id="ic-1" cx="238" cy="118" r="18" fill="rgba(0,229,255,0.08)" stroke="rgba(0,229,255,0.3)" stroke-width="1.5" cursor="pointer" onclick="activateIntelCycle(1)"/>
+                <text x="238" y="115" text-anchor="middle" font-family="Share Tech Mono" font-size="7.5" fill="rgba(0,229,255,0.8)">COLLEC-</text>
+                <text x="238" y="125" text-anchor="middle" font-family="Share Tech Mono" font-size="7.5" fill="rgba(0,229,255,0.8)">TION</text>
+
+                <circle id="ic-2" cx="140" cy="200" r="18" fill="rgba(0,229,255,0.08)" stroke="rgba(0,229,255,0.3)" stroke-width="1.5" cursor="pointer" onclick="activateIntelCycle(2)"/>
+                <text x="140" y="197" text-anchor="middle" font-family="Share Tech Mono" font-size="7.5" fill="rgba(0,229,255,0.8)">ANALY-</text>
+                <text x="140" y="207" text-anchor="middle" font-family="Share Tech Mono" font-size="7.5" fill="rgba(0,229,255,0.8)">SIS</text>
+
+                <circle id="ic-3" cx="42" cy="118" r="18" fill="rgba(0,229,255,0.08)" stroke="rgba(0,229,255,0.3)" stroke-width="1.5" cursor="pointer" onclick="activateIntelCycle(3)"/>
+                <text x="42" y="115" text-anchor="middle" font-family="Share Tech Mono" font-size="7.5" fill="rgba(0,229,255,0.8)">DISSEM-</text>
+                <text x="42" y="125" text-anchor="middle" font-family="Share Tech Mono" font-size="7.5" fill="rgba(0,229,255,0.8)">INATE</text>
+              </svg>
+            </div>
+            <div id="intel-cycle-detail" class="info-box" style="font-size:10px;margin-top:0">Click each phase node to explore the intelligence cycle stage.</div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-purple">📡</div>
+            <div class="widget-title">Signal vs Noise Challenge</div>
+            <div class="widget-badge badge-interactive">CHALLENGE</div>
+          </div>
+          <div class="widget-body">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Identify actionable intelligence signals from noisy data. Tag each item correctly.</div>
+            <div style="display:flex;flex-direction:column;gap:6px" id="snoise-items">
+              <!-- Rendered by JS -->
+            </div>
+            <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
+              <button class="cyber-btn sm" onclick="checkSignals()">EVALUATE</button>
+              <div class="verdict" id="signal-verdict" style="display:inline-block;margin:0"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Situational Awareness Graph -->
+      <div class="widget span-full" style="margin-bottom:20px">
+        <div class="widget-header">
+          <div class="widget-icon icon-purple">🗺️</div>
+          <div class="widget-title">Situational Awareness Intelligence Graph</div>
+          <div class="widget-badge badge-live">LIVE</div>
+        </div>
+        <div class="widget-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+            <div class="metric-card"><div class="metric-val purple-val" id="sources-count">0</div><div class="metric-label">SOURCES</div></div>
+            <div class="metric-card"><div class="metric-val cyan-val" id="signals-count">0</div><div class="metric-label">SIGNALS</div></div>
+            <div class="metric-card"><div class="metric-val amber-val" id="confirmed-count">0</div><div class="metric-label">CONFIRMED</div></div>
+            <div class="metric-card"><div class="metric-val red-val" id="noise-count">0</div><div class="metric-label">NOISE</div></div>
+          </div>
+          <svg id="awareness-svg" width="100%" height="200" style="background:rgba(0,0,0,0.2);border-radius:6px;border:1px solid var(--border)"></svg>
+        </div>
+      </div>
+
+      <div class="checkpoint-banner" style="border-color:rgba(170,68,255,0.3);background:linear-gradient(135deg,rgba(170,68,255,0.06),rgba(170,68,255,0.02))">
+        <div class="checkpoint-icon">📡</div>
+        <div class="checkpoint-text">
+          <div class="checkpoint-title" style="color:var(--purple)">CHECKPOINT 04 — INTELLIGENCE ANALYST</div>
+          <div class="checkpoint-sub">Complete signal identification and intelligence cycle to achieve analyst rank</div>
+        </div>
+        <button class="cyber-btn" style="border-color:rgba(170,68,255,0.5);color:var(--purple)" onclick="completeCheckpoint(4)">COMPLETE CHECKPOINT</button>
+      </div>
+    </div>
+
+    <!-- =========================================
+         MODULE 5: IDENTITY
+    ========================================= -->
+    <div class="module-panel" id="module-5">
+      <div class="module-header">
+        <div><div class="module-tag" style="background:var(--green);color:var(--bg-void)">MODULE 05</div></div>
+        <div class="module-header-text">
+          <div class="module-title">Identity & <span style="color:var(--green);text-shadow:0 0 20px var(--green)">Compartmentalization</span></div>
+          <div class="module-tagline">// The mosaic effect: individually harmless data points converge into a complete identity picture. Learn how identity leaks occur.</div>
+        </div>
+        <div class="module-xp-badge" style="border-color:rgba(0,255,136,0.3)"><div class="badge-xp" style="color:var(--green)">+800</div><div class="badge-label">XP REWARD</div></div>
+      </div>
+
+      <div class="widget-grid grid-2" style="margin-bottom:20px">
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-green">🧩</div>
+            <div class="widget-title">Mosaic Effect Visualizer</div>
+            <div class="widget-badge badge-interactive">MOSAIC</div>
+          </div>
+          <div class="widget-body">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Toggle data fragments. Watch how individual pieces combine to reveal a complete identity profile.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px" id="mosaic-toggles">
+              <!-- Rendered by JS -->
+            </div>
+            <div style="background:rgba(0,0,0,0.4);border-radius:8px;padding:14px;position:relative;overflow:hidden" id="mosaic-profile">
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">RECONSTRUCTED PROFILE</div>
+              <div id="mosaic-portrait" style="font-size:48px;text-align:center;filter:blur(20px);transition:filter 0.5s;margin-bottom:8px">👤</div>
+              <div id="mosaic-fields" style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);line-height:2"></div>
+              <div style="margin-top:10px">
+                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;margin-bottom:4px">IDENTITY EXPOSURE</div>
+                <div class="progress-track"><div class="progress-fill fill-red" id="mosaic-bar" style="width:0%"></div></div>
+                <div style="font-family:var(--font-display);font-size:20px;color:var(--red);margin-top:4px" id="mosaic-pct">0%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-cyan">🔗</div>
+            <div class="widget-title">Identity Correlation Meter</div>
+            <div class="widget-badge badge-live">REAL-TIME</div>
+          </div>
+          <div class="widget-body">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:14px">Cross-platform identity correlation. Identical artifacts across platforms = direct linkage.</div>
+            <div style="display:flex;flex-direction:column;gap:8px" id="correlation-meters">
+              <!-- Rendered by JS -->
+            </div>
+            <div style="margin-top:16px;padding:12px;background:rgba(0,0,0,0.3);border-radius:6px">
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:6px">LINKAGE PROBABILITY</div>
+              <div style="font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--red)" id="linkage-prob">0%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkpoint-banner" style="border-color:rgba(0,255,136,0.3);background:linear-gradient(135deg,rgba(0,255,136,0.06),rgba(0,255,136,0.02))">
+        <div class="checkpoint-icon">🧩</div>
+        <div class="checkpoint-text">
+          <div class="checkpoint-title" style="color:var(--green)">CHECKPOINT 05 — COMPARTMENT ARCHITECT</div>
+          <div class="checkpoint-sub">Demonstrate understanding of the mosaic effect and identity compartmentalization</div>
+        </div>
+        <button class="cyber-btn success" onclick="completeCheckpoint(5)">COMPLETE CHECKPOINT</button>
+      </div>
+    </div>
+
+    <!-- =========================================
+         MODULE 6: SURVEILLANCE & DETECTION
+    ========================================= -->
+    <div class="module-panel" id="module-6">
+      <div class="module-header">
+        <div><div class="module-tag" style="background:var(--red)">MODULE 06</div></div>
+        <div class="module-header-text">
+          <div class="module-title">Surveillance & <span style="color:var(--red);text-shadow:0 0 20px var(--red)">Detection</span></div>
+          <div class="module-tagline">// Real SOC operators read telemetry like music. Learn to distinguish signal from static, anomaly from baseline.</div>
+        </div>
+        <div class="module-xp-badge" style="border-color:rgba(255,51,102,0.3)"><div class="badge-xp" style="color:var(--red)">+1000</div><div class="badge-label">XP REWARD</div></div>
+      </div>
+
+      <!-- Live SOC Dashboard -->
+      <div class="widget span-full" style="margin-bottom:20px">
+        <div class="widget-header">
+          <div class="widget-icon icon-red">📺</div>
+          <div class="widget-title">Live SOC Telemetry Dashboard</div>
+          <div class="widget-badge badge-live">STREAMING</div>
+          <button class="cyber-btn sm" onclick="toggleTelemetry()" id="telem-btn" style="margin-left:auto">⏸ PAUSE</button>
+        </div>
+        <div class="widget-body">
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px">
+            <div>
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">LIVE EVENT STREAM</div>
+              <div id="telemetry-feed" style="max-height:220px;overflow-y:auto">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">SEVERITY DISTRIBUTION</div>
+              <div class="bar-chart" id="sev-chart">
+                <div class="bar-col">
+                  <div class="bar" style="height:40%;background:rgba(0,255,136,0.4)" id="b-low"></div>
+                  <div class="bar-label">LOW</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar" style="height:60%;background:rgba(0,229,255,0.4)" id="b-med"></div>
+                  <div class="bar-label">MED</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar" style="height:75%;background:rgba(255,170,0,0.4)" id="b-high"></div>
+                  <div class="bar-label">HIGH</div>
+                </div>
+                <div class="bar-col">
+                  <div class="bar" style="height:30%;background:rgba(255,51,102,0.4)" id="b-crit"></div>
+                  <div class="bar-label">CRIT</div>
+                </div>
+              </div>
+              <div style="margin-top:16px;display:flex;flex-direction:column;gap:6px">
+                <div class="metric-card"><div class="metric-val red-val" id="alert-count">0</div><div class="metric-label">ACTIVE ALERTS</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Anomaly Detection -->
+      <div class="widget-grid grid-2" style="margin-bottom:20px">
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-red">⚡</div>
+            <div class="widget-title">Anomaly Detection Simulator</div>
+            <div class="widget-badge badge-sim">SIMULATION</div>
+          </div>
+          <div class="widget-body">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:10px">Identify which data points deviate from baseline behavior. Click suspected anomalies.</div>
+            <svg id="anomaly-svg" width="100%" height="160" style="background:rgba(0,0,0,0.2);border-radius:6px;border:1px solid var(--border);cursor:pointer"></svg>
+            <div style="margin-top:10px;display:flex;gap:10px;align-items:center">
+              <button class="cyber-btn sm" onclick="generateAnomalyData()">REGENERATE</button>
+              <button class="cyber-btn sm amber" onclick="revealAnomalies()">REVEAL</button>
+              <div id="anomaly-score" style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-amber">📈</div>
+            <div class="widget-title">Baseline vs Abnormality</div>
+            <div class="widget-badge badge-interactive">COMPARE</div>
+          </div>
+          <div class="widget-body">
+            <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:10px">NETWORK BEHAVIOR COMPARISON</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div class="progress-wrap">
+                <div class="progress-label"><span style="color:var(--green)">▬ NORMAL LOGIN RATE</span><span>12/hr avg</span></div>
+                <div class="progress-track"><div class="progress-fill fill-green" style="width:15%"></div></div>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-label"><span style="color:var(--red)">▬ CURRENT LOGIN RATE</span><span style="color:var(--red)">847/hr ⚠️</span></div>
+                <div class="progress-track"><div class="progress-fill fill-red" style="width:100%"></div></div>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-label"><span style="color:var(--green)">▬ NORMAL DATA EGRESS</span><span>2MB/hr avg</span></div>
+                <div class="progress-track"><div class="progress-fill fill-green" style="width:8%"></div></div>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-label"><span style="color:var(--amber)">▬ CURRENT DATA EGRESS</span><span style="color:var(--amber)">892MB/hr ⚠️</span></div>
+                <div class="progress-track"><div class="progress-fill fill-amber" style="width:87%"></div></div>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-label"><span style="color:var(--green)">▬ NORMAL API CALLS</span><span>300/hr avg</span></div>
+                <div class="progress-track"><div class="progress-fill fill-green" style="width:30%"></div></div>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-label"><span style="color:var(--cyan)">▬ CURRENT API CALLS</span><span style="color:var(--cyan)">310/hr</span></div>
+                <div class="progress-track"><div class="progress-fill fill-cyan" style="width:31%"></div></div>
+              </div>
+            </div>
+            <div class="info-box danger" style="margin-bottom:0">
+              <b style="color:var(--red)">ALERT:</b> Brute-force pattern detected. Login rate 70× above baseline. Recommend immediate lockout policy trigger.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkpoint-banner" style="border-color:rgba(255,51,102,0.3);background:linear-gradient(135deg,rgba(255,51,102,0.06),rgba(255,51,102,0.02))">
+        <div class="checkpoint-icon">📺</div>
+        <div class="checkpoint-text">
+          <div class="checkpoint-title" style="color:var(--red)">CHECKPOINT 06 — SOC ANALYST</div>
+          <div class="checkpoint-sub">Identify 3+ anomalies in the detection simulator to earn analyst certification</div>
+        </div>
+        <button class="cyber-btn danger" onclick="completeCheckpoint(6)">COMPLETE CHECKPOINT</button>
+      </div>
+    </div>
+
+    <!-- =========================================
+         MODULE 7: OPERATOR MINDSET
+    ========================================= -->
+    <div class="module-panel" id="module-7">
+      <div class="module-header">
+        <div><div class="module-tag" style="background:linear-gradient(135deg,var(--cyan),var(--purple))">MODULE 07</div></div>
+        <div class="module-header-text">
+          <div class="module-title">Operator <span style="background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Mindset</span> & Decision-Making</div>
+          <div class="module-tagline">// Elite operators think in systems. They observe, orient, decide, and act faster than adversaries can respond.</div>
+        </div>
+        <div class="module-xp-badge" style="border-color:rgba(170,68,255,0.3)"><div class="badge-xp" style="color:var(--purple)">+1200</div><div class="badge-label">XP REWARD</div></div>
+      </div>
+
+      <!-- OODA Loop -->
+      <div class="widget-grid grid-2" style="margin-bottom:20px">
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-purple">🔁</div>
+            <div class="widget-title">OODA Loop Simulator</div>
+            <div class="widget-badge badge-sim">LIVE SIM</div>
+          </div>
+          <div class="widget-body">
+            <div class="ooda-container" id="ooda-container">
+              <svg id="ooda-svg" width="280" height="240" viewBox="0 0 280 240">
+                <defs>
+                  <marker id="ooda-arrow" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+                    <polygon points="0 0, 6 2, 0 4" fill="rgba(170,68,255,0.7)" />
+                  </marker>
+                </defs>
+                <!-- OODA circle connections -->
+                <path d="M 140 30 L 240 110" stroke="rgba(170,68,255,0.4)" stroke-width="1.5" fill="none" marker-end="url(#ooda-arrow)" stroke-dasharray="4,3"/>
+                <path d="M 240 110 L 140 190" stroke="rgba(170,68,255,0.4)" stroke-width="1.5" fill="none" marker-end="url(#ooda-arrow)" stroke-dasharray="4,3"/>
+                <path d="M 140 190 L 40 110" stroke="rgba(170,68,255,0.4)" stroke-width="1.5" fill="none" marker-end="url(#ooda-arrow)" stroke-dasharray="4,3"/>
+                <path d="M 40 110 L 140 30" stroke="rgba(170,68,255,0.4)" stroke-width="1.5" fill="none" marker-end="url(#ooda-arrow)" stroke-dasharray="4,3"/>
+                <!-- Feedback loop -->
+                <path d="M 240 110 Q 280 110 260 50 Q 240 -10 140 30" stroke="rgba(0,229,255,0.2)" stroke-width="1" fill="none" stroke-dasharray="3,4"/>
+
+                <!-- OBSERVE -->
+                <circle id="ooda-0" cx="140" cy="30" r="26" fill="rgba(170,68,255,0.08)" stroke="rgba(170,68,255,0.4)" stroke-width="2" cursor="pointer" onclick="activateOODA(0,this)"/>
+                <text x="140" y="27" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="rgba(170,68,255,0.9)" font-weight="bold">OBSERVE</text>
+                <text x="140" y="38" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="rgba(170,68,255,0.5)">data in</text>
+
+                <!-- ORIENT -->
+                <circle id="ooda-1" cx="238" cy="110" r="26" fill="rgba(170,68,255,0.08)" stroke="rgba(170,68,255,0.4)" stroke-width="2" cursor="pointer" onclick="activateOODA(1,this)"/>
+                <text x="238" y="107" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="rgba(170,68,255,0.9)" font-weight="bold">ORIENT</text>
+                <text x="238" y="118" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="rgba(170,68,255,0.5)">context</text>
+
+                <!-- DECIDE -->
+                <circle id="ooda-2" cx="140" cy="190" r="26" fill="rgba(170,68,255,0.08)" stroke="rgba(170,68,255,0.4)" stroke-width="2" cursor="pointer" onclick="activateOODA(2,this)"/>
+                <text x="140" y="187" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="rgba(170,68,255,0.9)" font-weight="bold">DECIDE</text>
+                <text x="140" y="198" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="rgba(170,68,255,0.5)">choose</text>
+
+                <!-- ACT -->
+                <circle id="ooda-3" cx="42" cy="110" r="26" fill="rgba(170,68,255,0.08)" stroke="rgba(170,68,255,0.4)" stroke-width="2" cursor="pointer" onclick="activateOODA(3,this)"/>
+                <text x="42" y="107" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="rgba(170,68,255,0.9)" font-weight="bold">ACT</text>
+                <text x="42" y="118" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="rgba(170,68,255,0.5)">execute</text>
+              </svg>
+            </div>
+            <div id="ooda-detail" class="info-box" style="border-left-color:var(--purple);background:rgba(170,68,255,0.03)">Click each OODA node to explore the decision cycle phases and elite operator techniques.</div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-amber">🎲</div>
+            <div class="widget-title">Probabilistic Decision Engine</div>
+            <div class="widget-badge badge-interactive">DECISION</div>
+          </div>
+          <div class="widget-body">
+            <div id="decision-scenario" style="background:rgba(0,0,0,0.3);border-radius:6px;padding:14px;margin-bottom:14px">
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">ACTIVE SCENARIO</div>
+              <div style="font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.5" id="scenario-text">An unknown process is making outbound connections to a foreign IP on port 4444. System shows no active user sessions. What is your first action?</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px" id="decision-options">
+              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:10px 14px;font-size:11px;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('A')">
+                A — Immediately terminate the process and isolate the host
+              </button>
+              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:10px 14px;font-size:11px;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('B')">
+                B — Monitor passively and capture full traffic for 30 minutes
+              </button>
+              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:10px 14px;font-size:11px;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('C')">
+                C — Snapshot memory, preserve evidence, then isolate
+              </button>
+              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:10px 14px;font-size:11px;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('D')">
+                D — Escalate to incident response team immediately
+              </button>
+            </div>
+            <div id="decision-result" class="info-box" style="display:none;margin-bottom:0"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Achievements row -->
+      <div class="widget" style="margin-bottom:20px">
+        <div class="widget-header">
+          <div class="widget-icon icon-amber">🏆</div>
+          <div class="widget-title">Operator Achievements</div>
+        </div>
+        <div class="widget-body">
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:10px" id="achievements">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Final Checkpoint -->
+      <div class="checkpoint-banner" style="background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(170,68,255,0.08));border-image:linear-gradient(90deg,var(--cyan),var(--purple)) 1">
+        <div class="checkpoint-icon">⭐</div>
+        <div class="checkpoint-text">
+          <div class="checkpoint-title" style="background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent">FINAL CHECKPOINT — ELITE OPERATOR CERTIFICATION</div>
+          <div class="checkpoint-sub">Complete all modules and scenarios to earn Elite Operator status and unlock classified materials</div>
+        </div>
+        <button class="cyber-btn" style="border-image:linear-gradient(90deg,var(--cyan),var(--purple)) 1" onclick="completeCheckpoint(7)">CERTIFY</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// =============================================
+// STATE
+// =============================================
+let xp = 1250;
+let checksCompleted = 0;
+let simsRun = 0;
+let traceNodes = [];
+let telemetryRunning = true;
+let telemetryInterval;
+let alertCount = 0;
+let draggedMeta = null;
+let currentModule = 1;
+
+const ranks = [
+  {xp:0, name:'TRAINEE'},
+  {xp:500, name:'ANALYST'},
+  {xp:1000, name:'SPECIALIST'},
+  {xp:1500, name:'OPERATOR'},
+  {xp:2000, name:'SENIOR OPS'},
+  {xp:2500, name:'ELITE'},
+  {xp:3000, name:'PHANTOM'}
+];
+
+// =============================================
+// BOOT SEQUENCE
+// =============================================
+const bootMsgs = [
+  {el:'b2', text:'<span>[NET]</span> Establishing secure tunnel... OK', delay:600},
+  {el:'b3', text:'<span>[MOD]</span> Loading 7 intelligence modules... OK', delay:1200},
+  {el:'b4', text:'<span>[OPS]</span> Operator environment ready. Welcome.', delay:1900}
+];
+
+bootMsgs.forEach(m => {
+  setTimeout(() => {
+    const el = document.getElementById(m.el);
+    if(el) el.innerHTML = m.text;
+  }, m.delay);
+});
+
+setTimeout(() => {
+  const boot = document.getElementById('boot-screen');
+  boot.classList.add('hidden');
+  setTimeout(() => boot.remove(), 1000);
+  initAll();
+}, 3000);
+
+// =============================================
+// INIT ALL
+// =============================================
+function initAll() {
+  initHeatmap();
+  initFingerprintGrid();
+  initIntelBoard();
+  initRiskMatrix();
+  initAnomalyChart();
+  initMosaicToggles();
+  initCorrelationMeters();
+  startTelemetry();
+  initSignalNoise();
+  initAchievements();
+  initAwarenessGraph();
+  initChainDetail();
+  updateDefense();
+}
+
+// =============================================
+// MODULE SWITCHING
+// =============================================
+function switchModule(n) {
+  const nav = document.getElementById('nav-' + n);
+  if(nav && nav.classList.contains('locked')) {
+    showNotification('🔒', 'MODULE LOCKED', 'Earn more XP to unlock this module');
+    return;
+  }
+  document.querySelectorAll('.module-nav-item').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.module-panel').forEach(el => el.classList.remove('active'));
+  document.getElementById('nav-'+n).classList.add('active');
+  document.getElementById('module-'+n).classList.add('active');
+  currentModule = n;
+  document.getElementById('active-module-label').textContent = 'MODULE 0' + n;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// =============================================
+// XP SYSTEM
+// =============================================
+function addXP(amount, x, y) {
+  xp += amount;
+  document.getElementById('xp-display').textContent = xp.toLocaleString();
+  const pct = ((xp % 500) / 500 * 100);
+  document.getElementById('xp-bar').style.width = pct + '%';
+  simsRun++;
+  document.getElementById('s-sims').textContent = simsRun;
+
+  // Rank update
+  let rank = ranks[0].name;
+  for(const r of ranks) { if(xp >= r.xp) rank = r.name; }
+  document.getElementById('rank-display').textContent = rank;
+
+  // Unlock modules
+  if(xp >= 500) unlockModule(3);
+  if(xp >= 1000) unlockModule(4);
+  if(xp >= 1500) unlockModule(5);
+  if(xp >= 2000) unlockModule(6);
+  if(xp >= 2500) unlockModule(7);
+
+  // Float XP text
+  if(x && y) {
+    const pop = document.createElement('div');
+    pop.className = 'xp-pop';
+    pop.textContent = '+' + amount + ' XP';
+    pop.style.left = x + 'px';
+    pop.style.top = y + 'px';
+    pop.style.position = 'fixed';
+    document.body.appendChild(pop);
+    setTimeout(() => pop.remove(), 1500);
+  }
+}
+
+function unlockModule(n) {
+  const nav = document.getElementById('nav-' + n);
+  if(nav && nav.classList.contains('locked')) {
+    nav.classList.remove('locked');
+    const sub = nav.querySelector('.module-nav-sub');
+    const labels = {3:'THREAT MODELING',4:'OSINT & INTEL',5:'IDENTITY OPS',6:'SURVEILLANCE',7:'OPERATOR ELITE'};
+    if(sub) sub.textContent = labels[n] || '';
+    showNotification('🔓', 'MODULE UNLOCKED', 'Module 0'+n+' is now accessible');
+  }
+}
+
+// =============================================
+// NOTIFICATIONS
+// =============================================
+function showNotification(icon, title, body) {
+  const notif = document.getElementById('notification');
+  document.getElementById('notif-icon').textContent = icon;
+  document.getElementById('notif-title').textContent = title;
+  document.getElementById('notif-body').textContent = body;
+  notif.classList.add('show');
+  setTimeout(() => notif.classList.remove('show'), 3500);
+}
+
+// =============================================
+// CHECKPOINTS
+// =============================================
+function completeCheckpoint(n) {
+  checksCompleted++;
+  document.getElementById('s-checks').textContent = checksCompleted + '/14';
+  addXP(250);
+  const nav = document.getElementById('nav-' + n);
+  if(nav) nav.classList.add('completed');
+  showNotification('🎯', 'CHECKPOINT COMPLETE', 'Module 0'+n+' checkpoint cleared. +250 XP');
+}
+
+// =============================================
+// MODULE 1: TRACE SIMULATOR
+// =============================================
+function addTraceNode(e) {
+  const canvas = document.getElementById('trace-canvas');
+  const rect = canvas.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+  const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+
+  const node = {x: parseFloat(x), y: parseFloat(y), id: traceNodes.length};
+  traceNodes.push(node);
+
+  const el = document.createElement('div');
+  el.className = 'trace-node';
+  el.style.left = x + '%';
+  el.style.top = y + '%';
+  el.dataset.id = node.id;
+
+  if(traceNodes.length % 3 === 0) el.classList.add('hot');
+  else if(traceNodes.length % 2 === 0) el.classList.add('warm');
+
+  canvas.appendChild(el);
+  updateTraceLines();
+  updateExposure();
+  addXP(10);
+  document.getElementById('trace-count').textContent = traceNodes.length;
+}
+
+function updateTraceLines() {
+  const svg = document.getElementById('trace-svg');
+  svg.innerHTML = '';
+  if(traceNodes.length < 2) return;
+  for(let i = 1; i < traceNodes.length; i++) {
+    const a = traceNodes[i-1], b = traceNodes[i];
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1', a.x + '%'); line.setAttribute('y1', a.y + '%');
+    line.setAttribute('x2', b.x + '%'); line.setAttribute('y2', b.y + '%');
+    line.setAttribute('stroke', 'rgba(0,255,136,0.25)');
+    line.setAttribute('stroke-width', '1');
+    line.setAttribute('stroke-dasharray', '4,3');
+    svg.appendChild(line);
+  }
+}
+
+function updateExposure() {
+  const n = traceNodes.length;
+  const exposure = Math.min(100, n * 8);
+  document.getElementById('exposure-score').textContent = exposure + '%';
+  const el = document.getElementById('exposure-score');
+  if(exposure < 30) { el.style.color = 'var(--green)'; document.getElementById('opsec-rating').textContent = 'A+'; document.getElementById('opsec-rating').style.color='var(--green)'; }
+  else if(exposure < 60) { el.style.color = 'var(--amber)'; document.getElementById('opsec-rating').textContent = 'C'; document.getElementById('opsec-rating').style.color='var(--amber)'; }
+  else { el.style.color = 'var(--red)'; document.getElementById('opsec-rating').textContent = 'F'; document.getElementById('opsec-rating').style.color='var(--red)'; }
+}
+
+function clearTraces() {
+  traceNodes = [];
+  const canvas = document.getElementById('trace-canvas');
+  canvas.querySelectorAll('.trace-node').forEach(el => el.remove());
+  document.getElementById('trace-svg').innerHTML = '';
+  document.getElementById('trace-count').textContent = '0';
+  document.getElementById('exposure-score').textContent = '0%';
+  document.getElementById('opsec-rating').textContent = 'A+';
+}
+
+function analyzeTraces() {
+  const v = document.getElementById('trace-verdict');
+  v.classList.add('show');
+  if(traceNodes.length === 0) {
+    v.className='verdict show fail'; v.textContent = '⚠ No traces to analyze. Generate trace nodes first.'; return;
+  }
+  if(traceNodes.length <= 3) {
+    v.className='verdict show pass'; v.textContent = '✓ Low trace density. Acceptable OPSEC posture. Pattern not attributable.';
+  } else if(traceNodes.length <= 7) {
+    v.className='verdict show fail'; v.textContent = '⚠ Moderate trace density. Correlation possible. Consider route randomization.';
+  } else {
+    v.className='verdict show fail'; v.textContent = '✗ HIGH EXPOSURE. Dense trace pattern creates clear attribution vector. Burn required.';
+  }
+  addXP(50);
+}
+
+function burnTrace() {
+  clearTraces();
+  const v = document.getElementById('trace-verdict');
+  v.className='verdict show pass';
+  v.textContent = '🔥 Traces burned. Canvas sanitized. No attributable pattern remains.';
+  addXP(30);
+  showNotification('🔥', 'TRACES BURNED', 'All trace data eliminated from canvas');
+}
+
+// =============================================
+// HEATMAP
+// =============================================
+const heatVectors = [
+  'GPS coordinates in EXIF data','Browser session cookie','Typing cadence fingerprint','IP address geolocation',
+  'Device MAC address','OS/Browser user-agent','Screen resolution hash','Font enumeration',
+  'Login timestamp pattern','Public WiFi MAC probe','Email metadata chain','DNS request timing',
+  'WebRTC local IP leak','Clipboard API access','Battery status API','Network interface info',
+  'Audio fingerprint hash','Canvas rendering hash','WebGL GPU hash','Social graph edge',
+  'Search query pattern','Purchase behavior cluster','Sleep schedule analysis','Location cluster pattern',
+  'Linguistic style markers','Writing time-of-day','Autocorrect dictionary','Contact graph',
+  'App usage patterns','Power consumption fingerprint','Accelerometer signature','Ambient noise hash',
+  'Face geometry embedding','Gait signature vector','Voiceprint analysis','Heart rate pattern',
+  'Keystroke dynamics','Mouse movement path','Scroll behavior hash','Click timing pattern',
+  'Tab focus pattern','Bookmark sync hash','Password reuse fingerprint','Recovery email chain',
+  'Payment fingerprint','Loyalty program ID','Delivery address cluster','Phone number metadata',
+  'SIM card IMSI','IMEI device ID','Cell tower triangulation','Bluetooth device scan',
+  'NFC payment ID','Public transit card','CCTV recognition vector','License plate scan',
+  'Academic record ID','Employment history','Medical record link','Insurance cross-ref',
+  'Voter registration','Tax ID cross-ref','Court record link','Social security trace',
+  'Criminal record check','Credit report fingerprint','Bank statement cluster','Investment portfolio',
+  'Vehicle registration','Real estate record','Domain registration','SSL cert history',
+  'WHOIS record data','Email breach correlation','Forum post history','Code commit hash',
+  'GitHub contribution graph','Package download pattern','CDN edge log','Email header chain',
+  'Sender policy record','DKIM signature','Certificate transparency','BGP routing fingerprint',
+  'Tor exit pattern','VPN usage signature','Proxy chain analysis','TLS handshake fingerprint',
+  'HTTP/2 settings frame','QUIC connection ID','Wi-Fi probe request','Bluetooth LE beacon',
+  'IoT device signature','Smart meter usage','Smart TV viewing','Smart speaker query',
+  'Home router log','ISP session log','Cloud sync metadata','Photo library hash',
+  'Contact list hash','Calendar event graph','Email thread analysis','App permission usage',
+  'Notification timing','Push token correlation','Ad ID tracking','Analytics session',
+  'Third-party pixel','Cookie sync network','Fingerprint canvas 2D','IndexedDB leak',
+  'Web Storage fingerprint','Service worker cache','Cache timing attack','Side-channel signal',
+  'Power analysis signal','Electromagnetic emission','Acoustic keyboard leak','Thermal imaging'
+];
+
+function initHeatmap() {
+  const grid = document.getElementById('heatmap');
+  grid.innerHTML = '';
+  const levels = [5,5,5,4,4,4,3,3,3,3,2,2,2,2,2,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  for(let i=0;i<144;i++) {
+    const cell = document.createElement('div');
+    const level = levels[i % levels.length] || Math.floor(Math.random() * 3);
+    cell.className = 'heatmap-cell heat-' + level;
+    cell.title = heatVectors[i % heatVectors.length];
+    const vec = heatVectors[i % heatVectors.length];
+    cell.onmouseenter = () => { document.getElementById('heatmap-tooltip').textContent = '⚡ ' + vec; };
+    cell.onmouseleave = () => { document.getElementById('heatmap-tooltip').textContent = ''; };
+    cell.onclick = () => addXP(5);
+    grid.appendChild(cell);
+  }
+}
+
+// =============================================
+// METADATA DRAG DROP
+// =============================================
+function dragMeta(e) {
+  draggedMeta = e.target;
+  e.target.classList.add('dragging');
+  e.dataTransfer.setData('text/plain', e.target.dataset.type);
+}
+
+function allowDrop(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('dragover');
+}
+
+document.addEventListener('dragleave', (e) => {
+  if(e.target.classList.contains('drag-zone')) e.target.classList.remove('dragover');
+});
+
+function dropMetadata(e, zone) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('dragover');
+  if(!draggedMeta) return;
+  draggedMeta.classList.remove('dragging');
+  const type = draggedMeta.dataset.type;
+  if(type === 'danger') draggedMeta.classList.add('danger');
+  else draggedMeta.classList.add('safe');
+  e.currentTarget.appendChild(draggedMeta);
+  draggedMeta = null;
+  addXP(15);
+}
+
+function checkMetadata() {
+  const danger = document.getElementById('danger-zone');
+  const safe = document.getElementById('safe-zone');
+  const dangerItems = danger.querySelectorAll('.drag-tag');
+  const safeItems = safe.querySelectorAll('.drag-tag');
+  let correct = 0, total = dangerItems.length + safeItems.length;
+  dangerItems.forEach(t => { if(t.dataset.type === 'danger') correct++; });
+  safeItems.forEach(t => { if(t.dataset.type === 'safe') correct++; });
+  const verdict = document.getElementById('meta-verdict');
+  verdict.classList.add('show');
+  if(total === 0) { verdict.className='verdict show fail'; verdict.textContent = '⚠ Drag items to classify them first.'; return; }
+  const pct = Math.round(correct/total*100);
+  if(pct >= 80) { verdict.className='verdict show pass'; verdict.textContent = '✓ ' + pct + '% CORRECT — Strong OPSEC classification ability'; addXP(100); }
+  else { verdict.className='verdict show fail'; verdict.textContent = '✗ ' + pct + '% CORRECT — Review metadata risk vectors'; }
+}
+
+// =============================================
+// OPSEC SCENARIOS
+// =============================================
+const scenarios = {
+  1: {txt:'A journalist photographs a document and shares it online. The photo EXIF data contains GPS coordinates from their home office. Intelligence analysts used this to locate the journalist within 3 hours.', color:'red'},
+  2: {txt:'An operator registers on a forum using the same handle they use on LinkedIn. A simple search correlates both accounts, revealing real identity, employer, and location history.', color:'amber'},
+  3: {txt:'A browser fingerprint is 1 in 286,777 globally. Despite using a VPN, the unique combination of fonts, WebGL renderer, and timezone creates an unambiguous identifier.', color:'amber'},
+  4: {txt:'Messages sent at specific times of day reveal timezone and work schedule. Pattern analysis over 2 weeks identified the operator\'s sleep schedule and country of origin.', color:'red'},
+  5: {txt:'Commenting on posts from specific accounts revealed social relationships. Graph analysis mapped 47 associates and inferred organizational structure without direct communication access.', color:'red'}
+};
+
+function showScenario(n) {
+  const s = scenarios[n];
+  const el = document.getElementById('scenario-detail');
+  el.style.display = 'block';
+  el.className = 'info-box ' + (s.color === 'red' ? 'danger' : 'warn');
+  el.innerHTML = '<b style="color:var(--'+(s.color==='red'?'red':'amber')+')">SCENARIO 0'+n+' DEBRIEF:</b><br>' + s.txt;
+  addXP(20);
+}
+
+// =============================================
+// MODULE 2: FINGERPRINT
+// =============================================
+function initFingerprintGrid() {
+  const grid = document.getElementById('fp-grid');
+  grid.innerHTML = '';
+  for(let i=0;i<64;i++) {
+    const cell = document.createElement('div');
+    cell.className = 'fp-cell';
+    const intensity = Math.random();
+    if(intensity > 0.85) cell.style.background = 'rgba(255,51,102,' + (0.4+Math.random()*0.5) + ')';
+    else if(intensity > 0.6) cell.style.background = 'rgba(255,170,0,' + (0.3+Math.random()*0.4) + ')';
+    else if(intensity > 0.35) cell.style.background = 'rgba(0,229,255,' + (0.2+Math.random()*0.3) + ')';
+    else cell.style.background = 'rgba(0,229,255,0.04)';
+    cell.onclick = () => { cell.style.background = 'rgba(0,255,136,0.3)'; addXP(5); };
+    grid.appendChild(cell);
+  }
+}
+
+function randomizeFP() {
+  initFingerprintGrid();
+  showNotification('🖐️', 'FINGERPRINT RANDOMIZED', 'New entropy vectors generated');
+  addXP(30);
+}
+
+function lockFP() {
+  showNotification('🔒', 'FINGERPRINT FROZEN', 'Canvas API blocked. Uniqueness reduced.');
+  addXP(20);
+}
+
+// =============================================
+// INTEL BOARD
+// =============================================
+const intelClues = [
+  {label:'IP: 185.220.x.x',color:'var(--red)',x:15,y:20},
+  {label:'Username: @0ptr',color:'var(--cyan)',x:60,y:15},
+  {label:'TZ: UTC+3',color:'var(--amber)',x:80,y:50},
+  {label:'OS: Linux x64',color:'var(--green)',x:20,y:60},
+  {label:'Forum post',color:'var(--purple)',x:50,y:70},
+  {label:'VPN exit node',color:'var(--amber)',x:70,y:80},
+];
+
+let intelNodes = [...intelClues];
+let confidence = 0;
+
+function initIntelBoard() {
+  renderIntelBoard();
+}
+
+function renderIntelBoard() {
+  const board = document.getElementById('intel-board');
+  board.querySelectorAll('.correlation-node').forEach(el => el.remove());
+  intelNodes.forEach((n,i) => {
+    const el = document.createElement('div');
+    el.className = 'correlation-node';
+    el.style.left = n.x + '%';
+    el.style.top = n.y + '%';
+    el.style.width = '64px'; el.style.height = '64px';
+    el.style.marginLeft = '-32px'; el.style.marginTop = '-32px';
+    el.style.background = n.color.replace(')',',0.12)').replace('var(','rgba(').replace('--red','255,51,102').replace('--cyan','0,229,255').replace('--amber','255,170,0').replace('--green','0,255,136').replace('--purple','170,68,255');
+    el.style.border = '1px solid ' + n.color;
+    el.style.color = n.color;
+    el.textContent = n.label;
+    el.onclick = () => { addXP(15); confidence = Math.min(95, confidence+12); document.getElementById('intel-score').textContent = 'CONFIDENCE: ' + confidence + '%'; };
+    board.appendChild(el);
+  });
+}
+
+function addIntelNode() {
+  const types = ['Browser fingerprint','Email header','Domain WHOIS','Certificate log','Pastebin dump','Social mention'];
+  const colors = ['var(--cyan)','var(--red)','var(--amber)','var(--green)','var(--purple)','var(--cyan)'];
+  const i = Math.floor(Math.random()*types.length);
+  intelNodes.push({label:types[i],color:colors[i],x:10+Math.random()*80,y:10+Math.random()*80});
+  renderIntelBoard();
+  addXP(25);
+}
+
+function connectNodes() {
+  confidence = Math.min(99, confidence + 20);
+  document.getElementById('intel-score').textContent = 'CONFIDENCE: ' + confidence + '%';
+  addXP(40);
+  showNotification('🔗', 'NODES CORRELATED', 'Attribution confidence increased to ' + confidence + '%');
+}
+
+function clearIntel() {
+  intelNodes = [...intelClues];
+  confidence = 0;
+  document.getElementById('intel-score').textContent = 'CONFIDENCE: 0%';
+  renderIntelBoard();
+}
+
+// =============================================
+// METADATA XRAY
+// =============================================
+const xrayData = {
+  photo: `> ANALYZING: vacation_2023.jpg
+> File Size: 4.2MB
+> Dimensions: 4032x3024px
+
+[METADATA EXTRACTED]
+Make: Apple
+Model: iPhone 14 Pro
+GPS.Latitude: 40.7589° N      ← CRITICAL
+GPS.Longitude: -73.9851° E    ← CRITICAL
+GPS.Altitude: 42m
+DateTime: 2023-08-14 14:23:11 ← HIGH RISK
+Software: iOS 16.4.1           ← MEDIUM
+Artist: john.doe               ← CRITICAL
+UserComment: Meeting at HQ     ← HIGH RISK
+
+[!] 4 critical attribution vectors found`,
+  doc: `> ANALYZING: report_final.docx
+> File Size: 892KB
+
+[METADATA EXTRACTED]
+Creator: John Doe              ← CRITICAL
+LastModifiedBy: j.doe@corp.com ← CRITICAL
+Company: Acme Corp             ← HIGH RISK
+Created: 2023-11-02T09:14:00Z  ← MEDIUM
+Modified: 2023-11-02T16:33:22Z ← MEDIUM
+Revision: 23                   ← LOW
+Template: Corporate_v2.dotx    ← MEDIUM
+Manager: Jane Smith            ← HIGH RISK
+
+[!] Identity chain reconstructible from metadata`,
+  pdf: `> ANALYZING: contract_unsigned.pdf
+> File Size: 1.1MB
+
+[METADATA EXTRACTED]
+Producer: Adobe Acrobat 22.001 ← LOW
+Creator: Microsoft Word 2021   ← MEDIUM
+Author: Michael Torres         ← CRITICAL
+Subject: Classified Project X  ← CRITICAL
+Keywords: confidential;2024    ← HIGH RISK
+CreationDate: 2024-01-07       ← MEDIUM
+ModDate: 2024-01-08            ← MEDIUM
+Trapped: False
+[XMP] dc:creator: m.torres@... ← CRITICAL
+
+[!] Document origin traceable to specific workstation`,
+  audio: `> ANALYZING: recording_01.mp3
+> Duration: 4m 22s
+
+[METADATA EXTRACTED]
+Title: Team Briefing            ← HIGH RISK
+Artist: Operations Team         ← HIGH RISK
+Album: Internal Recordings      ← CRITICAL
+Year: 2024
+Comment: Do not distribute      ← CRITICAL
+Encoder: LAME 3.100             ← LOW
+Software: Audacity 3.3.2        ← LOW
+[PRIV] Content-ID: UID-77281-X  ← HIGH RISK
+[GEOB] Recording Location data  ← CRITICAL
+
+[!] Audio fingerprint + metadata enables attribution`
+};
+
+function showXray(type) {
+  const el = document.getElementById('xray-result');
+  el.innerHTML = '';
+  const lines = xrayData[type].split('\n');
+  let delay = 0;
+  lines.forEach(line => {
+    setTimeout(() => {
+      const p = document.createElement('p');
+      p.className = 't-line';
+      if(line.includes('CRITICAL')) p.className = 't-line t-err';
+      else if(line.includes('HIGH RISK')) p.className = 't-line t-warn';
+      else if(line.includes('MEDIUM')) p.className = 't-line t-info';
+      else if(line.includes('[!]')) { p.className = 't-line t-warn'; }
+      else if(line.startsWith('>')) p.className = 't-line t-prompt';
+      else p.className = 't-line t-output';
+      p.textContent = line;
+      el.appendChild(p);
+      el.scrollTop = el.scrollHeight;
+    }, delay);
+    delay += 80;
+  });
+  addXP(30);
+}
+
+// =============================================
+// STYLOMETRY
+// =============================================
+function updateStylemetry() {
+  const v = parseInt(document.getElementById('vocab-slider').value);
+  const s = parseInt(document.getElementById('sent-slider').value);
+  const p = parseInt(document.getElementById('punct-slider').value);
+  const conf = Math.round((v * 0.4 + s * 0.3 + p * 0.3));
+  const el = document.getElementById('stylometry-conf');
+  el.textContent = conf + '%';
+  if(conf > 75) el.style.color = 'var(--red)';
+  else if(conf > 50) el.style.color = 'var(--amber)';
+  else el.style.color = 'var(--green)';
+}
+
+// =============================================
+// MODULE 3: THREAT MODELING
+// =============================================
+const chainData = [
+  {title:'Reconnaissance',desc:'Passive and active information gathering. OSINT, DNS enumeration, port scanning. Objective: map the attack surface without triggering alerts.'},
+  {title:'Weaponization',desc:'Combining exploit with payload. Selecting delivery mechanism. Custom C2 framework compilation. Zero-day selection for target environment.'},
+  {title:'Delivery',desc:'Phishing campaign deployment. Supply chain injection. Physical media drop. Watering hole attack setup. Timing with social engineering.'},
+  {title:'Exploitation',desc:'Vulnerability trigger. Privilege escalation attempt. Initial code execution. Bypass of security controls. LOLBins usage to evade EDR.'},
+  {title:'C2 Establishment',desc:'Beacon deployment. Encrypted channel creation. Persistence mechanism installation. Anti-forensics activation. Fallback channels setup.'},
+  {title:'Exfiltration',desc:'Data staging in encrypted containers. Low-and-slow transfer to blend with baseline. Steganographic encoding for covert egress. Cover tracks.'}
+];
+
+let activeChainSteps = new Set([0]);
+
+function initChainDetail() {
+  const detail = document.getElementById('chain-detail');
+  detail.textContent = 'Click a chain step above to explore its tactical details.';
+}
+
+function activateChain(n, el) {
+  activeChainSteps.add(n);
+  document.querySelectorAll('.chain-node').forEach(e => {
+    const s = parseInt(e.dataset.step);
+    if(activeChainSteps.has(s)) { e.classList.add('active'); e.classList.add('compromised'); }
+  });
+  el.classList.add('compromised');
+  const detail = document.getElementById('chain-detail');
+  detail.textContent = '[ STEP ' + (n+1) + ' — ' + chainData[n].title.toUpperCase() + ' ] ' + chainData[n].desc;
+  document.getElementById('attack-vectors').textContent = activeChainSteps.size;
+  const risk = Math.min(99, activeChainSteps.size * 16);
+  document.getElementById('threat-score').textContent = risk;
+  addXP(25);
+}
+
+function setMode(mode, btn) {
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const ctx = document.getElementById('mode-context');
+  const modes = {
+    attacker: '<b style="color:var(--amber)">ATTACKER MODE:</b> You are modeling threats from an adversarial perspective. Identify attack surfaces, entry points, and lateral movement paths.',
+    defender: '<b style="color:var(--green)">DEFENDER MODE:</b> You are implementing protective countermeasures. Map your defensive perimeter, detection capabilities, and response playbooks.',
+    investigator: '<b style="color:var(--cyan)">INVESTIGATOR MODE:</b> You are reconstructing events post-incident. Follow evidence chains, preserve forensic artifacts, and establish timeline attribution.'
+  };
+  ctx.innerHTML = modes[mode];
+  addXP(15);
+}
+
+// =============================================
+// RISK MATRIX
+// =============================================
+function initRiskMatrix() {
+  const matrix = document.getElementById('risk-matrix');
+  matrix.innerHTML = '';
+  const levels = [
+    [0,0,1,1,2],[0,1,1,2,3],[1,1,2,3,4],[1,2,3,4,4],[2,3,4,4,4]
+  ];
+  const labels = ['','','','','','LOW','MED','HIGH','CRIT'];
+  const names = [['min/rare','','','',''],['','','','',''],['','','','',''],['','','','',''],['crit/certain','','','','']];
+  for(let r=4;r>=0;r--) {
+    for(let c=0;c<5;c++) {
+      const cell = document.createElement('div');
+      const lvl = levels[r][c];
+      cell.className = 'risk-cell ' + ['risk-low','risk-low','risk-med','risk-high','risk-crit'][lvl];
+      cell.title = 'Likelihood: ' + ['Rare','Unlikely','Possible','Likely','Certain'][c] + ' | Impact: ' + ['Minimal','Low','Medium','High','Critical'][r];
+      cell.textContent = ['L','L','M','H','C'][lvl];
+      cell.onclick = () => {
+        matrix.querySelectorAll('.risk-active').forEach(e => e.classList.remove('risk-active'));
+        cell.classList.add('risk-active');
+        document.getElementById('risk-detail').textContent = cell.title;
+        addXP(10);
+      };
+      matrix.appendChild(cell);
+    }
+  }
+}
+
+// =============================================
+// DEFENSE SIMULATOR
+// =============================================
+function updateDefense() {
+  const checks = [document.getElementById('def-0'), document.getElementById('def-1'), document.getElementById('def-2'), document.getElementById('def-3')];
+  const values = [85, 72, 68, 91];
+  let totalReduction = 1;
+  checks.forEach((c, i) => {
+    if(c && c.checked) totalReduction *= (1 - values[i]/100);
+    const bar = document.getElementById('def-bar-' + i);
+    if(bar) bar.style.width = (c && c.checked ? values[i] : 0) + '%';
+  });
+  const penetrationProb = (totalReduction * 100).toFixed(1);
+  document.getElementById('pen-prob').textContent = penetrationProb + '%';
+  document.getElementById('pen-bar').style.width = Math.min(100, penetrationProb*2) + '%';
+  const el = document.getElementById('pen-prob');
+  if(penetrationProb < 10) el.style.color = 'var(--green)';
+  else if(penetrationProb < 30) el.style.color = 'var(--amber)';
+  else el.style.color = 'var(--red)';
+}
+
+// =============================================
+// MODULE 4: OSINT
+// =============================================
+const intelCycleData = [
+  'DIRECTION: Intelligence requirements are established. Commanders define Priority Intelligence Requirements (PIRs). Collection assets are tasked based on information gaps.',
+  'COLLECTION: Raw information is gathered from all available sources: HUMINT, SIGINT, OSINT, IMINT. Data is logged, timestamped, and reliability-rated.',
+  'ANALYSIS: Raw data is processed into actionable intelligence. Pattern recognition, correlation, and deduction are applied. Confidence levels are assigned.',
+  'DISSEMINATION: Finished intelligence products are distributed to decision-makers. Format adapted to consumer needs. Feedback loop initiated for refinement.'
+];
+
+function activateIntelCycle(n) {
+  for(let i=0;i<4;i++) {
+    const el = document.getElementById('ic-' + i);
+    if(el) el.style.fill = i===n ? 'rgba(0,229,255,0.2)' : 'rgba(0,229,255,0.08)';
+  }
+  document.getElementById('intel-cycle-detail').textContent = intelCycleData[n];
+  addXP(20);
+}
+
+// SIGNAL VS NOISE
+const snItems = [
+  {text:'Target IP logged 847 failed SSH attempts in 4 hours', signal:true},
+  {text:'Server CPU usage at 62% — within normal parameters', signal:false},
+  {text:'New domain registered: corp-login-secure[.]com', signal:true},
+  {text:'Standard patch Tuesday update applied to 40 endpoints', signal:false},
+  {text:'Admin account accessed from 3 different continents in 2 hours', signal:true},
+  {text:'Marketing email campaign generated 15,000 clicks', signal:false},
+  {text:'Database exported 4.2GB at 03:17 local time', signal:true},
+  {text:'Weekly backup completed successfully to offsite storage', signal:false}
+];
+
+let snAnswers = {};
+
+function initSignalNoise() {
+  const container = document.getElementById('snoise-items');
+  container.innerHTML = '';
+  snItems.forEach((item, i) => {
+    const row = document.createElement('div');
+    row.style.display = 'flex';
+    row.style.gap = '8px';
+    row.style.alignItems = 'center';
+
+    const text = document.createElement('div');
+    text.style.flex = '1';
+    text.style.fontFamily = 'var(--font-mono)';
+    text.style.fontSize = '10px';
+    text.style.color = 'var(--text-secondary)';
+    text.style.lineHeight = '1.4';
+    text.textContent = item.text;
+
+    const btnS = document.createElement('button');
+    btnS.className = 'cyber-btn sm success';
+    btnS.textContent = 'SIGNAL';
+    btnS.onclick = () => { snAnswers[i] = true; btnS.style.borderWidth='2px'; btnN.style.borderWidth='1px'; };
+
+    const btnN = document.createElement('button');
+    btnN.className = 'cyber-btn sm';
+    btnN.textContent = 'NOISE';
+    btnN.onclick = () => { snAnswers[i] = false; btnN.style.borderWidth='2px'; btnS.style.borderWidth='1px'; };
+
+    row.appendChild(text); row.appendChild(btnS); row.appendChild(btnN);
+    container.appendChild(row);
+  });
+}
+
+function checkSignals() {
+  let correct = 0;
+  snItems.forEach((item, i) => {
+    if(snAnswers[i] === item.signal) correct++;
+  });
+  const pct = Math.round(correct/snItems.length*100);
+  const verdict = document.getElementById('signal-verdict');
+  verdict.classList.add('show');
+  if(pct >= 80) {
+    verdict.className='verdict show pass';
+    verdict.textContent = '✓ ' + correct + '/' + snItems.length + ' — Excellent signal discrimination';
+    addXP(150);
+  } else {
+    verdict.className='verdict show fail';
+    verdict.textContent = '✗ ' + correct + '/' + snItems.length + ' — Review anomaly detection concepts';
+  }
+  updateAwarenessGraph(correct, snItems.length - correct);
+}
+
+// AWARENESS GRAPH
+function initAwarenessGraph() {
+  updateAwarenessGraph(0, 0);
+}
+
+function updateAwarenessGraph(sigs, noise) {
+  const svg = document.getElementById('awareness-svg');
+  if(!svg) return;
+  const W = svg.clientWidth || 800, H = 200;
+  svg.innerHTML = '';
+  const points = 40;
+  const ns = 'http://www.w3.org/2000/svg';
+
+  // Baseline wave
+  let basePath = 'M ';
+  for(let i=0;i<points;i++) {
+    const x = (i/(points-1))*W;
+    const y = H/2 + Math.sin(i*0.4)*15 + Math.sin(i*0.7)*8;
+    basePath += x + ',' + y + (i<points-1?' L ':'');
+  }
+  const base = document.createElementNS(ns,'path');
+  base.setAttribute('d', basePath);
+  base.setAttribute('stroke','rgba(0,255,136,0.3)');
+  base.setAttribute('stroke-width','1.5');
+  base.setAttribute('fill','none');
+  base.setAttribute('stroke-dasharray','4,3');
+  svg.appendChild(base);
+
+  // Anomaly spikes
+  const spikeCount = sigs;
+  for(let s=0;s<Math.min(spikeCount,8);s++) {
+    const x = 50 + (s/8)*( W-100);
+    const spikeLine = document.createElementNS(ns,'line');
+    spikeLine.setAttribute('x1', x); spikeLine.setAttribute('y1', H/2+10);
+    spikeLine.setAttribute('x2', x); spikeLine.setAttribute('y2', H/2 - 40 - Math.random()*40);
+    spikeLine.setAttribute('stroke','rgba(255,51,102,0.8)');
+    spikeLine.setAttribute('stroke-width','2');
+    svg.appendChild(spikeLine);
+    const dot = document.createElementNS(ns,'circle');
+    dot.setAttribute('cx', x); dot.setAttribute('cy', H/2 - 40 - Math.random()*40);
+    dot.setAttribute('r','4');
+    dot.setAttribute('fill','var(--red)');
+    svg.appendChild(dot);
+  }
+
+  // Update counters
+  document.getElementById('sources-count').textContent = Math.max(0, sigs+noise);
+  document.getElementById('signals-count').textContent = sigs;
+  document.getElementById('confirmed-count').textContent = Math.max(0, sigs-1);
+  document.getElementById('noise-count').textContent = noise;
+}
+
+// =============================================
+// MODULE 5: MOSAIC
+// =============================================
+const mosaicPieces = [
+  {label:'First Name', field:'John', weight:8},
+  {label:'Location City', field:'New York, NY', weight:14},
+  {label:'Work Industry', field:'Technology sector', weight:10},
+  {label:'Age Bracket', field:'31-35 years old', weight:7},
+  {label:'Photo Taken', field:'iPhone 14 Pro camera', weight:12},
+  {label:'Writing Style', field:'Technical, high vocab', weight:15},
+  {label:'Active Hours', field:'EST timezone, 9AM-11PM', weight:18},
+  {label:'Interests', field:'Cybersecurity, hiking', weight:16}
+];
+
+function initMosaicToggles() {
+  const container = document.getElementById('mosaic-toggles');
+  container.innerHTML = '';
+  mosaicPieces.forEach((piece, i) => {
+    const wrap = document.createElement('div');
+    wrap.style.display = 'flex';
+    wrap.style.alignItems = 'center';
+    wrap.style.gap = '8px';
+    wrap.style.cursor = 'pointer';
+
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.id = 'mc-' + i;
+    cb.style.cursor = 'pointer';
+    cb.onchange = updateMosaic;
+
+    const label = document.createElement('label');
+    label.htmlFor = 'mc-' + i;
+    label.style.fontFamily = 'var(--font-mono)';
+    label.style.fontSize = '10px';
+    label.style.color = 'var(--text-secondary)';
+    label.style.cursor = 'pointer';
+    label.textContent = piece.label;
+
+    wrap.appendChild(cb); wrap.appendChild(label);
+    container.appendChild(wrap);
+  });
+}
+
+function updateMosaic() {
+  let totalWeight = 0, activeFields = [];
+  mosaicPieces.forEach((piece, i) => {
+    const cb = document.getElementById('mc-' + i);
+    if(cb && cb.checked) { totalWeight += piece.weight; activeFields.push(piece.field); }
+  });
+  const pct = Math.min(100, totalWeight);
+  document.getElementById('mosaic-bar').style.width = pct + '%';
+  document.getElementById('mosaic-pct').textContent = pct + '%';
+  document.getElementById('mosaic-portrait').style.filter = 'blur(' + Math.max(0, 20 - pct*0.2) + 'px)';
+  const fields = document.getElementById('mosaic-fields');
+  fields.innerHTML = activeFields.map(f => '<span style="color:var(--cyan)">» </span>' + f + '<br>').join('');
+  if(pct > 0) addXP(5);
+
+  // Update linkage
+  updateLinkage(pct);
+}
+
+// =============================================
+// MODULE 5: CORRELATION METERS
+// =============================================
+const correlationItems = [
+  {label:'Username reuse', platforms:['Reddit','Twitter','GitHub']},
+  {label:'Profile photo hash', platforms:['LinkedIn','Facebook']},
+  {label:'Writing style fingerprint', platforms:['Forum','Blog']},
+  {label:'Behavioral timing pattern', platforms:['Telegram','Signal']},
+];
+
+function initCorrelationMeters() {
+  const container = document.getElementById('correlation-meters');
+  container.innerHTML = '';
+  correlationItems.forEach((item, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'progress-wrap';
+    wrap.style.marginBottom = '10px';
+
+    const row = document.createElement('div');
+    row.className = 'progress-label';
+    row.innerHTML = '<span>' + item.label + '</span><span style="color:var(--text-dim)">' + item.platforms.join(' + ') + '</span>';
+
+    const track = document.createElement('div');
+    track.className = 'progress-track';
+    const fill = document.createElement('div');
+    const pct = 30 + Math.random() * 60;
+    fill.className = 'progress-fill ' + (pct > 70 ? 'fill-red' : pct > 50 ? 'fill-amber' : 'fill-cyan');
+    fill.style.width = '0%';
+    fill.dataset.target = pct.toFixed(0);
+    fill.id = 'corr-bar-' + i;
+    track.appendChild(fill);
+
+    wrap.appendChild(row); wrap.appendChild(track);
+    container.appendChild(wrap);
+
+    setTimeout(() => { fill.style.width = pct + '%'; }, 300 + i*150);
+  });
+}
+
+function updateLinkage(pct) {
+  const linkage = Math.min(99, Math.round(pct * 0.9));
+  document.getElementById('linkage-prob').textContent = linkage + '%';
+  const el = document.getElementById('linkage-prob');
+  if(linkage > 70) el.style.color = 'var(--red)';
+  else if(linkage > 40) el.style.color = 'var(--amber)';
+  else el.style.color = 'var(--green)';
+}
+
+// =============================================
+// MODULE 6: SOC TELEMETRY
+// =============================================
+const telemetryEvents = [
+  {sev:'crit', event:'Privilege escalation attempt — SYSTEM → root', src:'192.168.1.47'},
+  {sev:'high', event:'Outbound connection to known C2 IP', src:'10.0.0.23'},
+  {sev:'crit', event:'Ransomware behavior signature detected', src:'WKST-007'},
+  {sev:'med', event:'Failed authentication × 12 in 60s', src:'vpn.corp.local'},
+  {sev:'high', event:'Large data transfer to external S3 bucket', src:'DB-PROD-01'},
+  {sev:'low', event:'Scheduled task modified by admin', src:'ADMIN-PC-01'},
+  {sev:'med', event:'DNS resolution for suspicious domain', src:'192.168.5.12'},
+  {sev:'high', event:'Process injection: svchost → powershell.exe', src:'WORKSTATION-14'},
+  {sev:'low', event:'USB storage device connected', src:'HR-PC-03'},
+  {sev:'crit', event:'Defense evasion: AMSI bypass detected', src:'MAIL-SVR-01'},
+  {sev:'med', event:'Lateral movement: SMB brute force detected', src:'192.168.1.100'},
+  {sev:'high', event:'Credential dump attempt — LSASS memory read', src:'SRV-DC-01'},
+];
+
+let sevCounts = {low:0, med:0, high:0, crit:0};
+
+function startTelemetry() {
+  const feed = document.getElementById('telemetry-feed');
+  if(!feed) return;
+  feed.innerHTML = '';
+  telemetryInterval = setInterval(() => {
+    if(!telemetryRunning) return;
+    const ev = telemetryEvents[Math.floor(Math.random() * telemetryEvents.length)];
+    const now = new Date();
+    const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
+
+    const row = document.createElement('div');
+    row.className = 'telemetry-row';
+
+    const t = document.createElement('span'); t.className = 'telemetry-time'; t.textContent = time;
+    const dot = document.createElement('div'); dot.className = 'telemetry-sev sev-' + ev.sev;
+    const e = document.createElement('span'); e.className = 'telemetry-event'; e.textContent = ev.event;
+    const s = document.createElement('span'); s.className = 'telemetry-src'; s.textContent = ev.src;
+
+    row.appendChild(t); row.appendChild(dot); row.appendChild(e); row.appendChild(s);
+    feed.insertBefore(row, feed.firstChild);
+
+    // Keep only 20 items
+    while(feed.children.length > 20) feed.removeChild(feed.lastChild);
+
+    // Update counts
+    sevCounts[ev.sev]++;
+    alertCount += (ev.sev === 'crit' || ev.sev === 'high') ? 1 : 0;
+    document.getElementById('alert-count').textContent = alertCount;
+    updateSevChart();
+  }, 1200);
+}
+
+function updateSevChart() {
+  const max = Math.max(1, sevCounts.low + sevCounts.med + sevCounts.high + sevCounts.crit);
+  document.getElementById('b-low').style.height = Math.max(4, sevCounts.low/max*100) + '%';
+  document.getElementById('b-med').style.height = Math.max(4, sevCounts.med/max*100) + '%';
+  document.getElementById('b-high').style.height = Math.max(4, sevCounts.high/max*100) + '%';
+  document.getElementById('b-crit').style.height = Math.max(4, sevCounts.crit/max*100) + '%';
+}
+
+function toggleTelemetry() {
+  telemetryRunning = !telemetryRunning;
+  document.getElementById('telem-btn').textContent = telemetryRunning ? '⏸ PAUSE' : '▶ RESUME';
+}
+
+// =============================================
+// ANOMALY CHART
+// =============================================
+let anomalyData = [];
+let selectedAnomalies = new Set();
+let trueAnomalies = new Set();
+
+function initAnomalyChart() { generateAnomalyData(); }
+
+function generateAnomalyData() {
+  anomalyData = [];
+  trueAnomalies = new Set();
+  selectedAnomalies = new Set();
+  const svg = document.getElementById('anomaly-svg');
+  if(!svg) return;
+  const W = svg.clientWidth || 400, H = 160;
+  svg.innerHTML = '';
+  const ns = 'http://www.w3.org/2000/svg';
+
+  // Generate baseline + anomaly points
+  for(let i=0;i<50;i++) {
+    const isAnomaly = Math.random() < 0.12;
+    const x = 20 + (i/49)*(W-40);
+    const y = isAnomaly ? (10 + Math.random()*30) : (H/2 - 20 + Math.random()*40);
+    anomalyData.push({x, y, isAnomaly, i});
+    if(isAnomaly) trueAnomalies.add(i);
+
+    const circle = document.createElementNS(ns,'circle');
+    circle.setAttribute('cx', x); circle.setAttribute('cy', y);
+    circle.setAttribute('r','5');
+    circle.setAttribute('fill', 'rgba(0,229,255,0.4)');
+    circle.setAttribute('stroke', 'rgba(0,229,255,0.2)');
+    circle.setAttribute('cursor','pointer');
+    circle.dataset.idx = i;
+    circle.onclick = function() {
+      const idx = parseInt(this.dataset.idx);
+      if(selectedAnomalies.has(idx)) {
+        selectedAnomalies.delete(idx);
+        this.setAttribute('fill', 'rgba(0,229,255,0.4)');
+        this.setAttribute('stroke', 'rgba(0,229,255,0.2)');
+      } else {
+        selectedAnomalies.add(idx);
+        this.setAttribute('fill', 'rgba(255,170,0,0.8)');
+        this.setAttribute('stroke', 'rgba(255,170,0,0.5)');
+      }
+      addXP(5);
+    };
+    svg.appendChild(circle);
+  }
+
+  // Baseline line
+  const basePath = document.createElementNS(ns,'line');
+  basePath.setAttribute('x1','20'); basePath.setAttribute('y1', H/2);
+  basePath.setAttribute('x2', W-20); basePath.setAttribute('y2', H/2);
+  basePath.setAttribute('stroke','rgba(0,255,136,0.2)');
+  basePath.setAttribute('stroke-width','1');
+  basePath.setAttribute('stroke-dasharray','6,4');
+  svg.insertBefore(basePath, svg.firstChild);
+
+  document.getElementById('anomaly-score').textContent = '';
+}
+
+function revealAnomalies() {
+  let correct = 0;
+  selectedAnomalies.forEach(idx => { if(trueAnomalies.has(idx)) correct++; });
+  const precision = selectedAnomalies.size > 0 ? Math.round(correct/selectedAnomalies.size*100) : 0;
+  const recall = trueAnomalies.size > 0 ? Math.round(correct/trueAnomalies.size*100) : 0;
+  document.getElementById('anomaly-score').textContent = `Precision: ${precision}% | Recall: ${recall}% | True anomalies: ${trueAnomalies.size}`;
+  addXP(80);
+  showNotification('⚡', 'ANOMALY ANALYSIS', `Found ${correct}/${trueAnomalies.size} true anomalies`);
+}
+
+// =============================================
+// MODULE 7: OODA
+// =============================================
+const oodaData = [
+  'OBSERVE: Collect unfiltered raw data from all sensors. Direct observation bypasses assumptions. Gather telemetry, logs, visual signals, and environmental context before any interpretation.',
+  'ORIENT: Apply mental models, past experience, cultural context, and analysis to raw data. This is the most critical phase — orientation shapes all subsequent decisions. Cognitive biases manifest here.',
+  'DECIDE: Select from a range of possible actions. Elite operators develop pre-planned decision trees to minimize decision latency. Speed of decision-making is a force multiplier.',
+  'ACT: Execute the chosen action with precision. Monitor feedback loops. Feed action outcomes back into Observe phase to complete the cycle. Faster cycle = tactical advantage.'
+];
+
+function activateOODA(n, circle) {
+  for(let i=0;i<4;i++) {
+    const el = document.getElementById('ooda-' + i);
+    if(el) el.style.fill = 'rgba(170,68,255,0.08)';
+  }
+  circle.style.fill = 'rgba(170,68,255,0.25)';
+  document.getElementById('ooda-detail').textContent = oodaData[n];
+  addXP(20);
+}
+
+// DECISION ENGINE
+const decisions = {
+  A: {quality:'acceptable', text:'Terminating the process stops active exfiltration but destroys volatile evidence. You preserve the system but lose forensic artifacts in memory. Acceptable in high-stakes environments but not optimal.'},
+  B: {quality:'risky', text:'Passive monitoring risks extended dwell time and ongoing data loss. In an active incident, 30 minutes can mean gigabytes of sensitive data exfiltrated. Not recommended.'},
+  C: {quality:'optimal', text:'OPTIMAL RESPONSE: Memory snapshot preserves the process state, command line, network connections, and injected code. Isolation prevents further damage. This follows forensic best practice while minimizing damage.'},
+  D: {quality:'acceptable', text:'Escalation is appropriate but should accompany immediate containment. Escalating without containment allows the threat actor to maintain access. Combine with memory snapshot and isolation.'}
+};
+
+function decisionChoice(choice) {
+  const result = decisions[choice];
+  const el = document.getElementById('decision-result');
+  el.style.display = 'block';
+  if(result.quality === 'optimal') {
+    el.className = 'info-box'; el.innerHTML = '<b style="color:var(--green)">✓ OPTIMAL DECISION</b><br>' + result.text;
+    addXP(100); showNotification('⭐', 'ELITE DECISION', 'Optimal response selected. +100 XP');
+  } else if(result.quality === 'risky') {
+    el.className = 'info-box danger'; el.innerHTML = '<b style="color:var(--red)">✗ RISKY DECISION</b><br>' + result.text;
+  } else {
+    el.className = 'info-box warn'; el.innerHTML = '<b style="color:var(--amber)">△ ACCEPTABLE DECISION</b><br>' + result.text;
+    addXP(40);
+  }
+}
+
+// =============================================
+// ACHIEVEMENTS
+// =============================================
+const achievementList = [
+  {icon:'🔍', name:'TRACE ANALYST', unlocked: false},
+  {icon:'🖐️', name:'FP HUNTER', unlocked: false},
+  {icon:'⚔️', name:'THREAT ARCH', unlocked: false},
+  {icon:'📡', name:'INTEL OPS', unlocked: false},
+  {icon:'🧩', name:'COMPARTMENT', unlocked: false},
+  {icon:'📺', name:'SOC ANALYST', unlocked: false},
+  {icon:'⭐', name:'ELITE OPS', unlocked: false},
+];
+
+function initAchievements() {
+  const container = document.getElementById('achievements');
+  if(!container) return;
+  container.innerHTML = '';
+  achievementList.forEach((a, i) => {
+    const badge = document.createElement('div');
+    badge.className = 'achievement-badge' + (a.unlocked ? ' unlocked' : '');
+    badge.id = 'achieve-' + i;
+    badge.innerHTML = '<div class="badge-icon">' + a.icon + '</div><div class="badge-name">' + a.name + '</div>';
+    badge.onclick = () => { badge.classList.add('unlocked'); addXP(20, window.innerWidth/2, window.innerHeight/2); };
+    container.appendChild(badge);
+  });
+}
+
+// =============================================
+// CURSOR SPARKLE
+// =============================================
+document.addEventListener('mousemove', (e) => {
+  if(Math.random() > 0.97) {
+    const spark = document.createElement('div');
+    spark.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;width:3px;height:3px;border-radius:50%;background:var(--cyan);pointer-events:none;z-index:9999;box-shadow:0 0 6px var(--cyan);animation:xpFloat 0.8s ease forwards;`;
+    document.body.appendChild(spark);
+    setTimeout(() => spark.remove(), 800);
+  }
+});
+
+// =============================================
+// AUTO-ANIMATE BARS ON MODULE SWITCH
+// =============================================
+function animateBarsInView() {
+  document.querySelectorAll('.progress-fill[data-target]').forEach(bar => {
+    bar.style.width = bar.dataset.target + '%';
+  });
+}
+
+const mainContent = document.getElementById('main-content');
+if(mainContent) {
+  mainContent.addEventListener('scroll', () => {
+    animateBarsInView();
+  });
+}
+
+setTimeout(animateBarsInView, 500);
+</script>
+</body>
+</html>
