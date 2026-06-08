@@ -37,16 +37,17 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth;}
 
 body {
+  margin:0;
   background: var(--bg-void);
   color: var(--text-primary);
   font-family: var(--font-ui);
-  min-height: 100vh;
   overflow-x: hidden;
   cursor: default;
-  zoom: 150%;
+  height:100%;
+  overflow:hidden;
 }
 
 /* GRID BACKGROUND */
@@ -155,13 +156,12 @@ body::after {
 .boot-log span { color: var(--green); }
 
 /* ===== MAIN LAYOUT ===== */
-#app {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  grid-template-rows: 56px 1fr;
-  min-height: 100vh;
-  position: relative;
-  z-index: 1;
+
+#app{
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  overflow:hidden;
 }
 
 /* ===== TOPBAR ===== */
@@ -177,7 +177,8 @@ body::after {
   position: sticky;
   top: 0;
   z-index: 100;
-
+  flex-shrink:0;
+  height:56px;
 }
 
 
@@ -277,20 +278,35 @@ body::after {
 
 /* ===== SIDEBAR ===== */
 
-
-#sidebar {
-  background: rgba(5,11,18,0.9);
-  border-right: 1px solid var(--border);
-  padding: 20px 0;
-  overflow-y: auto;
-  backdrop-filter: blur(10px);
-  top: 56px;
-  height: calc(100vh - 56px);
-  transition:transform 0.3s ease;
+.layout-wrapper{
+  display:flex;
+  flex:1;
+  min-height:0;
+  overflow:hidden;
 }
 
-#sidebar.hidden {
-transform: translateX(-100%);
+#sidebar{
+  width:260px;
+  flex-shrink:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background: rgba(5,11,18,0.9);
+  border-right:1px solid var(--border);
+  min-height:0;
+  transition: width 0.3s ease;
+}
+
+.content-shell{
+  transition:max-width 0.3s ease;
+} 
+
+#sidebar.hidden{
+  width:0;
+  overflow:hidden;
+  border-right:none;
+}
+#sidebar.hidden ~ #main-content .content-shell{
+  max-width:1200px;
 }
 
 #menu-toggle{
@@ -414,9 +430,18 @@ transform: translateX(-100%);
 .stat-val { color: var(--cyan); }
 
 /* ===== MAIN CONTENT ===== */
-#main-content {
-  overflow-y: auto;
-  position: relative;
+
+#main-content{
+  flex:1;
+  min-width:0;
+  min-height:0;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  scroll-behavior:smooth;
+  transition: all 0.3s ease;
+  padding:0;
 }
 
 #main-content::-webkit-scrollbar { width: 4px; }
@@ -427,6 +452,7 @@ transform: translateX(-100%);
 .module-panel {
   display: none;
   padding: 32px;
+  min-width:0;
   animation: panelIn 0.4s ease;
 }
 
@@ -773,7 +799,9 @@ transform: translateX(-100%);
   font-family: var(--font-mono);
   font-size: 11px;
   line-height: 1.8;
-  max-height: 200px;
+
+  height: 300px;
+
   overflow-y: auto;
   border: 1px solid rgba(0,255,136,0.08);
 }
@@ -1299,11 +1327,11 @@ transform: translateX(-100%);
   </header>
   
 
-   <!-- <div class="layout-wrapper"> -->
+  <div class="layout-wrapper">
 
   <!-- SIDEBAR -->
 
-  <div id="sidebar">
+  <aside id="sidebar">
     <div class="sidebar-section-label">// INTELLIGENCE TRACK</div>
 
     <div class="module-nav-item active" onclick="switchModule(1)" id="nav-1">
@@ -1377,7 +1405,7 @@ transform: translateX(-100%);
       <div class="stat-row"><span class="stat-label">SIMS RUN</span><span class="stat-val" id="s-sims">0</span></div>
       <div class="stat-row"><span class="stat-label">THREAT SCORE</span><span class="stat-val" style="color:var(--green)">LOW</span></div>
     </div>
-  </div>
+  </aside>
 
   <!-- MAIN CONTENT -->
   <main id="main-content">
@@ -1405,7 +1433,7 @@ transform: translateX(-100%);
       </div>
 
       <!-- Row 2: Trace Simulator + Heatmap -->
-      <div class="widget-grid grid-1-2" style="margin-bottom:20px">
+      <div class="widget-grid grid-2-1" style="margin-bottom:20px">
         <div class="widget">
           <div class="widget-header">
             <div class="widget-icon icon-cyan">🔍</div>
@@ -1415,7 +1443,7 @@ transform: translateX(-100%);
           <div class="widget-body">
             <div class="info-box" style="margin-top:0">Each click on the network canvas generates a trace node. Interconnected nodes increase your exposure score. Can you route through the network without creating traceable patterns?</div>
             <div class="trace-canvas" id="trace-canvas" onclick="addTraceNode(event)">
-              <svg id="trace-svg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></svg>
+              <svg id="trace-svg" style=" inset:0;width:100%; pointer-events:none"></svg>
             </div>
             <div class="trace-controls">
               <button class="cyber-btn sm" onclick="clearTraces()">CLEAR CANVAS</button>
@@ -1548,7 +1576,7 @@ transform: translateX(-100%);
         <div class="module-xp-badge"><div class="badge-xp">+600</div><div class="badge-label">XP REWARD</div></div>
       </div>
 
-      <!-- Browser Fingerprint Visualizer -->
+      <!-- Browser Fingerprint Visualizer + Metadata X-ray -->
       <div class="widget-grid grid-1-2" style="margin-bottom:20px">
         <div class="widget">
           <div class="widget-header">
@@ -1590,29 +1618,6 @@ transform: translateX(-100%);
 
         <div class="widget">
           <div class="widget-header">
-            <div class="widget-icon icon-amber">🕵️</div>
-            <div class="widget-title">Attribution Investigation Board</div>
-            <div class="widget-badge badge-interactive">INTELLIGENCE</div>
-          </div>
-          <div class="widget-body">
-            <div class="intel-board" id="intel-board">
-              <svg id="intel-svg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></svg>
-              <!-- Nodes will be rendered by JS -->
-            </div>
-            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-              <button class="cyber-btn sm" onclick="addIntelNode()">+ ADD CLUE</button>
-              <button class="cyber-btn sm amber" onclick="connectNodes()">CORRELATE</button>
-              <button class="cyber-btn sm danger" onclick="clearIntel()">CLEAR BOARD</button>
-            </div>
-            <div id="intel-score" style="font-family:var(--font-display);font-size:11px;color:var(--cyan);margin-top:8px;letter-spacing:2px">CONFIDENCE: 0%</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Row 2: Metadata X-ray + Stylometry -->
-      <div class="widget-grid grid-2" style="margin-bottom:20px">
-        <div class="widget">
-          <div class="widget-header">
             <div class="widget-icon icon-green">🔬</div>
             <div class="widget-title">Metadata X-Ray Viewer</div>
             <div class="widget-badge badge-interactive">ANALYSIS</div>
@@ -1625,9 +1630,15 @@ transform: translateX(-100%);
               <button class="cyber-btn sm" onclick="showXray('pdf')">📑 PDF</button>
               <button class="cyber-btn sm" onclick="showXray('audio')">🎵 MP3</button>
             </div>
-            <div id="xray-result" class="terminal" style="height:140px"></div>
+            <div id="xray-result" class="terminal" ></div>
           </div>
         </div>
+      </div>
+        
+
+      <!-- Row 2: Stylometry -->
+      <div class="widget-grid grid-1-2" style="margin-bottom:20px">
+        
 
         <div class="widget">
           <div class="widget-header">
@@ -1657,6 +1668,27 @@ transform: translateX(-100%);
             </div>
           </div>
         </div>
+
+        <div class="widget">
+          <div class="widget-header">
+            <div class="widget-icon icon-amber">🕵️</div>
+            <div class="widget-title">Attribution Investigation Board</div>
+            <div class="widget-badge badge-interactive">INTELLIGENCE</div>
+          </div>
+          <div class="widget-body">
+            <div class="intel-board" id="intel-board">
+              <svg id="intel-svg" style=" inset:0;width:100%; pointer-events:none;"></svg>
+              <!-- Nodes will be rendered by JS -->
+            </div>
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+              <button class="cyber-btn sm" onclick="addIntelNode()">+ ADD CLUE</button>
+              <button class="cyber-btn sm amber" onclick="connectNodes()">CORRELATE</button>
+              <button class="cyber-btn sm danger" onclick="clearIntel()">CLEAR BOARD</button>
+            </div>
+            <div id="intel-score" style="font-family:var(--font-display);font-size:11px;color:var(--cyan);margin-top:8px;letter-spacing:2px">CONFIDENCE: 0%</div>
+          </div>
+        </div>
+      
       </div>
 
       <!-- Checkpoint -->
@@ -2122,7 +2154,7 @@ transform: translateX(-100%);
           <div class="checkpoint-title" style="color:var(--red)">CHECKPOINT 06 — SOC ANALYST</div>
           <div class="checkpoint-sub">Identify 3+ anomalies in the detection simulator to earn analyst certification</div>
         </div>
-        <button class="cyber-btn danger" onclick="completeCheckpoint(6)">Next Module</button>
+        <button class="cyber-btn danger" onclick="switchModule(7); completeCheckpoint(6);">Next Module</button>
       </div>
     </div>
 
@@ -2243,7 +2275,7 @@ transform: translateX(-100%);
     </div>
   
   </main>
-  <!-- </div> -->
+  </div>
 </div>
 
 <script>
