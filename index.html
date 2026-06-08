@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CYBEROPS ACADEMY — Operator Intelligence Platform</title>
+<title>CYBEROPS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -38,7 +38,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth;}
+html { scroll-behavior: smooth;font-size: 100%;}
 
 body {
   margin:0;
@@ -59,7 +59,7 @@ body::before {
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background-size: 40.8rem 40.8rem;
   pointer-events: none;
   z-index: 0;
 }
@@ -98,9 +98,9 @@ body::after {
 
 .boot-logo {
   font-family: var(--font-display);
-  font-size: 48px;
+  font-size: 4.8rem;
   font-weight: 900;
-  letter-spacing: 8px;
+  letter-spacing: 0.8rem;
   color: var(--cyan);
   text-shadow: 0 0 40px var(--cyan), 0 0 80px rgba(0,229,255,0.3);
   animation: flicker 2s infinite;
@@ -117,7 +117,7 @@ body::after {
 .boot-subtitle {
   font-family: var(--font-mono);
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: 1.2rem;
   letter-spacing: 4px;
   text-transform: uppercase;
 }
@@ -133,7 +133,7 @@ body::after {
 .boot-bar {
   height: 100%;
   background: linear-gradient(90deg, var(--cyan-dim), var(--cyan));
-  box-shadow: 0 0 12px var(--cyan);
+  box-shadow: 0 0 1.2rem var(--cyan);
   animation: bootLoad 2.5s ease forwards;
 }
 
@@ -148,7 +148,7 @@ body::after {
 
 .boot-log {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 1rem;
   color: var(--text-dim);
   text-align: center;
   line-height: 1.8;
@@ -172,9 +172,9 @@ body::after {
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  padding: 0 24px;
-  gap: 24px;
-  backdrop-filter: blur(20px);
+  padding: 0 2.4rem;
+  gap: 2.4rem;
+  backdrop-filter: blur(2rem);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -185,22 +185,22 @@ body::after {
 
 .topbar-logo {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--cyan);
   letter-spacing: 3px;
-  text-shadow: 0 0 20px var(--cyan);
+  text-shadow: 0 0 2rem var(--cyan);
   white-space: nowrap;
 }
 
-.topbar-sep { width: 1px; height: 24px; background: var(--border); }
+.topbar-sep { width: 1px; height: 2.4rem; background: var(--border); }
 
 .topbar-status {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.8rem;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 1rem;
   color: var(--text-secondary);
   letter-spacing: 1px;
 }
@@ -209,44 +209,44 @@ body::after {
   width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--green);
-  box-shadow: 0 0 8px var(--green);
+  box-shadow: 0 0 0.8rem var(--green);
   animation: pulse-dot 2s infinite;
 }
 
 @keyframes pulse-dot {
-  0%,100% { box-shadow: 0 0 8px var(--green); }
-  50% { box-shadow: 0 0 16px var(--green), 0 0 32px rgba(0,255,136,0.2); }
+  0%,100% { box-shadow: 0 0 0.8rem var(--green); }
+  50% { box-shadow: 0 0 1.6rem var(--green), 0 0 32px rgba(0,255,136,0.2); }
 }
 
 .topbar-right {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1.6rem;
 }
 
 .xp-display {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
   background: rgba(0,229,255,0.05);
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 6px 14px;
+  padding: 6px 1.4rem;
 }
 
 .xp-label {
   font-family: var(--font-display);
-  font-size: 9px;
+  font-size: 0.9rem;
   color: var(--amber);
   letter-spacing: 2px;
 }
 
 .xp-value {
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 1.4rem;
   color: var(--amber);
-  text-shadow: 0 0 12px var(--amber);
+  text-shadow: 0 0 1.2rem var(--amber);
 }
 
 .xp-bar-wrap {
@@ -267,11 +267,11 @@ body::after {
 
 .operator-rank {
   font-family: var(--font-display);
-  font-size: 9px;
+  font-size: 0.9rem;
   letter-spacing: 2px;
   color: var(--purple);
-  text-shadow: 0 0 10px var(--purple);
-  padding: 4px 10px;
+  text-shadow: 0 0 1rem var(--purple);
+  padding: 4px 1rem;
   border: 1px solid rgba(170,68,255,0.3);
   border-radius: 3px;
   background: rgba(170,68,255,0.05);
@@ -294,7 +294,7 @@ body::after {
   border-right:1px solid var(--border);
   min-height:0;
   transition: width 0.3s ease;
-  width: calc(200px * var(--ui-scale));
+  width: calc(300px * var(--ui-scale));
 }
 
 .content-shell{
@@ -314,9 +314,9 @@ body::after {
   background:none;
   border:none;
   color:var(--cyan);
-  font-size:24px;
+  font-size:2.4rem;
   cursor:pointer;
-  margin-right:18px;
+  margin-right:1.8rem;
   transition:0.2s;
 }
 
@@ -330,18 +330,18 @@ body::after {
 
 .sidebar-section-label {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 0.9rem;
   letter-spacing: 3px;
   color: var(--text-dim);
-  padding: 12px 20px 6px;
+  padding: 1.2rem 2rem 6px;
   text-transform: uppercase;
 }
 
 .module-nav-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 20px;
+  gap: 1.2rem;
+  padding: 1rem 2rem;
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
@@ -365,9 +365,9 @@ body::after {
 
 .module-num {
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: 1rem;
   color: var(--text-dim);
-  min-width: 20px;
+  min-width: 2rem;
 }
 
 .module-nav-item.active .module-num { color: var(--cyan); }
@@ -376,7 +376,7 @@ body::after {
 
 .module-nav-title {
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: 1.2rem;
   font-weight: 600;
   color: var(--text-secondary);
   white-space: nowrap;
@@ -389,7 +389,7 @@ body::after {
 
 .module-nav-sub {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 0.9rem;
   color: var(--text-dim);
   margin-top: 2px;
   letter-spacing: 1px;
@@ -403,20 +403,20 @@ body::after {
 }
 
 .module-nav-item.completed .module-status { background: var(--green); box-shadow: 0 0 6px var(--green); }
-.module-nav-item.active .module-status { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); animation: pulse-dot 2s infinite; }
+.module-nav-item.active .module-status { background: var(--cyan); box-shadow: 0 0 0.8rem var(--cyan); animation: pulse-dot 2s infinite; }
 .module-nav-item.locked .module-status { background: var(--text-dim); }
 
 .sidebar-divider {
   height: 1px;
   background: var(--border);
-  margin: 12px 20px;
+  margin: 1.2rem 2rem;
 }
 
 .sidebar-stats {
-  padding: 12px 20px;
+  padding: 1.2rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.8rem;
 }
 
 .stat-row {
@@ -424,7 +424,7 @@ body::after {
   justify-content: space-between;
   align-items: center;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 1rem;
 }
 
 .stat-label { color: var(--text-dim); letter-spacing: 1px; }
@@ -460,7 +460,7 @@ body::after {
 .module-panel.active { display: block; }
 
 @keyframes panelIn {
-  from { opacity: 0; transform: translateX(20px); }
+  from { opacity: 0; transform: translateX(2rem); }
   to { opacity: 1; transform: translateX(0); }
 }
 
@@ -468,20 +468,20 @@ body::after {
 .module-header {
   display: flex;
   align-items: flex-start;
-  gap: 24px;
+  gap: 2.4rem;
   margin-bottom: 32px;
-  padding-bottom: 24px;
+  padding-bottom: 2.4rem;
   border-bottom: 1px solid var(--border);
   position: relative;
 }
 
 .module-tag {
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: 1rem;
   letter-spacing: 3px;
   color: var(--bg-void);
   background: var(--cyan);
-  padding: 4px 10px;
+  padding: 4px 1rem;
   border-radius: 2px;
   font-weight: 700;
   white-space: nowrap;
@@ -491,21 +491,21 @@ body::after {
 
 .module-title {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 2.8rem;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: 2px;
   line-height: 1.2;
-  text-shadow: 0 0 30px rgba(232,244,248,0.1);
+  text-shadow: 0 0 3rem rgba(232,244,248,0.1);
 }
 
-.module-title span { color: var(--cyan); text-shadow: 0 0 20px var(--cyan); }
+.module-title span { color: var(--cyan); text-shadow: 0 0 2rem var(--cyan); }
 
 .module-tagline {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 1.1rem;
   color: var(--text-secondary);
-  margin-top: 8px;
+  margin-top: 0.8rem;
   letter-spacing: 1px;
   line-height: 1.6;
 }
@@ -517,19 +517,19 @@ body::after {
   gap: 4px;
   background: rgba(255,170,0,0.05);
   border: 1px solid rgba(255,170,0,0.2);
-  border-radius: 8px;
-  padding: 12px 16px;
+  border-radius: 0.8rem;
+  padding: 1.2rem 1.6rem;
   min-width: 80px;
 }
 
-.badge-xp { font-family: var(--font-display); font-size: 22px; color: var(--amber); font-weight: 700; }
-.badge-label { font-family: var(--font-mono); font-size: 9px; color: var(--amber-dim); letter-spacing: 2px; }
+.badge-xp { font-family: var(--font-display); font-size: 2.2rem; color: var(--amber); font-weight: 700; }
+.badge-label { font-family: var(--font-mono); font-size: 0.9rem; color: var(--amber-dim); letter-spacing: 2px; }
 
 /* ===== WIDGET GRID ===== */
 .widget-grid {
   display: grid;
-  gap: 20px;
-  gap: calc(20px * var(--ui-scale));
+  gap: 2rem;
+  gap: calc(2rem * var(--ui-scale));
 }
 
 .grid-2 { grid-template-columns: 1fr 1fr; }
@@ -541,11 +541,11 @@ body::after {
 .widget {
   background: var(--bg-panel);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 0.8rem;
   overflow: hidden;
   position: relative;
   transition: border-color 0.3s;
-  padding: calc(20px * var(--ui-scale));
+  padding: calc(2rem * var(--ui-scale));
 }
 
 .widget:hover { border-color: rgba(0,229,255,0.25); }
@@ -565,19 +565,19 @@ body::after {
 .widget-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 18px;
+  gap: 1rem;
+  padding: 1.4rem 1.8rem;
   border-bottom: 1px solid var(--border);
   background: rgba(0,0,0,0.2);
 }
 
 .widget-icon {
-  width: 28px; height: 28px;
+  width: 2.8rem; height: 2.8rem;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 1.4rem;
   flex-shrink: 0;
 }
 
@@ -589,7 +589,7 @@ body::after {
 
 .widget-title {
   font-family: var(--font-ui);
-  font-size: 13px;
+  font-size: 1.3rem;
   font-weight: 600;
   color: var(--text-primary);
   letter-spacing: 0.5px;
@@ -598,8 +598,8 @@ body::after {
 
 .widget-badge {
   font-family: var(--font-mono);
-  font-size: 9px;
-  padding: 3px 8px;
+  font-size: 0.9rem;
+  padding: 3px 0.8rem;
   border-radius: 3px;
   letter-spacing: 1px;
   font-weight: 700;
@@ -609,7 +609,7 @@ body::after {
 .badge-live { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
 .badge-sim { background: rgba(255,170,0,0.1); color: var(--amber); border: 1px solid rgba(255,170,0,0.2); }
 
-.widget-body { padding: 18px; }
+.widget-body { padding: 1.8rem; }
 
 /* ===== SPAN UTILITIES ===== */
 .span-2 { grid-column: span 2; }
@@ -631,17 +631,17 @@ body::after {
 
 .trace-node {
   position: absolute;
-  width: 10px; height: 10px;
+  width: 1rem; height: 1rem;
   border-radius: 50%;
   background: var(--green);
-  box-shadow: 0 0 12px var(--green);
+  box-shadow: 0 0 1.2rem var(--green);
   transform: translate(-50%, -50%);
   transition: all 0.3s;
   cursor: pointer;
 }
 
-.trace-node.hot { background: var(--red); box-shadow: 0 0 16px var(--red); }
-.trace-node.warm { background: var(--amber); box-shadow: 0 0 12px var(--amber); }
+.trace-node.hot { background: var(--red); box-shadow: 0 0 1.6rem var(--red); }
+.trace-node.warm { background: var(--amber); box-shadow: 0 0 1.2rem var(--amber); }
 
 .trace-line {
   position: absolute;
@@ -653,8 +653,8 @@ body::after {
 
 .trace-controls {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
   flex-wrap: wrap;
 }
 
@@ -679,18 +679,18 @@ body::after {
 .heat-2 { background: rgba(255,170,0,0.3); }
 .heat-3 { background: rgba(255,170,0,0.6); }
 .heat-4 { background: rgba(255,51,102,0.5); }
-.heat-5 { background: rgba(255,51,102,0.9); box-shadow: 0 0 8px rgba(255,51,102,0.4); }
+.heat-5 { background: rgba(255,51,102,0.9); box-shadow: 0 0 0.8rem rgba(255,51,102,0.4); }
 
 /* DRAG DROP */
 .drag-zone {
   background: rgba(0,229,255,0.03);
   border: 1px dashed var(--border);
   border-radius: 6px;
-  padding: 12px;
+  padding: 1.2rem;
   min-height: 80px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.8rem;
   align-items: flex-start;
   align-content: flex-start;
   transition: border-color 0.3s, background 0.3s;
@@ -705,9 +705,9 @@ body::after {
   background: rgba(0,229,255,0.1);
   border: 1px solid rgba(0,229,255,0.2);
   border-radius: 4px;
-  padding: 4px 10px;
+  padding: 4px 1rem;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 1rem;
   color: var(--cyan);
   cursor: grab;
   user-select: none;
@@ -724,14 +724,14 @@ body::after {
 .cyber-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
+  gap: 0.8rem;
+  padding: 0.8rem 1.8rem;
   background: transparent;
   border: 1px solid var(--border-active);
   border-radius: 4px;
   color: var(--cyan);
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -751,12 +751,12 @@ body::after {
 }
 
 .cyber-btn:hover::before { opacity: 0.08; }
-.cyber-btn:hover { border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,229,255,0.15), inset 0 0 20px rgba(0,229,255,0.05); }
+.cyber-btn:hover { border-color: var(--cyan); box-shadow: 0 0 2rem rgba(0,229,255,0.15), inset 0 0 2rem rgba(0,229,255,0.05); }
 .cyber-btn:active { transform: scale(0.97); }
 
-.cyber-btn.sm { padding: 5px 12px; font-size: 10px; }
+.cyber-btn.sm { padding: 5px 1.2rem; font-size: 1rem; }
 .cyber-btn.danger { border-color: rgba(255,51,102,0.4); color: var(--red); }
-.cyber-btn.danger:hover { border-color: var(--red); box-shadow: 0 0 20px rgba(255,51,102,0.15); }
+.cyber-btn.danger:hover { border-color: var(--red); box-shadow: 0 0 2rem rgba(255,51,102,0.15); }
 .cyber-btn.success { border-color: rgba(0,255,136,0.4); color: var(--green); }
 .cyber-btn.amber { border-color: rgba(255,170,0,0.4); color: var(--amber); }
 
@@ -765,7 +765,7 @@ body::after {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 14px;
+  padding: 1.4rem;
   text-align: center;
   transition: all 0.2s;
 }
@@ -774,7 +774,7 @@ body::after {
 
 .metric-val {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 2.8rem;
   font-weight: 700;
   line-height: 1;
   margin-bottom: 4px;
@@ -782,25 +782,25 @@ body::after {
 
 .metric-label {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 0.9rem;
   color: var(--text-dim);
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
-.cyan-val { color: var(--cyan); text-shadow: 0 0 20px var(--cyan); }
-.green-val { color: var(--green); text-shadow: 0 0 20px var(--green); }
-.amber-val { color: var(--amber); text-shadow: 0 0 20px var(--amber); }
-.red-val { color: var(--red); text-shadow: 0 0 20px var(--red); }
-.purple-val { color: var(--purple); text-shadow: 0 0 20px var(--purple); }
+.cyan-val { color: var(--cyan); text-shadow: 0 0 2rem var(--cyan); }
+.green-val { color: var(--green); text-shadow: 0 0 2rem var(--green); }
+.amber-val { color: var(--amber); text-shadow: 0 0 2rem var(--amber); }
+.red-val { color: var(--red); text-shadow: 0 0 2rem var(--red); }
+.purple-val { color: var(--purple); text-shadow: 0 0 2rem var(--purple); }
 
 /* TERMINAL */
 .terminal {
   background: #010805;
   border-radius: 6px;
-  padding: 14px;
+  padding: 1.4rem;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 1.1rem;
   line-height: 1.8;
 
   height: 300px;
@@ -818,20 +818,20 @@ body::after {
 .t-warn { color: var(--amber); }
 .t-err { color: var(--red); }
 .t-info { color: var(--cyan-dim); }
-.t-cursor { display: inline-block; background: var(--green); width: 8px; height: 12px; vertical-align: middle; animation: blink 1s infinite; }
+.t-cursor { display: inline-block; background: var(--green); width: 0.8rem; height: 1.2rem; vertical-align: middle; animation: blink 1s infinite; }
 
 @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
 /* PROGRESS BARS */
 .progress-wrap {
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
 .progress-label {
   display: flex;
   justify-content: space-between;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 1rem;
   color: var(--text-secondary);
   margin-bottom: 4px;
   letter-spacing: 0.5px;
@@ -850,10 +850,10 @@ body::after {
   transition: width 1s ease;
 }
 
-.fill-cyan { background: linear-gradient(90deg, var(--cyan-dim), var(--cyan)); box-shadow: 0 0 8px var(--cyan); }
-.fill-green { background: linear-gradient(90deg, var(--green-dim), var(--green)); box-shadow: 0 0 8px var(--green); }
-.fill-amber { background: linear-gradient(90deg, var(--amber-dim), var(--amber)); box-shadow: 0 0 8px var(--amber); }
-.fill-red { background: linear-gradient(90deg, var(--red-dim), var(--red)); box-shadow: 0 0 8px var(--red); }
+.fill-cyan { background: linear-gradient(90deg, var(--cyan-dim), var(--cyan)); box-shadow: 0 0 0.8rem var(--cyan); }
+.fill-green { background: linear-gradient(90deg, var(--green-dim), var(--green)); box-shadow: 0 0 0.8rem var(--green); }
+.fill-amber { background: linear-gradient(90deg, var(--amber-dim), var(--amber)); box-shadow: 0 0 0.8rem var(--amber); }
+.fill-red { background: linear-gradient(90deg, var(--red-dim), var(--red)); box-shadow: 0 0 0.8rem var(--red); }
 
 /* FINGERPRINT VIZ */
 .fingerprint-grid {
@@ -870,7 +870,7 @@ body::after {
 }
 
 /* NETWORK GRAPH */
-.network-svg { width: 100%; height: 220px; }
+.network-svg { width: 100%; height: 22rem; }
 
 /* RISK MATRIX */
 .risk-matrix {
@@ -888,7 +888,7 @@ body::after {
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 0.8rem;
   font-weight: 700;
 }
 
@@ -896,7 +896,7 @@ body::after {
 .risk-low { background: rgba(0,255,136,0.12); color: var(--green); }
 .risk-med { background: rgba(255,170,0,0.12); color: var(--amber); }
 .risk-high { background: rgba(255,51,102,0.12); color: var(--red); }
-.risk-crit { background: rgba(255,51,102,0.25); color: var(--red); box-shadow: inset 0 0 10px rgba(255,51,102,0.1); }
+.risk-crit { background: rgba(255,51,102,0.25); color: var(--red); box-shadow: inset 0 0 1rem rgba(255,51,102,0.1); }
 .risk-active { border: 1px solid currentColor; }
 
 /* ATTACK CHAIN */
@@ -905,7 +905,7 @@ body::after {
   align-items: center;
   gap: 0;
   overflow-x: auto;
-  padding: 8px 0;
+  padding: 0.8rem 0;
 }
 
 .chain-node {
@@ -913,7 +913,7 @@ body::after {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 10px 14px;
+  padding: 1rem 1.4rem;
   cursor: pointer;
   transition: all 0.2s;
   text-align: center;
@@ -921,14 +921,14 @@ body::after {
 }
 
 .chain-node:hover { border-color: var(--cyan); background: rgba(0,229,255,0.05); }
-.chain-node.active { border-color: var(--cyan); background: rgba(0,229,255,0.08); box-shadow: 0 0 16px rgba(0,229,255,0.1); }
+.chain-node.active { border-color: var(--cyan); background: rgba(0,229,255,0.08); box-shadow: 0 0 1.6rem rgba(0,229,255,0.1); }
 .chain-node.compromised { border-color: var(--red); background: rgba(255,51,102,0.06); }
 
-.chain-label { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); letter-spacing: 1px; }
-.chain-title { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--text-primary); margin-top: 3px; }
+.chain-label { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-dim); letter-spacing: 1px; }
+.chain-title { font-family: var(--font-ui); font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-top: 3px; }
 
 .chain-arrow {
-  width: 30px;
+  width: 3rem;
   flex-shrink: 0;
   height: 1px;
   background: linear-gradient(90deg, var(--border), var(--border-active));
@@ -941,7 +941,7 @@ body::after {
   right: -4px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 8px;
+  font-size: 0.8rem;
   color: var(--text-dim);
 }
 
@@ -959,7 +959,7 @@ body::after {
 .intel-board {
   position: relative;
   background: rgba(0,0,0,0.3);
-  border-radius: 8px;
+  border-radius: 0.8rem;
   height: 240px;
   overflow: hidden;
 }
@@ -967,13 +967,13 @@ body::after {
 /* TIMELINE */
 .timeline {
   position: relative;
-  padding-left: 24px;
+  padding-left: 2.4rem;
 }
 
 .timeline::before {
   content: '';
   position: absolute;
-  left: 7px;
+  left: 0.7rem;
   top: 0;
   bottom: 0;
   width: 1px;
@@ -982,41 +982,41 @@ body::after {
 
 .timeline-item {
   position: relative;
-  margin-bottom: 16px;
-  padding-left: 16px;
+  margin-bottom: 1.6rem;
+  padding-left: 1.6rem;
 }
 
 .timeline-item::before {
   content: '';
   position: absolute;
-  left: -10px;
+  left: -1rem;
   top: 5px;
-  width: 7px; height: 7px;
+  width: 0.7rem; height: 0.7rem;
   border-radius: 50%;
   background: var(--text-dim);
   border: 1px solid var(--border);
   transition: all 0.3s;
 }
 
-.timeline-item.active::before { background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
-.timeline-item.danger::before { background: var(--red); border-color: var(--red); box-shadow: 0 0 8px var(--red); }
+.timeline-item.active::before { background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 0.8rem var(--cyan); }
+.timeline-item.danger::before { background: var(--red); border-color: var(--red); box-shadow: 0 0 0.8rem var(--red); }
 
-.timeline-time { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); letter-spacing: 1px; }
-.timeline-text { font-family: var(--font-ui); font-size: 12px; color: var(--text-secondary); margin-top: 2px; font-weight: 500; }
+.timeline-time { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-dim); letter-spacing: 1px; }
+.timeline-text { font-family: var(--font-ui); font-size: 1.2rem; color: var(--text-secondary); margin-top: 2px; font-weight: 500; }
 
 /* SOC TELEMETRY */
 .telemetry-row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 0;
+  gap: 1rem;
+  padding: 0.8rem 0;
   border-bottom: 1px solid rgba(0,229,255,0.04);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s;
   border-radius: 4px;
-  padding-left: 8px;
+  padding-left: 0.8rem;
 }
 
 .telemetry-row:hover { background: rgba(0,229,255,0.04); }
@@ -1041,20 +1041,20 @@ body::after {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 12px;
+  padding: 1.2rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 0.8rem;
   cursor: pointer;
   transition: all 0.3s;
 }
 
-.achievement-badge:hover { border-color: rgba(255,170,0,0.4); box-shadow: 0 0 20px rgba(255,170,0,0.08); }
+.achievement-badge:hover { border-color: rgba(255,170,0,0.4); box-shadow: 0 0 2rem rgba(255,170,0,0.08); }
 .achievement-badge.unlocked { border-color: rgba(255,170,0,0.25); }
 
-.badge-icon { font-size: 24px; filter: grayscale(0.6); transition: filter 0.3s; }
+.badge-icon { font-size: 2.4rem; filter: grayscale(0.6); transition: filter 0.3s; }
 .achievement-badge.unlocked .badge-icon { filter: none; }
-.badge-name { font-family: var(--font-display); font-size: 9px; letter-spacing: 1px; color: var(--text-dim); text-align: center; }
+.badge-name { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 1px; color: var(--text-dim); text-align: center; }
 .achievement-badge.unlocked .badge-name { color: var(--amber); }
 
 /* TOGGLE MODE */
@@ -1066,9 +1066,9 @@ body::after {
 }
 
 .mode-btn {
-  padding: 6px 14px;
+  padding: 6px 1.4rem;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 1rem;
   letter-spacing: 1px;
   cursor: pointer;
   border: none;
@@ -1098,7 +1098,7 @@ body::after {
   min-height: 4px;
 }
 .bar:hover { filter: brightness(1.3); }
-.bar-label { font-family: var(--font-mono); font-size: 8px; color: var(--text-dim); letter-spacing: 0.5px; }
+.bar-label { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); letter-spacing: 0.5px; }
 
 /* SLIDER */
 .cyber-slider {
@@ -1113,15 +1113,15 @@ body::after {
 
 .cyber-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 14px; height: 14px;
+  width: 1.4rem; height: 1.4rem;
   border-radius: 50%;
   background: var(--cyan);
-  box-shadow: 0 0 12px var(--cyan);
+  box-shadow: 0 0 1.2rem var(--cyan);
   cursor: pointer;
   transition: box-shadow 0.2s;
 }
 
-.cyber-slider::-webkit-slider-thumb:hover { box-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0,229,255,0.3); }
+.cyber-slider::-webkit-slider-thumb:hover { box-shadow: 0 0 2rem var(--cyan), 0 0 40px rgba(0,229,255,0.3); }
 
 /* INFO BOXES */
 .info-box {
@@ -1129,10 +1129,10 @@ body::after {
   border: 1px solid rgba(0,229,255,0.08);
   border-left: 3px solid var(--cyan);
   border-radius: 0 6px 6px 0;
-  padding: 12px 16px;
-  margin: 12px 0;
+  padding: 1.2rem 1.6rem;
+  margin: 1.2rem 0;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 1.1rem;
   color: var(--text-secondary);
   line-height: 1.7;
 }
@@ -1154,18 +1154,18 @@ body::after {
 .checkpoint-banner {
   background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(0,229,255,0.02));
   border: 1px solid rgba(0,229,255,0.2);
-  border-radius: 8px;
-  padding: 16px 20px;
+  border-radius: 0.8rem;
+  padding: 1.6rem 2rem;
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-top: 24px;
+  gap: 1.6rem;
+  margin-top: 2.4rem;
 }
 
-.checkpoint-icon { font-size: 28px; }
+.checkpoint-icon { font-size: 2.8rem; }
 .checkpoint-text { flex: 1; }
-.checkpoint-title { font-family: var(--font-display); font-size: 13px; letter-spacing: 2px; color: var(--cyan); margin-bottom: 4px; }
-.checkpoint-sub { font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); }
+.checkpoint-title { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 2px; color: var(--cyan); margin-bottom: 4px; }
+.checkpoint-sub { font-family: var(--font-mono); font-size: 1rem; color: var(--text-secondary); }
 
 /* RADIAL GAUGE */
 .gauge-wrap { display: flex; align-items: center; justify-content: center; position: relative; }
@@ -1174,7 +1174,7 @@ body::after {
   position: absolute;
   text-align: center;
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 700;
 }
 
@@ -1182,34 +1182,34 @@ body::after {
 .notification {
   position: fixed;
   top: 72px;
-  right: 24px;
+  right: 2.4rem;
   background: rgba(8,15,26,0.95);
   border: 1px solid var(--cyan);
   border-radius: 6px;
-  padding: 12px 18px;
+  padding: 1.2rem 1.8rem;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1.2rem;
   z-index: 500;
   transform: translateX(120%);
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 0 30px rgba(0,229,255,0.15);
+  box-shadow: 0 0 3rem rgba(0,229,255,0.15);
   max-width: 300px;
 }
 
 .notification.show { transform: translateX(0); }
 
-.notif-icon { font-size: 20px; }
-.notif-title { font-family: var(--font-display); font-size: 11px; letter-spacing: 1px; color: var(--cyan); }
-.notif-body { font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); margin-top: 2px; }
+.notif-icon { font-size: 2rem; }
+.notif-title { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 1px; color: var(--cyan); }
+.notif-body { font-family: var(--font-mono); font-size: 1rem; color: var(--text-secondary); margin-top: 2px; }
 
 /* TAGS */
 .tag {
   display: inline-block;
-  padding: 3px 8px;
+  padding: 3px 0.8rem;
   border-radius: 3px;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 0.9rem;
   letter-spacing: 1px;
   font-weight: 700;
 }
@@ -1224,10 +1224,10 @@ body::after {
   position: fixed;
   pointer-events: none;
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--amber);
-  text-shadow: 0 0 20px var(--amber);
+  text-shadow: 0 0 2rem var(--amber);
   animation: xpFloat 1.5s ease forwards;
   z-index: 9999;
 }
@@ -1245,7 +1245,7 @@ body::after {
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s;
@@ -1257,10 +1257,10 @@ body::after {
 
 /* VERDICT */
 .verdict {
-  padding: 10px 16px;
+  padding: 1rem 1.6rem;
   border-radius: 6px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 1.1rem;
   letter-spacing: 1px;
   display: none;
 }
@@ -1429,14 +1429,14 @@ body::after {
       </div>
 
       <!-- Row 1: Metrics + Trace Sim -->
-      <div class="widget-grid grid-3" style="margin-bottom:20px">
+      <div class="widget-grid grid-3" style="margin-bottom:2rem">
         <div class="metric-card"><div class="metric-val cyan-val" id="trace-count">0</div><div class="metric-label">TRACES GENERATED</div></div>
         <div class="metric-card"><div class="metric-val red-val" id="exposure-score">0%</div><div class="metric-label">EXPOSURE SCORE</div></div>
         <div class="metric-card"><div class="metric-val green-val" id="opsec-rating">A+</div><div class="metric-label">OPSEC RATING</div></div>
       </div>
 
       <!-- Row 2: Trace Simulator + Heatmap -->
-      <div class="widget-grid grid-2-1" style="margin-bottom:20px">
+      <div class="widget-grid grid-2-1" style="margin-bottom:2rem">
         <div class="widget">
           <div class="widget-header">
             <div class="widget-icon icon-cyan">🔍</div>
@@ -1464,21 +1464,21 @@ body::after {
             <div class="widget-badge badge-live">REAL-TIME</div>
           </div>
           <div class="widget-body">
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);margin-bottom:10px;letter-spacing:1px">HOVER CELLS TO INSPECT LEAK VECTORS — Red = critical exposure</div>
+            <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-dim);margin-bottom:1rem;letter-spacing:1px">HOVER CELLS TO INSPECT LEAK VECTORS — Red = critical exposure</div>
             <div class="heatmap-grid" id="heatmap"></div>
-            <div style="display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap">
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim)">EXPOSURE:</div>
+            <div style="display:flex;gap:0.8rem;margin-top:1.2rem;align-items:center;flex-wrap:wrap">
+              <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim)">EXPOSURE:</div>
               <div class="tag tag-green">SAFE</div>
               <div class="tag tag-amber">MODERATE</div>
               <div class="tag tag-red">CRITICAL</div>
             </div>
-            <div id="heatmap-tooltip" style="font-family:var(--font-mono);font-size:10px;color:var(--cyan);margin-top:8px;min-height:16px"></div>
+            <div id="heatmap-tooltip" style="font-family:var(--font-mono);font-size:1rem;color:var(--cyan);margin-top:0.8rem;min-height:1.6rem"></div>
           </div>
         </div>
       </div>
 
       <!-- Row 3: OPSEC Drag Drop + Terminal + Failure Scenarios -->
-      <div class="widget-grid grid-3" style="margin-bottom:20px">
+      <div class="widget-grid grid-3" style="margin-bottom:2rem">
         <div class="widget span-2">
           <div class="widget-header">
             <div class="widget-icon icon-amber">🏷️</div>
@@ -1486,10 +1486,10 @@ body::after {
             <div class="widget-badge badge-interactive">DRAG & DROP</div>
           </div>
           <div class="widget-body">
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Drag each metadata element into the correct classification zone.</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary);margin-bottom:1.2rem">Drag each metadata element into the correct classification zone.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.6rem">
               <div>
-                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">⚠️ UNCLASSIFIED POOL</div>
+                <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);letter-spacing:2px;margin-bottom:0.8rem">⚠️ UNCLASSIFIED POOL</div>
                 <div class="drag-zone" id="metadata-pool" ondragover="allowDrop(event)" ondrop="dropMetadata(event,'pool')">
                   <div class="drag-tag" draggable="true" ondragstart="dragMeta(event)" data-type="danger">GPS_COORDINATES</div>
                   <div class="drag-tag" draggable="true" ondragstart="dragMeta(event)" data-type="danger">DEVICE_SERIAL</div>
@@ -1502,19 +1502,19 @@ body::after {
                 </div>
               </div>
               <div>
-                <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;flex-direction:column;gap:1rem">
                   <div>
-                    <div style="font-family:var(--font-mono);font-size:9px;color:var(--red);letter-spacing:2px;margin-bottom:6px">🚨 HIGH RISK — STRIP BEFORE SHARING</div>
+                    <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--red);letter-spacing:2px;margin-bottom:6px">🚨 HIGH RISK — STRIP BEFORE SHARING</div>
                     <div class="drag-zone" id="danger-zone" ondragover="allowDrop(event)" ondrop="dropMetadata(event,'danger')" style="border-color:rgba(255,51,102,0.3);min-height:60px"></div>
                   </div>
                   <div>
-                    <div style="font-family:var(--font-mono);font-size:9px;color:var(--green);letter-spacing:2px;margin-bottom:6px">✅ LOW RISK — ACCEPTABLE</div>
+                    <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--green);letter-spacing:2px;margin-bottom:6px">✅ LOW RISK — ACCEPTABLE</div>
                     <div class="drag-zone" id="safe-zone" ondragover="allowDrop(event)" ondrop="dropMetadata(event,'safe')" style="border-color:rgba(0,255,136,0.3);min-height:60px"></div>
                   </div>
                 </div>
               </div>
             </div>
-            <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+            <div style="margin-top:1.2rem;display:flex;gap:1rem;align-items:center">
               <button class="cyber-btn sm" onclick="checkMetadata()">CHECK CLASSIFICATION</button>
               <div class="verdict" id="meta-verdict" style="display:inline-block;margin:0"></div>
             </div>
@@ -1550,7 +1550,7 @@ body::after {
                 <div class="timeline-text">Social graph inference</div>
               </div>
             </div>
-            <div id="scenario-detail" class="info-box warn" style="margin-top:12px;font-size:10px;display:none"></div>
+            <div id="scenario-detail" class="info-box warn" style="margin-top:1.2rem;font-size:1rem;display:none"></div>
           </div>
         </div>
       </div>
@@ -1580,7 +1580,7 @@ body::after {
       </div>
 
       <!-- Browser Fingerprint Visualizer + Metadata X-ray -->
-      <div class="widget-grid grid-1-2" style="margin-bottom:20px">
+      <div class="widget-grid grid-1-2" style="margin-bottom:2rem">
         <div class="widget">
           <div class="widget-header">
             <div class="widget-icon icon-cyan">🖐️</div>
@@ -1588,9 +1588,9 @@ body::after {
             <div class="widget-badge badge-interactive">INTERACTIVE</div>
           </div>
           <div class="widget-body">
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Your fingerprint is composed of 8 entropy dimensions. Higher uniqueness = easier attribution.</div>
+            <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary);margin-bottom:1.2rem">Your fingerprint is composed of 8 entropy dimensions. Higher uniqueness = easier attribution.</div>
             <div class="fingerprint-grid" id="fp-grid"></div>
-            <div style="margin-top:16px">
+            <div style="margin-top:1.6rem">
               <div class="progress-wrap">
                 <div class="progress-label"><span>CANVAS FINGERPRINT</span><span style="color:var(--red)">98.7%</span></div>
                 <div class="progress-track"><div class="progress-fill fill-red" style="width:98.7%"></div></div>
@@ -1612,7 +1612,7 @@ body::after {
                 <div class="progress-track"><div class="progress-fill fill-green" style="width:44.8%"></div></div>
               </div>
             </div>
-            <div style="margin-top:12px;display:flex;gap:10px">
+            <div style="margin-top:1.2rem;display:flex;gap:1rem">
               <button class="cyber-btn sm" onclick="randomizeFP()">RANDOMIZE</button>
               <button class="cyber-btn sm danger" onclick="lockFP()">FREEZE FP</button>
             </div>
@@ -1626,8 +1626,8 @@ body::after {
             <div class="widget-badge badge-interactive">ANALYSIS</div>
           </div>
           <div class="widget-body">
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Select a file type to extract hidden metadata fields. Each field is an attribution vector.</div>
-            <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap" id="file-type-btns">
+            <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary);margin-bottom:1.2rem">Select a file type to extract hidden metadata fields. Each field is an attribution vector.</div>
+            <div style="display:flex;gap:0.8rem;margin-bottom:1.4rem;flex-wrap:wrap" id="file-type-btns">
               <button class="cyber-btn sm" onclick="showXray('photo')">📷 JPEG</button>
               <button class="cyber-btn sm" onclick="showXray('doc')">📄 DOCX</button>
               <button class="cyber-btn sm" onclick="showXray('pdf')">📑 PDF</button>
@@ -1640,7 +1640,7 @@ body::after {
         
 
       <!-- Row 2: Stylometry -->
-      <div class="widget-grid grid-1-2" style="margin-bottom:20px">
+      <div class="widget-grid grid-1-2" style="margin-bottom:2rem">
         
 
         <div class="widget">
@@ -1650,24 +1650,24 @@ body::after {
             <div class="widget-badge badge-sim">AI-POWERED</div>
           </div>
           <div class="widget-body">
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Writing patterns reveal identity. Adjust linguistic markers to see attribution probability shift.</div>
-            <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary);margin-bottom:1.2rem">Writing patterns reveal identity. Adjust linguistic markers to see attribution probability shift.</div>
+            <div style="display:flex;flex-direction:column;gap:1rem">
               <div>
-                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;letter-spacing:1px">VOCABULARY COMPLEXITY</div>
+                <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);margin-bottom:4px;letter-spacing:1px">VOCABULARY COMPLEXITY</div>
                 <input type="range" class="cyber-slider" id="vocab-slider" min="0" max="100" value="72" oninput="updateStylemetry()">
               </div>
               <div>
-                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;letter-spacing:1px">SENTENCE VARIANCE</div>
+                <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);margin-bottom:4px;letter-spacing:1px">SENTENCE VARIANCE</div>
                 <input type="range" class="cyber-slider" id="sent-slider" min="0" max="100" value="44" oninput="updateStylemetry()">
               </div>
               <div>
-                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;letter-spacing:1px">PUNCTUATION SIGNATURE</div>
+                <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);margin-bottom:4px;letter-spacing:1px">PUNCTUATION SIGNATURE</div>
                 <input type="range" class="cyber-slider" id="punct-slider" min="0" max="100" value="88" oninput="updateStylemetry()">
               </div>
             </div>
-            <div style="margin-top:16px;background:rgba(0,0,0,0.3);border-radius:6px;padding:12px">
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:6px">ATTRIBUTION CONFIDENCE</div>
-              <div style="font-family:var(--font-display);font-size:32px;font-weight:700;color:var(--red);text-shadow: 0 0 20px var(--red)" id="stylometry-conf">87%</div>
+            <div style="margin-top:1.6rem;background:rgba(0,0,0,0.3);border-radius:6px;padding:1.2rem">
+              <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);letter-spacing:2px;margin-bottom:6px">ATTRIBUTION CONFIDENCE</div>
+              <div style="font-family:var(--font-display);font-size:32px;font-weight:700;color:var(--red);text-shadow: 0 0 2rem var(--red)" id="stylometry-conf">87%</div>
             </div>
           </div>
         </div>
@@ -1683,12 +1683,12 @@ body::after {
               <svg id="intel-svg" style=" inset:0;width:100%; pointer-events:none;"></svg>
               <!-- Nodes will be rendered by JS -->
             </div>
-            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <div style="margin-top:1.2rem;display:flex;gap:0.8rem;flex-wrap:wrap">
               <button class="cyber-btn sm" onclick="addIntelNode()">+ ADD CLUE</button>
               <button class="cyber-btn sm amber" onclick="connectNodes()">CORRELATE</button>
               <button class="cyber-btn sm danger" onclick="clearIntel()">CLEAR BOARD</button>
             </div>
-            <div id="intel-score" style="font-family:var(--font-display);font-size:11px;color:var(--cyan);margin-top:8px;letter-spacing:2px">CONFIDENCE: 0%</div>
+            <div id="intel-score" style="font-family:var(--font-display);font-size:1.1rem;color:var(--cyan);margin-top:0.8rem;letter-spacing:2px">CONFIDENCE: 0%</div>
           </div>
         </div>
       
@@ -1712,20 +1712,20 @@ body::after {
       <div class="module-header">
         <div><div class="module-tag" style="background:var(--amber);color:var(--bg-void)">MODULE 03</div></div>
         <div class="module-header-text">
-          <div class="module-title">Threat <span style="color:var(--amber);text-shadow:0 0 20px var(--amber)">Modeling</span></div>
+          <div class="module-title">Threat <span style="color:var(--amber);text-shadow:0 0 2rem var(--amber)">Modeling</span></div>
           <div class="module-tagline">// Map attacker capabilities, defender assets, and investigator perspectives. Build complete threat models from the ground up.</div>
         </div>
         <div class="module-xp-badge" style="border-color:rgba(255,170,0,0.3)"><div class="badge-xp" style="color:var(--amber)">+800</div><div class="badge-label">XP REWARD</div></div>
       </div>
 
-      <div class="widget-grid grid-3" style="margin-bottom:20px">
+      <div class="widget-grid grid-3" style="margin-bottom:2rem">
         <div class="metric-card"><div class="metric-val amber-val" id="threat-score">--</div><div class="metric-label">RISK SCORE</div></div>
         <div class="metric-card"><div class="metric-val cyan-val" id="attack-vectors">0</div><div class="metric-label">ATTACK VECTORS</div></div>
         <div class="metric-card"><div class="metric-val green-val">3</div><div class="metric-label">DEFENSE LAYERS</div></div>
       </div>
 
       <!-- Mode Toggle + Attack Chain -->
-      <div class="widget" style="margin-bottom:20px">
+      <div class="widget" style="margin-bottom:2rem">
         <div class="widget-header">
           <div class="widget-icon icon-amber">⚔️</div>
           <div class="widget-title">Threat Modeling Canvas</div>
@@ -1736,10 +1736,10 @@ body::after {
           </div>
         </div>
         <div class="widget-body">
-          <div id="mode-context" class="info-box warn" style="margin-top:0;margin-bottom:16px">
+          <div id="mode-context" class="info-box warn" style="margin-top:0;margin-bottom:1.6rem">
             <b style="color:var(--amber)">ATTACKER MODE:</b> You are modeling threats from an adversarial perspective. Identify attack surfaces, entry points, and lateral movement paths.
           </div>
-          <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:10px">ATTACK CHAIN BUILDER — CLICK TO ACTIVATE NODES</div>
+          <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);letter-spacing:2px;margin-bottom:1rem">ATTACK CHAIN BUILDER — CLICK TO ACTIVATE NODES</div>
           <div class="attack-chain" id="attack-chain">
             <div class="chain-node active" onclick="activateChain(0,this)" data-step="0">
               <div class="chain-label">STEP 01</div>
@@ -1776,7 +1776,7 @@ body::after {
       </div>
 
       <!-- Risk Matrix + Defense Simulator -->
-      <div class="widget-grid grid-1-2" style="margin-bottom:20px">
+      <div class="widget-grid grid-1-2" style="margin-bottom:2rem">
         <div class="widget">
           <div class="widget-header">
             <div class="widget-icon icon-red">📊</div>
@@ -1784,18 +1784,18 @@ body::after {
             <div class="widget-badge badge-interactive">5×5 GRID</div>
           </div>
           <div class="widget-body">
-            <div style="display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start">
-              <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);display:flex;flex-direction:column;justify-content:space-around;height:200px;padding-right:4px;letter-spacing:1px">
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:0.8rem;align-items:start">
+              <div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);display:flex;flex-direction:column;justify-content:space-around;height:200px;padding-right:4px;letter-spacing:1px">
                 <span>CRIT</span><span>HIGH</span><span>MED</span><span>LOW</span><span>MIN</span>
               </div>
               <div>
                 <div class="risk-matrix" id="risk-matrix"></div>
-                <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:8px;color:var(--text-dim);margin-top:4px;letter-spacing:1px">
+                <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);margin-top:4px;letter-spacing:1px">
                   <span>RARE</span><span>UNLIKE</span><span>POSS</span><span>LIKELY</span><span>CERTAIN</span>
                 </div>
               </div>
             </div>
-            <div id="risk-detail" style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-top:10px;min-height:20px;letter-spacing:0.5px"></div>
+            <div id="risk-detail" style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary);margin-top:1rem;min-height:2rem;letter-spacing:0.5px"></div>
           </div>
         </div>
 
@@ -1806,41 +1806,41 @@ body::after {
             <div class="widget-badge badge-sim">SIMULATION</div>
           </div>
           <div class="widget-body">
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Toggle defense layers to see how each one reduces attack surface penetration probability.</div>
+            <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary);margin-bottom:1.2rem">Toggle defense layers to see how each one reduces attack surface penetration probability.</div>
             <div id="defense-layers">
-              <div class="progress-wrap" style="margin-bottom:12px" id="dl-0">
+              <div class="progress-wrap" style="margin-bottom:1.2rem" id="dl-0">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-                  <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)">🔐 Network Perimeter</div>
+                  <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary)">🔐 Network Perimeter</div>
                   <input type="checkbox" id="def-0" checked onchange="updateDefense()" style="cursor:pointer">
                 </div>
                 <div class="progress-track"><div class="progress-fill fill-green" id="def-bar-0" style="width:85%"></div></div>
               </div>
-              <div class="progress-wrap" style="margin-bottom:12px">
+              <div class="progress-wrap" style="margin-bottom:1.2rem">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-                  <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)">🔍 IDS/IPS System</div>
+                  <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary)">🔍 IDS/IPS System</div>
                   <input type="checkbox" id="def-1" checked onchange="updateDefense()" style="cursor:pointer">
                 </div>
                 <div class="progress-track"><div class="progress-fill fill-cyan" id="def-bar-1" style="width:72%"></div></div>
               </div>
-              <div class="progress-wrap" style="margin-bottom:12px">
+              <div class="progress-wrap" style="margin-bottom:1.2rem">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-                  <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)">🧩 Endpoint EDR</div>
+                  <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary)">🧩 Endpoint EDR</div>
                   <input type="checkbox" id="def-2" checked onchange="updateDefense()" style="cursor:pointer">
                 </div>
                 <div class="progress-track"><div class="progress-fill fill-amber" id="def-bar-2" style="width:68%"></div></div>
               </div>
               <div class="progress-wrap">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-                  <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)">🔑 IAM Controls</div>
+                  <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary)">🔑 IAM Controls</div>
                   <input type="checkbox" id="def-3" checked onchange="updateDefense()" style="cursor:pointer">
                 </div>
                 <div class="progress-track"><div class="progress-fill fill-green" id="def-bar-3" style="width:91%"></div></div>
               </div>
             </div>
-            <div style="margin-top:14px;background:rgba(0,0,0,0.3);border-radius:6px;padding:10px;display:flex;align-items:center;gap:12px">
+            <div style="margin-top:1.4rem;background:rgba(0,0,0,0.3);border-radius:6px;padding:1rem;display:flex;align-items:center;gap:1.2rem">
               <div>
-                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px">PENETRATION PROB.</div>
-                <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--green)" id="pen-prob">4.2%</div>
+                <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);letter-spacing:2px">PENETRATION PROB.</div>
+                <div style="font-family:var(--font-display);font-size:2.4rem;font-weight:700;color:var(--green)" id="pen-prob">4.2%</div>
               </div>
               <div class="progress-track" style="flex:1;height:6px">
                 <div class="progress-fill fill-green" id="pen-bar" style="width:4.2%"></div>
@@ -1867,14 +1867,14 @@ body::after {
       <div class="module-header">
         <div><div class="module-tag" style="background:var(--purple)">MODULE 04</div></div>
         <div class="module-header-text">
-          <div class="module-title">OSINT & <span style="color:var(--purple);text-shadow:0 0 20px var(--purple)">Intelligence Gathering</span></div>
+          <div class="module-title">OSINT & <span style="color:var(--purple);text-shadow:0 0 2rem var(--purple)">Intelligence Gathering</span></div>
           <div class="module-tagline">// Intelligence is not data collection. It is signal extraction from noise. Learn the full intelligence cycle.</div>
         </div>
         <div class="module-xp-badge" style="border-color:rgba(170,68,255,0.3)"><div class="badge-xp" style="color:var(--purple)">+900</div><div class="badge-label">XP REWARD</div></div>
       </div>
 
       <!-- Intelligence Cycle -->
-      <div class="widget-grid grid-2" style="margin-bottom:20px">
+      <div class="widget-grid grid-2" style="margin-bottom:2rem">
         <div class="widget">
           <div class="widget-header">
             <div class="widget-icon icon-purple">🔄</div>
@@ -1882,7 +1882,7 @@ body::after {
             <div class="widget-badge badge-interactive">INTERACTIVE</div>
           </div>
           <div class="widget-body">
-            <div style="position:relative;width:100%;height:220px;display:flex;align-items:center;justify-content:center">
+            <div style="position:relative;width:100%;height:22rem;display:flex;align-items:center;justify-content:center">
               <svg id="intel-cycle-svg" width="280" height="220" viewBox="0 0 280 220">
                 <defs>
                   <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
@@ -1916,7 +1916,7 @@ body::after {
                 <text x="42" y="125" text-anchor="middle" font-family="Share Tech Mono" font-size="7.5" fill="rgba(0,229,255,0.8)">INATE</text>
               </svg>
             </div>
-            <div id="intel-cycle-detail" class="info-box" style="font-size:10px;margin-top:0">Click each phase node to explore the intelligence cycle stage.</div>
+            <div id="intel-cycle-detail" class="info-box" style="font-size:1rem;margin-top:0">Click each phase node to explore the intelligence cycle stage.</div>
           </div>
         </div>
 
@@ -1927,11 +1927,11 @@ body::after {
             <div class="widget-badge badge-interactive">CHALLENGE</div>
           </div>
           <div class="widget-body">
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Identify actionable intelligence signals from noisy data. Tag each item correctly.</div>
+            <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary);margin-bottom:1.2rem">Identify actionable intelligence signals from noisy data. Tag each item correctly.</div>
             <div style="display:flex;flex-direction:column;gap:6px" id="snoise-items">
               <!-- Rendered by JS -->
             </div>
-            <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
+            <div style="margin-top:1.4rem;display:flex;gap:1rem;align-items:center">
               <button class="cyber-btn sm" onclick="checkSignals()">EVALUATE</button>
               <div class="verdict" id="signal-verdict" style="display:inline-block;margin:0"></div>
             </div>
@@ -1940,14 +1940,14 @@ body::after {
       </div>
 
       <!-- Situational Awareness Graph -->
-      <div class="widget span-full" style="margin-bottom:20px">
+      <div class="widget span-full" style="margin-bottom:2rem">
         <div class="widget-header">
           <div class="widget-icon icon-purple">🗺️</div>
           <div class="widget-title">Situational Awareness Intelligence Graph</div>
           <div class="widget-badge badge-live">LIVE</div>
         </div>
         <div class="widget-body">
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1.2rem;margin-bottom:1.6rem">
             <div class="metric-card"><div class="metric-val purple-val" id="sources-count">0</div><div class="metric-label">SOURCES</div></div>
             <div class="metric-card"><div class="metric-val cyan-val" id="signals-count">0</div><div class="metric-label">SIGNALS</div></div>
             <div class="metric-card"><div class="metric-val amber-val" id="confirmed-count">0</div><div class="metric-label">CONFIRMED</div></div>
@@ -1974,13 +1974,13 @@ body::after {
       <div class="module-header">
         <div><div class="module-tag" style="background:var(--green);color:var(--bg-void)">MODULE 05</div></div>
         <div class="module-header-text">
-          <div class="module-title">Identity & <span style="color:var(--green);text-shadow:0 0 20px var(--green)">Compartmentalization</span></div>
+          <div class="module-title">Identity & <span style="color:var(--green);text-shadow:0 0 2rem var(--green)">Compartmentalization</span></div>
           <div class="module-tagline">// The mosaic effect: individually harmless data points converge into a complete identity picture. Learn how identity leaks occur.</div>
         </div>
         <div class="module-xp-badge" style="border-color:rgba(0,255,136,0.3)"><div class="badge-xp" style="color:var(--green)">+800</div><div class="badge-label">XP REWARD</div></div>
       </div>
 
-      <div class="widget-grid grid-2" style="margin-bottom:20px">
+      <div class="widget-grid grid-2" style="margin-bottom:2rem">
         <div class="widget">
           <div class="widget-header">
             <div class="widget-icon icon-green">🧩</div>
@@ -1988,18 +1988,18 @@ body::after {
             <div class="widget-badge badge-interactive">MOSAIC</div>
           </div>
           <div class="widget-body">
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:12px">Toggle data fragments. Watch how individual pieces combine to reveal a complete identity profile.</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px" id="mosaic-toggles">
+            <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary);margin-bottom:1.2rem">Toggle data fragments. Watch how individual pieces combine to reveal a complete identity profile.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.4rem" id="mosaic-toggles">
               <!-- Rendered by JS -->
             </div>
-            <div style="background:rgba(0,0,0,0.4);border-radius:8px;padding:14px;position:relative;overflow:hidden" id="mosaic-profile">
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">RECONSTRUCTED PROFILE</div>
-              <div id="mosaic-portrait" style="font-size:48px;text-align:center;filter:blur(20px);transition:filter 0.5s;margin-bottom:8px">👤</div>
-              <div id="mosaic-fields" style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);line-height:2"></div>
-              <div style="margin-top:10px">
-                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:1px;margin-bottom:4px">IDENTITY EXPOSURE</div>
+            <div style="background:rgba(0,0,0,0.4);border-radius:0.8rem;padding:1.4rem;position:relative;overflow:hidden" id="mosaic-profile">
+              <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);letter-spacing:2px;margin-bottom:0.8rem">RECONSTRUCTED PROFILE</div>
+              <div id="mosaic-portrait" style="font-size:40.8rem;text-align:center;filter:blur(2rem);transition:filter 0.5s;margin-bottom:0.8rem">👤</div>
+              <div id="mosaic-fields" style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary);line-height:2"></div>
+              <div style="margin-top:1rem">
+                <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:4px">IDENTITY EXPOSURE</div>
                 <div class="progress-track"><div class="progress-fill fill-red" id="mosaic-bar" style="width:0%"></div></div>
-                <div style="font-family:var(--font-display);font-size:20px;color:var(--red);margin-top:4px" id="mosaic-pct">0%</div>
+                <div style="font-family:var(--font-display);font-size:2rem;color:var(--red);margin-top:4px" id="mosaic-pct">0%</div>
               </div>
             </div>
           </div>
@@ -2012,13 +2012,13 @@ body::after {
             <div class="widget-badge badge-live">REAL-TIME</div>
           </div>
           <div class="widget-body">
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:14px">Cross-platform identity correlation. Identical artifacts across platforms = direct linkage.</div>
-            <div style="display:flex;flex-direction:column;gap:8px" id="correlation-meters">
+            <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary);margin-bottom:1.4rem">Cross-platform identity correlation. Identical artifacts across platforms = direct linkage.</div>
+            <div style="display:flex;flex-direction:column;gap:0.8rem" id="correlation-meters">
               <!-- Rendered by JS -->
             </div>
-            <div style="margin-top:16px;padding:12px;background:rgba(0,0,0,0.3);border-radius:6px">
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:6px">LINKAGE PROBABILITY</div>
-              <div style="font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--red)" id="linkage-prob">0%</div>
+            <div style="margin-top:1.6rem;padding:1.2rem;background:rgba(0,0,0,0.3);border-radius:6px">
+              <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);letter-spacing:2px;margin-bottom:6px">LINKAGE PROBABILITY</div>
+              <div style="font-family:var(--font-display);font-size:2.8rem;font-weight:700;color:var(--red)" id="linkage-prob">0%</div>
             </div>
           </div>
         </div>
@@ -2041,14 +2041,14 @@ body::after {
       <div class="module-header">
         <div><div class="module-tag" style="background:var(--red)">MODULE 06</div></div>
         <div class="module-header-text">
-          <div class="module-title">Surveillance & <span style="color:var(--red);text-shadow:0 0 20px var(--red)">Detection</span></div>
+          <div class="module-title">Surveillance & <span style="color:var(--red);text-shadow:0 0 2rem var(--red)">Detection</span></div>
           <div class="module-tagline">// Real SOC operators read telemetry like music. Learn to distinguish signal from static, anomaly from baseline.</div>
         </div>
         <div class="module-xp-badge" style="border-color:rgba(255,51,102,0.3)"><div class="badge-xp" style="color:var(--red)">+1000</div><div class="badge-label">XP REWARD</div></div>
       </div>
 
       <!-- Live SOC Dashboard -->
-      <div class="widget span-full" style="margin-bottom:20px">
+      <div class="widget span-full" style="margin-bottom:2rem">
         <div class="widget-header">
           <div class="widget-icon icon-red">📺</div>
           <div class="widget-title">Live SOC Telemetry Dashboard</div>
@@ -2056,15 +2056,15 @@ body::after {
           <button class="cyber-btn sm" onclick="toggleTelemetry()" id="telem-btn" style="margin-left:auto">⏸ PAUSE</button>
         </div>
         <div class="widget-body">
-          <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px">
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:2rem">
             <div>
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">LIVE EVENT STREAM</div>
-              <div id="telemetry-feed" style="max-height:220px;overflow-y:auto">
+              <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);letter-spacing:2px;margin-bottom:0.8rem">LIVE EVENT STREAM</div>
+              <div id="telemetry-feed" style="max-height:22rem;overflow-y:auto">
                 <!-- Rendered by JS -->
               </div>
             </div>
             <div>
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">SEVERITY DISTRIBUTION</div>
+              <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);letter-spacing:2px;margin-bottom:0.8rem">SEVERITY DISTRIBUTION</div>
               <div class="bar-chart" id="sev-chart">
                 <div class="bar-col">
                   <div class="bar" style="height:40%;background:rgba(0,255,136,0.4)" id="b-low"></div>
@@ -2083,7 +2083,7 @@ body::after {
                   <div class="bar-label">CRIT</div>
                 </div>
               </div>
-              <div style="margin-top:16px;display:flex;flex-direction:column;gap:6px">
+              <div style="margin-top:1.6rem;display:flex;flex-direction:column;gap:6px">
                 <div class="metric-card"><div class="metric-val red-val" id="alert-count">0</div><div class="metric-label">ACTIVE ALERTS</div></div>
               </div>
             </div>
@@ -2092,7 +2092,7 @@ body::after {
       </div>
 
       <!-- Anomaly Detection -->
-      <div class="widget-grid grid-2" style="margin-bottom:20px">
+      <div class="widget-grid grid-2" style="margin-bottom:2rem">
         <div class="widget">
           <div class="widget-header">
             <div class="widget-icon icon-red">⚡</div>
@@ -2100,12 +2100,12 @@ body::after {
             <div class="widget-badge badge-sim">SIMULATION</div>
           </div>
           <div class="widget-body">
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:10px">Identify which data points deviate from baseline behavior. Click suspected anomalies.</div>
+            <div style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary);margin-bottom:1rem">Identify which data points deviate from baseline behavior. Click suspected anomalies.</div>
             <svg id="anomaly-svg" width="100%" height="160" style="background:rgba(0,0,0,0.2);border-radius:6px;border:1px solid var(--border);cursor:pointer"></svg>
-            <div style="margin-top:10px;display:flex;gap:10px;align-items:center">
+            <div style="margin-top:1rem;display:flex;gap:1rem;align-items:center">
               <button class="cyber-btn sm" onclick="generateAnomalyData()">REGENERATE</button>
               <button class="cyber-btn sm amber" onclick="revealAnomalies()">REVEAL</button>
-              <div id="anomaly-score" style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)"></div>
+              <div id="anomaly-score" style="font-family:var(--font-mono);font-size:1rem;color:var(--text-secondary)"></div>
             </div>
           </div>
         </div>
@@ -2117,8 +2117,8 @@ body::after {
             <div class="widget-badge badge-interactive">COMPARE</div>
           </div>
           <div class="widget-body">
-            <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:10px">NETWORK BEHAVIOR COMPARISON</div>
-            <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);letter-spacing:2px;margin-bottom:1rem">NETWORK BEHAVIOR COMPARISON</div>
+            <div style="display:flex;flex-direction:column;gap:0.8rem">
               <div class="progress-wrap">
                 <div class="progress-label"><span style="color:var(--green)">▬ NORMAL LOGIN RATE</span><span>12/hr avg</span></div>
                 <div class="progress-track"><div class="progress-fill fill-green" style="width:15%"></div></div>
@@ -2175,7 +2175,7 @@ body::after {
       </div>
 
       <!-- OODA Loop -->
-      <div class="widget-grid grid-2" style="margin-bottom:20px">
+      <div class="widget-grid grid-2" style="margin-bottom:2rem">
         <div class="widget">
           <div class="widget-header">
             <div class="widget-icon icon-purple">🔁</div>
@@ -2230,21 +2230,21 @@ body::after {
             <div class="widget-badge badge-interactive">DECISION</div>
           </div>
           <div class="widget-body">
-            <div id="decision-scenario" style="background:rgba(0,0,0,0.3);border-radius:6px;padding:14px;margin-bottom:14px">
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">ACTIVE SCENARIO</div>
-              <div style="font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.5" id="scenario-text">An unknown process is making outbound connections to a foreign IP on port 4444. System shows no active user sessions. What is your first action?</div>
+            <div id="decision-scenario" style="background:rgba(0,0,0,0.3);border-radius:6px;padding:1.4rem;margin-bottom:1.4rem">
+              <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--text-dim);letter-spacing:2px;margin-bottom:0.8rem">ACTIVE SCENARIO</div>
+              <div style="font-family:var(--font-ui);font-size:1.3rem;font-weight:600;color:var(--text-primary);line-height:1.5" id="scenario-text">An unknown process is making outbound connections to a foreign IP on port 4444. System shows no active user sessions. What is your first action?</div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:8px" id="decision-options">
-              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:10px 14px;font-size:11px;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('A')">
+            <div style="display:flex;flex-direction:column;gap:0.8rem" id="decision-options">
+              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:1rem 1.4rem;font-size:1.1rem;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('A')">
                 A — Immediately terminate the process and isolate the host
               </button>
-              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:10px 14px;font-size:11px;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('B')">
+              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:1rem 1.4rem;font-size:1.1rem;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('B')">
                 B — Monitor passively and capture full traffic for 30 minutes
               </button>
-              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:10px 14px;font-size:11px;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('C')">
+              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:1rem 1.4rem;font-size:1.1rem;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('C')">
                 C — Snapshot memory, preserve evidence, then isolate
               </button>
-              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:10px 14px;font-size:11px;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('D')">
+              <button class="cyber-btn" style="justify-content:flex-start;text-align:left;white-space:normal;height:auto;padding:1rem 1.4rem;font-size:1.1rem;text-transform:none;letter-spacing:0.5px" onclick="decisionChoice('D')">
                 D — Escalate to incident response team immediately
               </button>
             </div>
@@ -2254,13 +2254,13 @@ body::after {
       </div>
 
       <!-- Achievements row -->
-      <div class="widget" style="margin-bottom:20px">
+      <div class="widget" style="margin-bottom:2rem">
         <div class="widget-header">
           <div class="widget-icon icon-amber">🏆</div>
           <div class="widget-title">Operator Achievements</div>
         </div>
         <div class="widget-body">
-          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:10px" id="achievements">
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1rem" id="achievements">
             <!-- Rendered by JS -->
           </div>
         </div>
@@ -2746,7 +2746,7 @@ function clearIntel() {
 const xrayData = {
   photo: `> ANALYZING: vacation_2023.jpg
 > File Size: 4.2MB
-> Dimensions: 4032x3024px
+> Dimensions: 4032x302.4rem
 
 [METADATA EXTRACTED]
 Make: Apple
@@ -2981,13 +2981,13 @@ function initSignalNoise() {
   snItems.forEach((item, i) => {
     const row = document.createElement('div');
     row.style.display = 'flex';
-    row.style.gap = '8px';
+    row.style.gap = '0.8rem';
     row.style.alignItems = 'center';
 
     const text = document.createElement('div');
     text.style.flex = '1';
     text.style.fontFamily = 'var(--font-mono)';
-    text.style.fontSize = '10px';
+    text.style.fontSize = '1rem';
     text.style.color = 'var(--text-secondary)';
     text.style.lineHeight = '1.4';
     text.textContent = item.text;
@@ -3099,7 +3099,7 @@ function initMosaicToggles() {
     const wrap = document.createElement('div');
     wrap.style.display = 'flex';
     wrap.style.alignItems = 'center';
-    wrap.style.gap = '8px';
+    wrap.style.gap = '0.8rem';
     wrap.style.cursor = 'pointer';
 
     const cb = document.createElement('input');
@@ -3111,7 +3111,7 @@ function initMosaicToggles() {
     const label = document.createElement('label');
     label.htmlFor = 'mc-' + i;
     label.style.fontFamily = 'var(--font-mono)';
-    label.style.fontSize = '10px';
+    label.style.fontSize = '1rem';
     label.style.color = 'var(--text-secondary)';
     label.style.cursor = 'pointer';
     label.textContent = piece.label;
@@ -3155,7 +3155,7 @@ function initCorrelationMeters() {
   correlationItems.forEach((item, i) => {
     const wrap = document.createElement('div');
     wrap.className = 'progress-wrap';
-    wrap.style.marginBottom = '10px';
+    wrap.style.marginBottom = '1rem';
 
     const row = document.createElement('div');
     row.className = 'progress-label';

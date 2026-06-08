@@ -89,7 +89,7 @@
       z-index: 50;
       display: flex;
       align-items: center;
-      padding: 0 1rem;
+      padding: 0 10px;
       background: rgba(7,9,13,0.85);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -125,11 +125,11 @@
     .lesson-content-inner {
       max-width: 820px;
       margin: 0 auto;
-      padding: 3rem 2rem 6rem;
+      padding: 3rem 20px 6rem;
     }
 
     @media (max-width: 640px) {
-      .lesson-content-inner { padding: 1.5rem 1rem 4rem; }
+      .lesson-content-inner { padding: 15px 10px 4rem; }
     }
 
     /* ─── Module Breadcrumb Bar ────────────────────────────────────────── */
@@ -140,7 +140,7 @@
       font-size: 11px;
       font-family: 'JetBrains Mono', monospace;
       color: #475569;
-      margin-bottom: 2rem;
+      margin-bottom: 20px;
       flex-wrap: wrap;
     }
 
@@ -151,8 +151,8 @@
 
     /* ─── Module Header ────────────────────────────────────────────────── */
     .lesson-header {
-      margin-bottom: 2.5rem;
-      padding-bottom: 2rem;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
@@ -170,7 +170,7 @@
       border: 1px solid rgba(0,245,255,0.2);
       border-radius: 4px;
       padding: 3px 8px;
-      margin-bottom: 1rem;
+      margin-bottom: 10px;
     }
 
     .lesson-eyebrow::before {
@@ -189,7 +189,7 @@
     }
 
     .lesson-title {
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-size: clamp(16px, 4vw, 24px);
       font-weight: 800;
       line-height: 1.2;
       color: #f1f5f9;
@@ -200,7 +200,7 @@
     .lesson-meta {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 10px;
       font-size: 12px;
       color: #475569;
       flex-wrap: wrap;
@@ -233,12 +233,12 @@
       position: relative;
     }
 
-    .lesson-body h1 { font-size: 2rem;   margin: 2.5rem 0 1rem;   line-height: 1.2; }
-    .lesson-body h2 { font-size: 1.5rem; margin: 2.25rem 0 0.9rem; line-height: 1.3;
-      padding-bottom: 0.5rem;
+    .lesson-body h1 { font-size: 20px;   margin: 25px 0 10px;   line-height: 1.2; }
+    .lesson-body h2 { font-size: 15px; margin: 2.25rem 0 9px; line-height: 1.3;
+      padding-bottom: 5px;
       border-bottom: 1px solid rgba(0,245,255,0.08); }
-    .lesson-body h3 { font-size: 1.2rem; margin: 2rem 0 0.75rem;  line-height: 1.4; color: #cbd5e1; }
-    .lesson-body h4 { font-size: 1rem;   margin: 1.5rem 0 0.5rem; color: #94a3b8; font-weight: 600; }
+    .lesson-body h3 { font-size: 12px; margin: 20px 0 0.75rem;  line-height: 1.4; color: #cbd5e1; }
+    .lesson-body h4 { font-size: 10px;   margin: 15px 0 5px; color: #94a3b8; font-weight: 600; }
 
     /* Anchor links on headings */
     .lesson-body h2 a.headerlink,
@@ -284,7 +284,7 @@
     /* ── Code blocks ── */
     .lesson-body pre {
       position: relative;
-      margin: 1.5rem 0;
+      margin: 15px 0;
       border-radius: 10px;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.07);
@@ -310,7 +310,7 @@
       font-family: 'JetBrains Mono', monospace !important;
       font-size: 13.5px;
       line-height: 1.7;
-      padding: 1.25rem 1.5rem;
+      padding: 1.25rem 15px;
       overflow-x: auto;
       border: none !important;
       border-radius: 0 !important;
@@ -343,7 +343,7 @@
 
     /* Pygments/CodeHilite wrapper */
     .lesson-body .highlight {
-      margin: 1.5rem 0;
+      margin: 15px 0;
       border-radius: 10px;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.07);
@@ -372,7 +372,7 @@
 
     .lesson-body .highlight pre code {
       background: #0d1117 !important;
-      padding: 1.25rem 1.5rem;
+      padding: 1.25rem 15px;
     }
 
     /* ── Terminal block ── */
@@ -385,13 +385,13 @@
 
     /* ── Lists ── */
     .lesson-body ul, .lesson-body ol {
-      margin: 0 0 1.25rem 1.5rem;
+      margin: 0 0 1.25rem 15px;
     }
     .lesson-body ul { list-style: none; padding-left: 0; }
     .lesson-body ul li {
       position: relative;
       padding-left: 1.25rem;
-      margin-bottom: 0.4rem;
+      margin-bottom: 4px;
     }
     .lesson-body ul li::before {
       content: '›';
@@ -400,14 +400,14 @@
       color: #00f5ff;
       font-weight: 700;
     }
-    .lesson-body ol li { margin-bottom: 0.4rem; }
+    .lesson-body ol li { margin-bottom: 4px; }
     .lesson-body li > ul,
-    .lesson-body li > ol { margin-top: 0.4rem; margin-bottom: 0.4rem; }
+    .lesson-body li > ol { margin-top: 4px; margin-bottom: 4px; }
 
     /* ── Blockquotes ── */
     .lesson-body blockquote {
-      margin: 1.5rem 0;
-      padding: 1rem 1.25rem;
+      margin: 15px 0;
+      padding: 10px 1.25rem;
       border-left: 3px solid #00f5ff;
       background: rgba(0,245,255,0.04);
       border-radius: 0 8px 8px 0;
@@ -420,7 +420,7 @@
     .lesson-body table {
       width: 100%;
       border-collapse: collapse;
-      margin: 1.5rem 0;
+      margin: 15px 0;
       font-size: 14px;
       overflow: hidden;
       border-radius: 8px;
@@ -448,7 +448,7 @@
 
     /* ── Admonitions (from markdown.extensions.admonition) ── */
     .lesson-body .admonition {
-      margin: 1.5rem 0;
+      margin: 15px 0;
       padding: 0;
       border-radius: 8px;
       overflow: hidden;
@@ -503,7 +503,7 @@
     .lesson-body hr {
       border: none;
       border-top: 1px solid rgba(255,255,255,0.06);
-      margin: 2rem 0;
+      margin: 20px 0;
     }
 
     /* ─── TOC styles ───────────────────────────────────────────────────── */
@@ -530,9 +530,9 @@
     .lesson-nav-footer {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      gap: 10px;
       margin-top: 3rem;
-      padding-top: 2rem;
+      padding-top: 20px;
       border-top: 1px solid rgba(255,255,255,0.06);
     }
 
@@ -540,7 +540,7 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      padding: 1rem 1.25rem;
+      padding: 10px 1.25rem;
       border: 1px solid rgba(255,255,255,0.07);
       border-radius: 10px;
       text-decoration: none;
@@ -559,8 +559,8 @@
     /* ─── Floating mobile menu btn ─────────────────────────────────────── */
     .mobile-sidebar-fab {
       position: fixed;
-      bottom: 1.5rem;
-      left: 1rem;
+      bottom: 15px;
+      left: 10px;
       z-index: 60;
       display: flex;
       align-items: center;
@@ -577,7 +577,7 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .mobile-sidebar-fab:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 30px rgba(0,245,255,0.15); }
+    .mobile-sidebar-fab:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 3rem rgba(0,245,255,0.15); }
 
     @media (min-width: 1024px) { .mobile-sidebar-fab { display: none; } }
 
